@@ -23,13 +23,15 @@
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
+    "plugin:eslint-plugin-next-on-pages/recommended"
   ],
   "plugins": [
     "@typescript-eslint",
     "prettier",
     "react",
-    "react-hooks"
+    "react-hooks",
+    "eslint-plugin-next-on-pages"
   ],
   "ignorePatterns": [
     "node_modules",
