@@ -17,7 +17,7 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { Lecture } from "@/entities/lecture/model/lecture";
 import MiniMap from "@/features/map/ui/MiniMap/MiniMap";
-import { toast } from "sonner";
+import { handleCopyClipBoard } from "@/shared/lib/utils";
 import useLectureInfo from "@/entities/lecture/api/useLectureInfo";
 import { useParams } from "next/navigation";
 
@@ -40,19 +40,10 @@ const LectureInfoPage = () => {
     }
   }, [data, isSuccess]);
 
-  // TODO: 로직 유틸 함수로 옮기기
-  const handleCopyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast("링크를 복사했어요.");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const shareLinkToKakao = () => {
     // TODO: 카카오 링크 공유하기
   };
+
   const shareLinkToURL = () => {
     if (data) {
       handleCopyClipBoard(data.link);
