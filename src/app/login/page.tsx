@@ -14,7 +14,8 @@ const LoginPage = () => {
   const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
   const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI;
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  const handleKakaoLogin = () => {
+
+  const linkToKakaoLogin = () => {
     window.location.href = link;
   };
 
@@ -36,7 +37,7 @@ const LoginPage = () => {
                 <Button
                   className="bg-yellow-300 hover:bg-yellow-400 text-black w-[351px] h-[61px]"
                   size="lg"
-                  onClick={handleKakaoLogin}
+                  onClick={linkToKakaoLogin}
                 >
                   <div className="flex gap-2 items-center justify-center text-base">
                     <Image

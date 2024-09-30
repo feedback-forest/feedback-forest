@@ -30,7 +30,7 @@ const LectureInfoPage = () => {
   const { id } = useParams();
   const { data, isLoading, isSuccess } = useLectureInfo(Number(id));
 
-  const handleApply = (link: string) => {
+  const linkToApplyPage = (link: string) => {
     window.open(link);
   };
 
@@ -469,7 +469,7 @@ const LectureInfoPage = () => {
             {lectureInfo.link && tempApplyStatus ? (
               <Button
                 className="flex desktop:w-[917px] tablet:w-[560px] mobile:w-[200px]  max-w-[917px] h-14 bg-[#4F118C] text-[22px] font-semibold"
-                onClick={() => handleApply(lectureInfo.link)}
+                onClick={() => linkToApplyPage(lectureInfo.link)}
               >
                 신청하러 가기
               </Button>
