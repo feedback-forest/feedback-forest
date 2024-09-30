@@ -1,7 +1,7 @@
 "use client";
 
 import { LectureList, SkeletonCard } from "@/entities/lecture/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Lecture } from "@/entities/lecture/model/lecture";
 import useLikeLectureList from "@/features/like/api/useLikeLectureList";
@@ -10,19 +10,12 @@ const LikePage = () => {
   const [lectureListData, setLectureListData] = useState<Lecture[]>();
   const { data, isLoading, isSuccess } = useLikeLectureList();
 
-  const handleLikeLectureDataList = useCallback(() => {
-    if (data) {
-      const likeLectureData = data;
-      // FIXME: 수정
-      setLectureListData(likeLectureData);
-    }
-  }, [data]);
-
   useEffect(() => {
     if (isSuccess) {
-      handleLikeLectureDataList();
+      const likeLectureData = data;
+      setLectureListData(likeLectureData);
     }
-  }, [handleLikeLectureDataList, isSuccess]);
+  }, [data, isSuccess]);
 
   return (
     <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-[#E9E8EC]">

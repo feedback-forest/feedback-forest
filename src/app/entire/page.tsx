@@ -1,7 +1,7 @@
 "use client";
 
 import { LectureList, SkeletonCard } from "@/entities/lecture/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Lecture } from "@/entities/lecture/model/lecture";
 import useEntireLecture from "@/entities/lecture/api/useEntireLecture";
@@ -12,19 +12,12 @@ const EntirePage = () => {
   // TODO: 전체 클래스 가져오는 API로 수정 필요
   const { data, isLoading, isSuccess } = useEntireLecture();
 
-  const handleEntireLectureDataList = useCallback(() => {
-    if (data) {
-      const entireClassData = data.data.data;
-      // FIXME: 수정
-      setLectureListData(entireClassData);
-    }
-  }, [data]);
-
   useEffect(() => {
     if (isSuccess) {
-      handleEntireLectureDataList();
+      const entireLectureData = data.data.data;
+      setLectureListData(entireLectureData);
     }
-  }, [handleEntireLectureDataList, isSuccess]);
+  }, [data, isSuccess]);
 
   return (
     <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-[#E9E8EC]">

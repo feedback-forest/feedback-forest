@@ -11,7 +11,7 @@ import {
   Divider,
   Skeleton,
 } from "@/shared/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { DialogDescription } from "@radix-ui/react-dialog";
 import Image from "next/image";
@@ -30,21 +30,16 @@ const LectureInfoPage = () => {
   const { id } = useParams();
   const { data, isLoading, isSuccess } = useLectureInfo(Number(id));
 
-  const handleLectureDataList = useCallback(() => {
-    if (data) {
-      const lectureInfo = data;
-      setLectureInfo(lectureInfo);
-    }
-  }, [data]);
   const handleApply = (link: string) => {
     window.open(link);
   };
 
   useEffect(() => {
     if (isSuccess) {
-      handleLectureDataList();
+      const lectureInfo = data;
+      setLectureInfo(lectureInfo);
     }
-  }, [handleLectureDataList, isSuccess]);
+  }, [data, isSuccess]);
 
   // TODO: 로직 유틸 함수로 옮기기
   const handleCopyClipBoard = async (text: string) => {

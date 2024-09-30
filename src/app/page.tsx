@@ -1,7 +1,7 @@
 "use client";
 
 import { Description, LectureList, SkeletonCard } from "@/entities/lecture/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Lecture } from "@/entities/lecture/model/lecture";
 import Map from "@/features/map/ui/Map/Map";
@@ -54,13 +54,6 @@ const Home = () => {
 
   const geolocation = useGeoLocation();
 
-  const handleLectureDataList = useCallback(() => {
-    if (data) {
-      const lectureData = data;
-      setLectureListData(lectureData);
-    }
-  }, [data]);
-
   useEffect(() => {
     if (
       geolocation.curLocation &&
@@ -83,9 +76,10 @@ const Home = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      handleLectureDataList();
+      const lectureData = data;
+      setLectureListData(lectureData);
     }
-  }, [handleLectureDataList, isSuccess]);
+  }, [data, isSuccess]);
 
   return (
     <div className="flex w-full h-full flex-col 16">
