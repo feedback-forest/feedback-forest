@@ -1,31 +1,30 @@
 "use client";
 
+import { LectureList, SkeletonCard } from "@/entities/lecture/ui";
 import { useCallback, useEffect, useState } from "react";
 
-import { Class } from "@/entities/class/model/class";
-import { ClassList } from "@/entities/class/ui";
-import SkeletonCard from "@/entities/class/ui/Class/SkeletonCard/SkeletonCard";
-import useEntireClass from "@/entities/class/api/useEntireClass";
+import { Lecture } from "@/entities/lecture/model/lecture";
+import useEntireLecture from "@/entities/lecture/api/useEntireLecture";
 
 const EntirePage = () => {
-  const [classListData, setClassListData] = useState<Class[]>();
+  const [lectureListData, setLectureListData] = useState<Lecture[]>();
 
   // TODO: 전체 클래스 가져오는 API로 수정 필요
-  const { data, isLoading, isSuccess } = useEntireClass();
+  const { data, isLoading, isSuccess } = useEntireLecture();
 
-  const handleEntireClassDataList = useCallback(() => {
+  const handleEntireLectureDataList = useCallback(() => {
     if (data) {
       const entireClassData = data.data.data;
       // FIXME: 수정
-      setClassListData(entireClassData);
+      setLectureListData(entireClassData);
     }
   }, [data]);
 
   useEffect(() => {
     if (isSuccess) {
-      handleEntireClassDataList();
+      handleEntireLectureDataList();
     }
-  }, [handleEntireClassDataList, isSuccess]);
+  }, [handleEntireLectureDataList, isSuccess]);
 
   return (
     <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-[#E9E8EC]">
@@ -44,8 +43,8 @@ const EntirePage = () => {
               <SkeletonCard type="col" />
               <SkeletonCard type="col" />
             </div>
-          ) : classListData && isSuccess ? (
-            <ClassList classListData={classListData} type="col" />
+          ) : lectureListData && isSuccess ? (
+            <LectureList lectureListData={lectureListData} type="col" />
           ) : (
             <div>클래스가 존재하지 않습니다</div>
           )}

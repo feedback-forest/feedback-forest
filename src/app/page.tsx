@@ -1,19 +1,17 @@
 "use client";
 
+import { Description, LectureList, SkeletonCard } from "@/entities/lecture/ui";
 import { useCallback, useEffect, useState } from "react";
 
-import { Class } from "@/entities/class/model/class";
-import { ClassList } from "@/entities/class/ui";
-import { Description } from "@/shared/ui";
+import { Lecture } from "@/entities/lecture/model/lecture";
 import Map from "@/features/map/ui/Map/Map";
 import MapSkeleton from "@/features/map/ui/MapSkeleton/MapSkeleton";
-import SkeletonCard from "@/entities/class/ui/Class/SkeletonCard/SkeletonCard";
 import { User } from "@/entities/user/model/user";
-import useClassList from "@/entities/class/api/useClassList";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
+import useLectureList from "@/entities/lecture/api/useLectureList";
 
 const Home = () => {
-  const [classListData, setClassListData] = useState<Class[]>();
+  const [lectureListData, setLectureListData] = useState<Lecture[]>();
 
   // TODO: 로그인 유저 정보 전역으로 변경
   const [loginedUser, setLoginedUser] = useState<User>({
@@ -52,14 +50,14 @@ const Home = () => {
     longitude: 127.109788230628,
     city: "서울특별시",
   });
-  const { data, isLoading, isSuccess } = useClassList();
+  const { data, isLoading, isSuccess } = useLectureList();
 
   const geolocation = useGeoLocation();
 
-  const handleClassDataList = useCallback(() => {
+  const handleLectureDataList = useCallback(() => {
     if (data) {
-      const classData = data;
-      setClassListData(classData);
+      const lectureData = data;
+      setLectureListData(lectureData);
     }
   }, [data]);
 
@@ -85,9 +83,9 @@ const Home = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      handleClassDataList();
+      handleLectureDataList();
     }
-  }, [handleClassDataList, isSuccess]);
+  }, [handleLectureDataList, isSuccess]);
 
   return (
     <div className="flex w-full h-full flex-col 16">
@@ -98,11 +96,11 @@ const Home = () => {
           <div className="text-3xl">둘러보기</div>
         </div>
         {isLoading && <MapSkeleton />}
-        {classListData && (
+        {lectureListData && (
           <Map
             latitude={loginedUser.latitude}
             longitude={loginedUser.longitude}
-            classListData={classListData}
+            lectureListData={lectureListData}
           />
         )}
         {/* 로그인 한 사용자의 경우  */}
@@ -117,8 +115,8 @@ const Home = () => {
                 <SkeletonCard type="col" />
                 <SkeletonCard type="col" />
               </div>
-            ) : classListData ? (
-              <ClassList classListData={classListData} type="col" />
+            ) : lectureListData ? (
+              <LectureList lectureListData={lectureListData} type="col" />
             ) : (
               <div className="text-2xl font-semibold">
                 클래스가 존재하지 않습니다
@@ -138,8 +136,8 @@ const Home = () => {
               <SkeletonCard type="row" />
               <SkeletonCard type="row" />
             </div>
-          ) : classListData ? (
-            <ClassList classListData={classListData} type="row" />
+          ) : lectureListData ? (
+            <LectureList lectureListData={lectureListData} type="row" />
           ) : (
             <div>클래스가 존재하지 않습니다</div>
           )}

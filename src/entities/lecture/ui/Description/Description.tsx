@@ -7,8 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  Progress,
-} from "../../../../../shared/ui";
+} from "../../../../shared/ui";
 import { useEffect, useState } from "react";
 
 import Image from "next/image";

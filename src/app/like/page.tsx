@@ -1,29 +1,28 @@
 "use client";
 
+import { LectureList, SkeletonCard } from "@/entities/lecture/ui";
 import { useCallback, useEffect, useState } from "react";
 
-import { Class } from "@/entities/class/model/class";
-import { ClassList } from "@/entities/class/ui";
-import SkeletonCard from "@/entities/class/ui/Class/SkeletonCard/SkeletonCard";
-import useLikeClassList from "@/features/like/api/useLikeClassList";
+import { Lecture } from "@/entities/lecture/model/lecture";
+import useLikeLectureList from "@/features/like/api/useLikeLectureList";
 
 const LikePage = () => {
-  const [classListData, setClassListData] = useState<Class[]>();
-  const { data, isLoading, isSuccess } = useLikeClassList();
+  const [lectureListData, setLectureListData] = useState<Lecture[]>();
+  const { data, isLoading, isSuccess } = useLikeLectureList();
 
-  const handleLikeClassDataList = useCallback(() => {
+  const handleLikeLectureDataList = useCallback(() => {
     if (data) {
-      const likeClassData = data;
+      const likeLectureData = data;
       // FIXME: 수정
-      setClassListData(likeClassData);
+      setLectureListData(likeLectureData);
     }
   }, [data]);
 
   useEffect(() => {
     if (isSuccess) {
-      handleLikeClassDataList();
+      handleLikeLectureDataList();
     }
-  }, [handleLikeClassDataList, isSuccess]);
+  }, [handleLikeLectureDataList, isSuccess]);
 
   return (
     <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-[#E9E8EC]">
@@ -43,8 +42,8 @@ const LikePage = () => {
               <SkeletonCard type="col" />
               <SkeletonCard type="col" />
             </div>
-          ) : classListData && isSuccess ? (
-            <ClassList classListData={classListData} type="col" />
+          ) : lectureListData && isSuccess ? (
+            <LectureList lectureListData={lectureListData} type="col" />
           ) : (
             <div>클래스가 존재하지 않습니다</div>
           )}

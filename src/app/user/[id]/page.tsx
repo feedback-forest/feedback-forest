@@ -2,10 +2,7 @@
 
 import { Button, Input } from "@/shared/ui";
 
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import { User } from "@/entities/user/model/user";
-import { useGeoLocation } from "@/shared/lib/useGeolocation";
 import { useState } from "react";
 
 export const runtime = "edge";

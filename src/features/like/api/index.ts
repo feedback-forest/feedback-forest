@@ -1,6 +1,7 @@
-import { Class } from "@/entities/class/model/class";
+import { Lecture } from "@/entities/lecture/model/lecture";
 import apiRequest from "@/shared/api";
 
+// TODO: Lecture
 const BASE_PATH = "/likeClass";
 
-export const getClassList = () => apiRequest.get<Class[]>(`${BASE_PATH}`, {});
+export const getClassList = () => apiRequest.get<Lecture[]>(`${BASE_PATH}`, {});

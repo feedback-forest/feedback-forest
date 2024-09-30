@@ -13,27 +13,27 @@ import {
 } from "@/shared/ui";
 import { useCallback, useEffect, useState } from "react";
 
-import { Class } from "@/entities/class/model/class";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import Image from "next/image";
+import { Lecture } from "@/entities/lecture/model/lecture";
 import MiniMap from "@/features/map/ui/MiniMap/MiniMap";
 import { toast } from "sonner";
-import useClassInfo from "@/entities/class/api/useClassInfo";
+import useLectureInfo from "@/entities/lecture/api/useLectureInfo";
 import { useParams } from "next/navigation";
 
 export const runtime = "edge";
 
-const ClassInfoPage = () => {
-  const [classInfo, setClassInfo] = useState<Class>();
+const LectureInfoPage = () => {
+  const [lectureInfo, setLectureInfo] = useState<Lecture>();
   const tempApplyStatus = true;
 
   const { id } = useParams();
-  const { data, isLoading, isSuccess } = useClassInfo(Number(id));
+  const { data, isLoading, isSuccess } = useLectureInfo(Number(id));
 
-  const handleClassDataList = useCallback(() => {
+  const handleLectureDataList = useCallback(() => {
     if (data) {
-      const classInfo = data;
-      setClassInfo(classInfo);
+      const lectureInfo = data;
+      setLectureInfo(lectureInfo);
     }
   }, [data]);
   const handleApply = (link: string) => {
@@ -42,9 +42,9 @@ const ClassInfoPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      handleClassDataList();
+      handleLectureDataList();
     }
-  }, [handleClassDataList, isSuccess]);
+  }, [handleLectureDataList, isSuccess]);
 
   // TODO: 로직 유틸 함수로 옮기기
   const handleCopyClipBoard = async (text: string) => {
@@ -69,22 +69,22 @@ const ClassInfoPage = () => {
     <div className="flex flex-col w-full h-full justify-start items-start gap-[60px]">
       <div className="flex flex-row w-full py-4 gap-11 px-[120px]">
         <div className="relative flex flex-col desktop:w-[588px] tablet:w-[400px] h-[635px] rounded-xl overflow-hidden">
-          {classInfo && (
+          {lectureInfo && (
             <div className="absolute top-3 left-3 w-16 h-16 content-center text-center text-white font-bold rounded-full bg-[#4F118C]">
               문화
             </div>
           )}
-          {classInfo && (
+          {lectureInfo && (
             <div className="absolute top-3 right-3 w-[79px] h-8 content-center text-center text-white font-semibold rounded-lg bg-[#171717]">
               7일 남음
             </div>
           )}
           {/* TODO: 몇 일 남았는지 계산하는 로직 필요 */}
           {isLoading && <Skeleton className="w-[588px] h-[588px]" />}
-          {classInfo && (
+          {lectureInfo && (
             <Image
-              src={classInfo.thumbnail}
-              alt={classInfo.name}
+              src={lectureInfo.thumbnail}
+              alt={lectureInfo.name}
               width={588}
               height={588}
               className="w-[588px] h-[588px] object-cover"
@@ -101,7 +101,7 @@ const ClassInfoPage = () => {
             </div>
             {/* TODO: 거리 계산 */}
             {isLoading && <Skeleton className="w-[356px] h-[28px] z-10" />}
-            {classInfo && (
+            {lectureInfo && (
               <div className="w-full text-white text-lg font-semibold">
                 내 위치에서 1.1km ∙ 대중교통 약 10분 이내
               </div>
@@ -114,9 +114,9 @@ const ClassInfoPage = () => {
           <div className="flex flex-col w-full h-[42px] gap-2">
             <div className="flex flex-row gap-7">
               {isLoading && <Skeleton className="w-[430px] h-[42px]" />}
-              {classInfo && (
+              {lectureInfo && (
                 <div className="flex justify-start items-center text-2xl desktop:w-[430px] tablet:w-[300px] tablet:text-ellipsis tablet:whitespace-nowrap tablet:overflow-hidden h-[42px] font-bold">
-                  {classInfo.name}
+                  {lectureInfo.name}
                 </div>
               )}
               <div className="flex justify-center items-center gap-7">
@@ -199,9 +199,9 @@ const ClassInfoPage = () => {
                   </div>
                 </div>
                 {isLoading && <Skeleton className="w-[280px] h-[42px]" />}
-                {classInfo && (
+                {lectureInfo && (
                   <div className="desktop:max-w-[476px] tablet:max-w-[300px] text-[22px]">
-                    정원 {classInfo.capacity}명
+                    정원 {lectureInfo.capacity}명
                   </div>
                 )}
               </div>
@@ -218,8 +218,8 @@ const ClassInfoPage = () => {
                   </div>
                 </div>
                 {isLoading && <Skeleton className="w-[150px] h-[33px]" />}
-                {classInfo && (
-                  <div className="text-[22px]">{classInfo.hosted_by}</div>
+                {lectureInfo && (
+                  <div className="text-[22px]">{lectureInfo.hosted_by}</div>
                 )}
               </div>
               <div className="flex flex-row gap-5">
@@ -236,9 +236,9 @@ const ClassInfoPage = () => {
                   </div>
                 </div>
                 {isLoading && <Skeleton className="w-[100px] h-[33px]" />}
-                {classInfo && (
+                {lectureInfo && (
                   <div className="desktop:max-w-[476px] tablet:max-w-[300px] text-[22px] whitespace-nowrap">
-                    {classInfo.target}
+                    {lectureInfo.target}
                   </div>
                 )}
               </div>
@@ -256,8 +256,8 @@ const ClassInfoPage = () => {
                   </div>
                 </div>
                 {isLoading && <Skeleton className="w-[212px] h-[33px]" />}
-                {classInfo && (
-                  <div className="text-[22px]">{classInfo.time}</div>
+                {lectureInfo && (
+                  <div className="text-[22px]">{lectureInfo.time}</div>
                 )}
               </div>
               <div className="flex flex-row gap-5">
@@ -273,9 +273,9 @@ const ClassInfoPage = () => {
                   </div>
                 </div>
                 {isLoading && <Skeleton className="w-[270px] h-[33px]" />}
-                {classInfo && (
+                {lectureInfo && (
                   <div className="text-[22px]">
-                    {classInfo.day_of_week}요일 {classInfo.time}
+                    {lectureInfo.day_of_week}요일 {lectureInfo.time}
                   </div>
                 )}
               </div>
@@ -292,9 +292,9 @@ const ClassInfoPage = () => {
                   </div>
                 </div>
                 {isLoading && <Skeleton className="w-[90px] h-[33px]" />}
-                {classInfo && (
+                {lectureInfo && (
                   <div className="text-[22px]">
-                    {classInfo.price.toLocaleString("ko-KR")}원
+                    {lectureInfo.price.toLocaleString("ko-KR")}원
                   </div>
                 )}
               </div>
@@ -311,18 +311,20 @@ const ClassInfoPage = () => {
                   </div>
                 </div>
                 {isLoading && <Skeleton className="w-[300px] h-[33px]" />}
-                {classInfo && (
-                  <div className="text-[22px]">{classInfo.location_detail}</div>
+                {lectureInfo && (
+                  <div className="text-[22px]">
+                    {lectureInfo.location_detail}
+                  </div>
                 )}
               </div>
             </div>
           </div>
           {isLoading && <Skeleton className="w-[568px] h-[256px]" />}
-          {classInfo && (
+          {lectureInfo && (
             <div>
               <MiniMap
-                latitude={classInfo.latitude}
-                longitude={classInfo.longitude}
+                latitude={lectureInfo.latitude}
+                longitude={lectureInfo.longitude}
               />
             </div>
           )}
@@ -341,8 +343,8 @@ const ClassInfoPage = () => {
                 수강자격
               </div>
               {isLoading && <Skeleton className="w-[90px] h-[28px]" />}
-              {classInfo && (
-                <div className="flex text-xl">{classInfo.target}</div>
+              {lectureInfo && (
+                <div className="flex text-xl">{lectureInfo.target}</div>
               )}
             </div>
             <Divider />
@@ -351,8 +353,8 @@ const ClassInfoPage = () => {
                 교육내용
               </div>
               {isLoading && <Skeleton className="w-[698px] h-[28px]" />}
-              {classInfo && (
-                <div className="flex text-xl">{classInfo.description}</div>
+              {lectureInfo && (
+                <div className="flex text-xl">{lectureInfo.description}</div>
               )}
             </div>
             <Divider />
@@ -361,8 +363,8 @@ const ClassInfoPage = () => {
                 자격증 관련사항
               </div>
               {isLoading && <Skeleton className="w-[698px] h-[28px]" />}
-              {classInfo && (
-                <div className="flex text-xl">{classInfo.description}</div>
+              {lectureInfo && (
+                <div className="flex text-xl">{lectureInfo.description}</div>
               )}
             </div>
             <Divider />
@@ -371,8 +373,8 @@ const ClassInfoPage = () => {
                 교재명
               </div>
               {isLoading && <Skeleton className="w-[698px] h-[28px]" />}
-              {classInfo && (
-                <div className="flex text-xl">{classInfo.description}</div>
+              {lectureInfo && (
+                <div className="flex text-xl">{lectureInfo.description}</div>
               )}
             </div>
             <Divider />
@@ -381,9 +383,9 @@ const ClassInfoPage = () => {
                 교재비
               </div>
               {isLoading && <Skeleton className="w-[82px] h-[28px]" />}
-              {classInfo && (
+              {lectureInfo && (
                 <div className="flex text-xl">
-                  {`${classInfo.price.toLocaleString("ko-KR")}원`}
+                  {`${lectureInfo.price.toLocaleString("ko-KR")}원`}
                 </div>
               )}
             </div>
@@ -393,9 +395,9 @@ const ClassInfoPage = () => {
                 재료비
               </div>
               {isLoading && <Skeleton className="w-[82px] h-[28px]" />}
-              {classInfo && (
+              {lectureInfo && (
                 <div className="flex text-xl">
-                  {`${classInfo.price.toLocaleString("ko-KR")}원`}
+                  {`${lectureInfo.price.toLocaleString("ko-KR")}원`}
                 </div>
               )}
             </div>
@@ -405,8 +407,8 @@ const ClassInfoPage = () => {
                 준비물
               </div>
               {isLoading && <Skeleton className="w-[698px] h-[28px]" />}
-              {classInfo && (
-                <div className="flex text-xl">{classInfo.description}</div>
+              {lectureInfo && (
+                <div className="flex text-xl">{lectureInfo.description}</div>
               )}
             </div>
             <Divider />
@@ -418,7 +420,7 @@ const ClassInfoPage = () => {
           </div>
           {/* TODO: 강사 이력 정보 */}
           {isLoading && <Skeleton className="w-[698px] h-[148px]" />}
-          {classInfo && (
+          {lectureInfo && (
             <div className="flex flex-col gap-1">
               <div className="flex w-[52px] h-8 font-bold text-xl">양옥연</div>
               <div className="flex flex-col h-full text-xl">
@@ -438,7 +440,7 @@ const ClassInfoPage = () => {
         <div className="font-bold desktop:w-full h-[70px] text-[28px] border-b">
           <div className="font-bold text-[28px] gap-4">교육 계획</div>
           {/* {isLoading && <Skeleton className="w-[698px] h-[148px]" />} */}
-          {classInfo && <div></div>}
+          {lectureInfo && <div></div>}
         </div>
       </div>
       {/* TODO: 컴포넌트 화, 하단 바 */}
@@ -459,20 +461,20 @@ const ClassInfoPage = () => {
           </Button>
         </div>
         {isLoading && <Skeleton className="w-[100px] h-[33px]" />}
-        {classInfo && (
+        {lectureInfo && (
           <div className="flex w-[106px] h-[33px] justify-center items-center font-bold text-[22px] font-extrabold">
-            {classInfo.price.toLocaleString("ko-KR")}원
+            {lectureInfo.price.toLocaleString("ko-KR")}원
           </div>
         )}
         {isLoading && (
           <Skeleton className="desktop:w-[917px] tablet:w-[560px] h-[56px]" />
         )}
-        {classInfo && (
+        {lectureInfo && (
           <div>
-            {classInfo.link && tempApplyStatus ? (
+            {lectureInfo.link && tempApplyStatus ? (
               <Button
                 className="flex desktop:w-[917px] tablet:w-[560px] mobile:w-[200px]  max-w-[917px] h-14 bg-[#4F118C] text-[22px] font-semibold"
-                onClick={() => handleApply(classInfo.link)}
+                onClick={() => handleApply(lectureInfo.link)}
               >
                 신청하러 가기
               </Button>
@@ -522,4 +524,4 @@ const ClassInfoPage = () => {
   );
 };
 
-export default ClassInfoPage;
+export default LectureInfoPage;

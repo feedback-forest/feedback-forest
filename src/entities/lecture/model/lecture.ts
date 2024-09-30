@@ -1,4 +1,4 @@
-export interface Class {
+export interface Lecture {
   id: number;
   name: string; // 강의 이름
   description: string; // 강의 설명

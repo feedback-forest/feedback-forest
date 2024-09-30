@@ -1,16 +1,16 @@
 import { Button } from "@/shared/ui";
-import { Class } from "@/entities/class/model/class";
 import Image from "next/image";
+import { Lecture } from "@/entities/lecture/model/lecture";
 import Link from "next/link";
 import { MouseEvent } from "react";
 
-interface ClassCardProps {
-  classData: Class;
+interface LectureCardProps {
+  lectureData: Lecture;
   type: "row" | "col";
 }
 
-const ClassCard = (props: ClassCardProps) => {
-  const { classData, type } = props;
+const LectureCard = (props: LectureCardProps) => {
+  const { lectureData, type } = props;
   const {
     id,
     thumbnail,
@@ -27,7 +27,7 @@ const ClassCard = (props: ClassCardProps) => {
     like,
     location_detail,
     hosted_by,
-  } = classData;
+  } = lectureData;
 
   const handleLikeClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -142,4 +142,4 @@ const ClassCard = (props: ClassCardProps) => {
   );
 };
 
-export default ClassCard;
+export default LectureCard;
