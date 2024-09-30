@@ -7,6 +7,9 @@ const useLectureList = () => {
     queryKey: LECTURE_KEYS.list(),
     queryFn: () => getLectureList(),
     select: (response) => response.data,
+    meta: {
+      errorMessage: "Failed to fetch Lecture List",
+    },
   });
 };
 

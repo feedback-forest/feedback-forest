@@ -7,6 +7,9 @@ const useLectureInfo = (lectureId: number) => {
     queryKey: LECTURE_KEYS.detail({ lectureId }),
     queryFn: () => getLectureInfo(lectureId),
     select: (response) => response.data,
+    meta: {
+      errorMessage: "Failed to fetch Entire Class",
+    },
   });
 };
 

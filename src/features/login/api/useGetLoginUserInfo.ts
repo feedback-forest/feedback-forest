@@ -7,6 +7,9 @@ const useGetLoginUserInfo = () => {
     queryKey: USER_KEYS.lists(),
     queryFn: () => getLoginUserInfo(),
     select: (response) => response,
+    meta: {
+      errorMessage: "Failed to fetch Login User Info",
+    },
   });
 };
 

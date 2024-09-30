@@ -7,6 +7,9 @@ const useLikeLectureList = () => {
     queryKey: LIKE_LECTURE_KEYS.list(),
     queryFn: () => getClassList(),
     select: (response) => response.data,
+    meta: {
+      errorMessage: "Failed to fetch Like Lecture List",
+    },
   });
 };
 

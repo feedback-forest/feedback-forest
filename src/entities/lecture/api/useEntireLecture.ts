@@ -7,6 +7,9 @@ const useEntireLecture = () => {
     queryKey: LECTURE_KEYS.list(),
     queryFn: () => getEntireLecture(),
     select: (response) => response.data,
+    meta: {
+      errorMessage: "Failed to fetch Entire Lecture",
+    },
   });
 };
 
