@@ -9,8 +9,7 @@ interface LectureCardProps {
   type: "row" | "col";
 }
 
-const LectureCard = (props: LectureCardProps) => {
-  const { lectureData, type } = props;
+const LectureCard = ({ lectureData, type }: LectureCardProps) => {
   const {
     id,
     thumbnail,

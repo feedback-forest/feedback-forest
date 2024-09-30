@@ -4,9 +4,7 @@ interface SkeletonCardProps {
   type: "row" | "col";
 }
 
-const SkeletonCard = (props: SkeletonCardProps) => {
-  const { type } = props;
-
+const SkeletonCard = ({ type }: SkeletonCardProps) => {
   return type === "col" ? (
     <div className="flex flex-col space-y-3">
       <Skeleton className="w-[384px] h-[310px] rounded-xl" />

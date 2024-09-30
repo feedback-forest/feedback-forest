@@ -12,9 +12,7 @@ interface MapProps {
   lectureListData: Lecture[];
 }
 
-const Map = (props: MapProps) => {
-  const { latitude, longitude, lectureListData } = props;
-
+const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
   const [selectedLectureId, setSelectedLectureId] = useState<number | null>();
 
   const markers: Array<naver.maps.Marker> = useMemo(() => {

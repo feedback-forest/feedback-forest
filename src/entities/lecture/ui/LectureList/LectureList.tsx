@@ -6,9 +6,7 @@ interface LectureListProps {
   type: "row" | "col";
 }
 
-const LectureList = (props: LectureListProps) => {
-  const { lectureListData, type } = props;
-
+const LectureList = ({ lectureListData, type }: LectureListProps) => {
   return type === "col" ? (
     <div className="w-full grid grid-cols-3 gap-6 mobile:grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3">
       {lectureListData &&

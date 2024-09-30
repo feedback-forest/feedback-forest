@@ -5,9 +5,7 @@ interface MiniMapProps {
   longitude: number;
 }
 
-const MiniMap = (props: MiniMapProps) => {
-  const { latitude, longitude } = props;
-
+const MiniMap = ({ latitude, longitude }: MiniMapProps) => {
   const initMap = useCallback(() => {
     const location = new naver.maps.LatLng(latitude, longitude);
 
