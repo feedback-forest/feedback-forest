@@ -14,8 +14,7 @@ const EntirePage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      const entireLectureData = data.data.data;
-      setLectureListData(entireLectureData);
+      setLectureListData(data.data.data);
     }
   }, [data, isSuccess]);
 

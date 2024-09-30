@@ -36,8 +36,7 @@ const LectureInfoPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      const lectureInfo = data;
-      setLectureInfo(lectureInfo);
+      setLectureInfo(data);
     }
   }, [data, isSuccess]);
 

@@ -12,8 +12,7 @@ const LikePage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      const likeLectureData = data;
-      setLectureListData(likeLectureData);
+      setLectureListData(data);
     }
   }, [data, isSuccess]);
 

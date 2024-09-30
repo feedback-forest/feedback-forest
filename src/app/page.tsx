@@ -76,8 +76,7 @@ const Home = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      const lectureData = data;
-      setLectureListData(lectureData);
+      setLectureListData(data);
     }
   }, [data, isSuccess]);
 
