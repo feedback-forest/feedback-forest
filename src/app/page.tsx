@@ -44,6 +44,19 @@ const Home = () => {
         location_detail: "송파여성문화회관 미디어1실(101호)",
         hosted_by: "송파여성문화회관",
         address: "서울특별시 송파구 백제고분로42길 5",
+        division: "oneDay",
+        distance: "1km",
+        category: "문화",
+        condition: "",
+        period: { startData: "2024-09-09", endDate: "2024-09-09", total: 1 },
+        detail: "",
+        certification: "",
+        textbookName: "",
+        textbookPrice: 0,
+        need: "",
+        instructorName: "",
+        instructorHistory: [],
+        educationPlan: "",
       },
     ],
     latitude: 37.5059054977082,
@@ -123,7 +136,7 @@ const Home = () => {
   return (
     <div className="flex w-full h-full flex-col 16">
       <Description />
-      <div className="flex flex-col px-[120px] py-[60px] bg-[#F0F0F0] gap-5">
+      <div className="flex flex-col px-[120px] py-[60px] bg-custom-homeMapBackground gap-5">
         <div className="flex flex-row gap-1">
           <div className="text-3xl font-bold">📍 내 주변 클래스</div>
           <div className="text-3xl">둘러보기</div>

@@ -39,6 +39,19 @@ const UserInfoPage = () => {
         location_detail: "송파여성문화회관 미디어1실(101호)",
         hosted_by: "송파여성문화회관",
         address: "서울특별시 송파구 백제고분로42길 5",
+        division: "oneDay",
+        distance: "1km",
+        category: "문화",
+        condition: "",
+        period: { startData: "2024-09-09", endDate: "2024-09-09", total: 1 },
+        detail: "",
+        certification: "",
+        textbookName: "",
+        textbookPrice: 0,
+        need: "",
+        instructorName: "",
+        instructorHistory: [],
+        educationPlan: "",
       },
     ],
     latitude: 37.5059054977082,
@@ -63,68 +76,57 @@ const UserInfoPage = () => {
             </div>
           </div>
           <div className="flex flex-col h-full">
-            {/* TODO: 컴포넌트화 InputLabel */}
             <div className="flex flex-col w-[400px] gap-6">
               <InputLabel
                 labelContent="닉네임"
-                borderColor="#4F118C"
                 placeholder={loginedUser.name}
               />
-              <InputLabel
-                labelContent="지역"
-                borderColor="#4F118C"
-                placeholder={loginedUser.city}
-                renderItem={
-                  <div>
-                    <Button
-                      variant="ghost"
-                      className="w-[92px] h-14 bg-[#F5F5F5] hover:bg-gray-300 text-[#171717] text-base font-semibold"
-                    >
-                      현재 위치
-                    </Button>
-                  </div>
-                }
-              />
+              <div className="flex flex-row gap-4">
+                <InputLabel
+                  labelContent="지역"
+                  placeholder={loginedUser.city}
+                />
+                <div className="flex items-end">
+                  <Button
+                    variant="ghost"
+                    className="w-[92px] h-14 bg-custom-buttonGrayBackground hover:bg-gray-300 text-base font-semibold"
+                  >
+                    현재 위치
+                  </Button>
+                </div>
+              </div>
               <InputLabel
                 labelContent="이메일"
-                borderColor="#D4D4D4"
                 placeholder={loginedUser.account_email}
                 disabled
-                inputClassName="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
               />
               <InputLabel
                 labelContent="휴대폰 번호"
-                borderColor="#D4D4D4"
                 placeholder="010-0000-0000"
                 disabled
-                inputClassName="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
               />
               <InputLabel
                 labelContent="생년월일"
-                borderColor="#D4D4D4"
                 placeholder="1900.01.01"
                 disabled
-                inputClassName="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
               />
               <InputLabel
                 labelContent="성별"
-                borderColor="#D4D4D4"
                 placeholder={loginedUser.gender === "male" ? "남성" : "여성"}
                 disabled
-                inputClassName="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
               />
             </div>
           </div>
           <div className="flex flex-col gap-6">
             <div>
-              <Button className="w-[400px] h-14 font-semibold text-2xl bg-[#4F118C] hover:bg-purple-950">
+              <Button className="w-[400px] h-14 font-semibold text-2xl bg-custom-purple hover:bg-purple-950">
                 저장하기
               </Button>
             </div>
             <div>
               <Button
                 variant="outline"
-                className="w-[400px] h-14 text-2xl text-[#737373]"
+                className="w-[400px] h-14 text-2xl text-custom-textGrayColor"
               >
                 로그아웃
               </Button>
