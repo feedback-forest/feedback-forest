@@ -1,19 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Description, LectureList, SkeletonCard } from "@/entities/lecture/ui";
+import { useEffect, useState } from "react";
 
-import { Class } from "@/entities/class/model/class";
-import { ClassList } from "@/entities/class/ui";
-import { Description } from "@/shared/ui";
+import { Lecture } from "@/entities/lecture/model/lecture";
 import Map from "@/features/map/ui/Map/Map";
 import MapSkeleton from "@/features/map/ui/MapSkeleton/MapSkeleton";
-import SkeletonCard from "@/entities/class/ui/Class/SkeletonCard/SkeletonCard";
 import { User } from "@/entities/user/model/user";
-import useClassList from "@/entities/class/api/useClassList";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
+import useLectureList from "@/entities/lecture/api/useLectureList";
 
 const Home = () => {
-  const [classListData, setClassListData] = useState<Class[]>();
+  const [lectureListData, setLectureListData] = useState<Lecture[]>();
 
   // TODO: 로그인 유저 정보 전역으로 변경
   const [loginedUser, setLoginedUser] = useState<User>({
@@ -46,22 +44,29 @@ const Home = () => {
         location_detail: "송파여성문화회관 미디어1실(101호)",
         hosted_by: "송파여성문화회관",
         address: "서울특별시 송파구 백제고분로42길 5",
+        division: "oneDay",
+        distance: "1km",
+        category: "문화",
+        condition: "",
+        period: { startData: "2024-09-09", endDate: "2024-09-09", total: 1 },
+        detail: "",
+        certification: "",
+        textbookName: "",
+        textbookPrice: 0,
+        need: "",
+        instructorName: "",
+        instructorHistory: [],
+        educationPlan: "",
       },
     ],
     latitude: 37.5059054977082,
     longitude: 127.109788230628,
     city: "서울특별시",
   });
-  const { data, isLoading, isSuccess } = useClassList();
+
+  const { data, isLoading, isSuccess } = useLectureList();
 
   const geolocation = useGeoLocation();
-
-  const handleClassDataList = useCallback(() => {
-    if (data) {
-      const classData = data;
-      setClassListData(classData);
-    }
-  }, [data]);
 
   useEffect(() => {
     if (
@@ -85,24 +90,63 @@ const Home = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      handleClassDataList();
+      setLectureListData(data);
     }
-  }, [handleClassDataList, isSuccess]);
+  }, [data, isSuccess]);
+
+  const renderColLectureList = () => {
+    if (isLoading) {
+      return (
+        <div className="flex flex-row space-x-6">
+          <SkeletonCard type="col" />
+          <SkeletonCard type="col" />
+          <SkeletonCard type="col" />
+        </div>
+      );
+    }
+
+    if (lectureListData && lectureListData.length > 0) {
+      return <LectureList lectureListData={lectureListData} type="col" />;
+    }
+
+    return (
+      <div className="text-2xl font-semibold">클래스가 존재하지 않습니다</div>
+    );
+  };
+
+  const renderRowLectureList = () => {
+    if (isLoading) {
+      return (
+        <div className="flex desktop:flex-row tablet:flex-col gap-6">
+          <SkeletonCard type="row" />
+          <SkeletonCard type="row" />
+        </div>
+      );
+    }
+
+    if (lectureListData && lectureListData.length > 0) {
+      return <LectureList lectureListData={lectureListData} type="row" />;
+    }
+
+    return (
+      <div className="text-2xl font-semibold">클래스가 존재하지 않습니다</div>
+    );
+  };
 
   return (
     <div className="flex w-full h-full flex-col 16">
       <Description />
-      <div className="flex flex-col px-[120px] py-[60px] bg-[#F0F0F0] gap-5">
+      <div className="flex flex-col px-[120px] py-[60px] bg-custom-homeMapBackground gap-5">
         <div className="flex flex-row gap-1">
           <div className="text-3xl font-bold">📍 내 주변 클래스</div>
           <div className="text-3xl">둘러보기</div>
         </div>
         {isLoading && <MapSkeleton />}
-        {classListData && (
+        {lectureListData && (
           <Map
             latitude={loginedUser.latitude}
             longitude={loginedUser.longitude}
-            classListData={classListData}
+            lectureListData={lectureListData}
           />
         )}
         {/* 로그인 한 사용자의 경우  */}
@@ -110,21 +154,7 @@ const Home = () => {
           <div className="font-semibold text-2xl">
             가장 가까운 순으로 클래스 정보를 보여드릴게요!
           </div>
-          <div>
-            {isLoading ? (
-              <div className="flex flex-row space-x-6">
-                <SkeletonCard type="col" />
-                <SkeletonCard type="col" />
-                <SkeletonCard type="col" />
-              </div>
-            ) : classListData ? (
-              <ClassList classListData={classListData} type="col" />
-            ) : (
-              <div className="text-2xl font-semibold">
-                클래스가 존재하지 않습니다
-              </div>
-            )}
-          </div>
+          <div>{renderColLectureList()}</div>
         </div>
       </div>
       <div className="flex flex-col pb-4 px-[120px] py-[60px] gap-5">
@@ -132,18 +162,7 @@ const Home = () => {
           <div className="font-bold text-2xl">시:작 PICK</div>
           <div className="text-2xl">클래스 📌</div>
         </div>
-        <div>
-          {isLoading ? (
-            <div className="flex desktop:flex-row tablet:flex-col gap-6">
-              <SkeletonCard type="row" />
-              <SkeletonCard type="row" />
-            </div>
-          ) : classListData ? (
-            <ClassList classListData={classListData} type="row" />
-          ) : (
-            <div>클래스가 존재하지 않습니다</div>
-          )}
-        </div>
+        <div>{renderRowLectureList()}</div>
       </div>
     </div>
   );

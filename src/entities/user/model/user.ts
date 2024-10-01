@@ -1,4 +1,4 @@
-import { Class } from "@/entities/class/model/class";
+import { Lecture } from "@/entities/lecture/model/lecture";
 
 export interface User {
   id: number;
@@ -7,7 +7,7 @@ export interface User {
   name: string;
   gender: string;
   age_range: string;
-  applied_class: Class[];
+  applied_class: Lecture[];
   latitude: number;
   longitude: number;
   city: string;

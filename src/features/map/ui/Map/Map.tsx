@@ -2,20 +2,18 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { Class } from "@/entities/class/model/class";
+import { Lecture } from "@/entities/lecture/model/lecture";
 
 export type NaverMap = naver.maps.Map;
 
 interface MapProps {
   latitude: number;
   longitude: number;
-  classListData: Class[];
+  lectureListData: Lecture[];
 }
 
-const Map = (props: MapProps) => {
-  const { latitude, longitude, classListData } = props;
-
-  const [selectedClassId, setSelectedClassId] = useState<number | null>();
+const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
+  const [selectedLectureId, setSelectedLectureId] = useState<number | null>();
 
   const markers: Array<naver.maps.Marker> = useMemo(() => {
     return [];
@@ -54,13 +52,13 @@ const Map = (props: MapProps) => {
     });
 
     // 클래스 Marker
-    classListData.forEach((classData) => {
+    lectureListData.forEach((lectureData) => {
       const classMarker = new naver.maps.Marker({
         position: new naver.maps.LatLng(
-          classData.latitude,
-          classData.longitude,
+          lectureData.latitude,
+          lectureData.longitude,
         ),
-        title: classData.hosted_by,
+        title: lectureData.hosted_by,
         clickable: true,
         map: map,
         icon: {
@@ -70,7 +68,7 @@ const Map = (props: MapProps) => {
         },
       });
 
-      const hostedBy = classData.hosted_by;
+      const hostedBy = lectureData.hosted_by;
 
       // InfoWindow 생성
       const infoWindow = new naver.maps.InfoWindow({
@@ -138,14 +136,7 @@ const Map = (props: MapProps) => {
         }
       }
     };
-  }, [
-    classListData,
-    infoWindows,
-    latitude,
-    longitude,
-    markers,
-    selectedClassId,
-  ]);
+  }, [lectureListData, infoWindows, latitude, longitude, markers]);
 
   useEffect(() => {
     initMap();

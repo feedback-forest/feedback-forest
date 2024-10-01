@@ -1,11 +1,8 @@
 "use client";
 
-import { Button, Input } from "@/shared/ui";
+import { Button, Input, InputLabel } from "@/shared/ui";
 
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import { User } from "@/entities/user/model/user";
-import { useGeoLocation } from "@/shared/lib/useGeolocation";
 import { useState } from "react";
 
 export const runtime = "edge";
@@ -42,6 +39,19 @@ const UserInfoPage = () => {
         location_detail: "송파여성문화회관 미디어1실(101호)",
         hosted_by: "송파여성문화회관",
         address: "서울특별시 송파구 백제고분로42길 5",
+        division: "oneDay",
+        distance: "1km",
+        category: "문화",
+        condition: "",
+        period: { startData: "2024-09-09", endDate: "2024-09-09", total: 1 },
+        detail: "",
+        certification: "",
+        textbookName: "",
+        textbookPrice: 0,
+        need: "",
+        instructorName: "",
+        instructorHistory: [],
+        educationPlan: "",
       },
     ],
     latitude: 37.5059054977082,
@@ -66,97 +76,57 @@ const UserInfoPage = () => {
             </div>
           </div>
           <div className="flex flex-col h-full">
-            {/* TODO: 컴포넌트화 InputLabel */}
             <div className="flex flex-col w-[400px] gap-6">
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#4F118C]">닉네임</div>
-                <div className={`border-b-2 border-[#4F118C]`}>
-                  <Input
-                    placeholder={loginedUser.name}
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0"
-                  />
+              <InputLabel
+                labelContent="닉네임"
+                placeholder={loginedUser.name}
+              />
+              <div className="flex flex-row gap-4">
+                <InputLabel
+                  labelContent="지역"
+                  placeholder={loginedUser.city}
+                />
+                <div className="flex items-end">
+                  <Button
+                    variant="ghost"
+                    className="w-[92px] h-14 bg-custom-buttonGrayBackground hover:bg-gray-300 text-base font-semibold"
+                  >
+                    현재 위치
+                  </Button>
                 </div>
               </div>
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#4F118C]">지역</div>
-                <div className="flex flex-row gap-4">
-                  <div className={`border-b-2 border-[#4F118C]`}>
-                    <Input
-                      placeholder={loginedUser.city}
-                      className="text-xl border-none shadow-none w-[292px] h-14 focus-visible:ring-0"
-                    />
-                  </div>
-                  <div>
-                    <Button
-                      variant="ghost"
-                      className="w-[92px] h-14 bg-[#F5F5F5] hover:bg-gray-300 text-[#171717] text-base font-semibold"
-                    >
-                      현재 위치
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#404040]">이메일</div>
-                <div className={`border-b-2 border-[#D4D4D4]`}>
-                  <Input
-                    type="email"
-                    placeholder={loginedUser.account_email}
-                    disabled
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
-                  />
-                </div>
-              </div>
-              {/* TODO: 휴대폰 번호, 생년월일 필요한지 물어볼 것 */}
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#404040]">
-                  휴대폰 번호
-                </div>
-                <div className={`border-b-2 border-[#D4D4D4]`}>
-                  <Input
-                    type="tel"
-                    placeholder="010-0000-0000"
-                    disabled
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#404040]">
-                  생년월일
-                </div>
-                <div className={`border-b-2 border-[#D4D4D4]`}>
-                  <Input
-                    placeholder="1900.01.01"
-                    disabled
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#404040]">성별</div>
-                <div className={`border-b-2 border-[#D4D4D4]`}>
-                  <Input
-                    placeholder={
-                      loginedUser.gender === "male" ? "남성" : "여성"
-                    }
-                    disabled
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
-                  />
-                </div>
-              </div>
+              <InputLabel
+                labelContent="이메일"
+                placeholder={loginedUser.account_email}
+                disabled
+              />
+              <InputLabel
+                labelContent="휴대폰 번호"
+                placeholder="010-0000-0000"
+                disabled
+              />
+              <InputLabel
+                labelContent="생년월일"
+                placeholder="1900.01.01"
+                disabled
+              />
+              <InputLabel
+                labelContent="성별"
+                placeholder={loginedUser.gender === "male" ? "남성" : "여성"}
+                disabled
+              />
             </div>
           </div>
           <div className="flex flex-col gap-6">
-            <div className="">
-              <Button className="w-[400px] h-14 font-semibold text-2xl bg-[#4F118C] hover:bg-purple-950">
+            <div>
+              <Button className="w-[400px] h-14 font-semibold text-2xl bg-custom-purple hover:bg-purple-950">
                 저장하기
               </Button>
             </div>
-            <div className="">
+            <div>
               <Button
                 variant="outline"
-                className="w-[400px] h-14 text-2xl text-[#737373]"
+                className="w-[400px] h-14 text-2xl text-custom-textGrayColor"
               >
                 로그아웃
               </Button>

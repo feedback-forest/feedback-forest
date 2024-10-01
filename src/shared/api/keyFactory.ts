@@ -1,7 +1,7 @@
 const KEY_DOMAINS = {
   authUser: "authUser",
   logout: "logout",
-  class: "class",
+  lecture: "lecture",
   likeClass: "likeClass",
   user: "user",
   you: "you",
@@ -12,9 +12,10 @@ export const AUTH_KEYS = {
   logout: [KEY_DOMAINS.logout],
 } as const;
 
-export const CLASS_KEYS = {
-  all: [KEY_DOMAINS.class],
-  lists: () => [...CLASS_KEYS.all, "list"],
+export const LECTURE_KEYS = {
+  all: [KEY_DOMAINS.lecture],
+  lists: () => [...LECTURE_KEYS.all, "list"],
+  // FIXME: lecture 타입 전체 수정됨, 업데이트 필요
   list: (filters?: {
     name: string;
     description: string;
@@ -28,14 +29,17 @@ export const CLASS_KEYS = {
     longitude: number;
     target: string;
     status: string;
-  }) => [...CLASS_KEYS.all, "list", filters],
-  details: () => [...CLASS_KEYS.all, "detail"],
-  detail: (filters: { classId: number }) => [...CLASS_KEYS.details(), filters],
+  }) => [...LECTURE_KEYS.all, "list", filters],
+  details: () => [...LECTURE_KEYS.all, "detail"],
+  detail: (filters: { lectureId: number }) => [
+    ...LECTURE_KEYS.details(),
+    filters,
+  ],
 };
 
-export const LIKE_CLASS_KEYS = {
+export const LIKE_LECTURE_KEYS = {
   all: [KEY_DOMAINS.likeClass],
-  lists: () => [...LIKE_CLASS_KEYS.all, "list"],
+  lists: () => [...LIKE_LECTURE_KEYS.all, "list"],
   list: (filters?: {
     name: string;
     description: string;
@@ -49,10 +53,10 @@ export const LIKE_CLASS_KEYS = {
     longitude: number;
     target: string;
     status: string;
-  }) => [...LIKE_CLASS_KEYS.all, "list", filters],
-  details: () => [...LIKE_CLASS_KEYS.all, "detail"],
+  }) => [...LIKE_LECTURE_KEYS.all, "list", filters],
+  details: () => [...LIKE_LECTURE_KEYS.all, "detail"],
   detail: (filters: { classId: number }) => [
-    ...LIKE_CLASS_KEYS.details(),
+    ...LIKE_LECTURE_KEYS.details(),
     filters,
   ],
 };
