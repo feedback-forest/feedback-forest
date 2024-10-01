@@ -13,3 +13,8 @@ export * from "./Sooner";
 export * from "./ExternalLink";
 export * from "./ImageCarousel";
 export * from "./InputLabel";
+export * from "./IconDialog";
+export * from "./ImageDescription";
+export * from "./IconButton";
+export * from "./UnifiedDialog";
+export * from "./UnifiedTooltip";
