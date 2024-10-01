@@ -36,7 +36,7 @@ const Footer = () => {
 
   return (
     isRenderFooter() && (
-      <div className="w-full h-[162px] bg-[#E5E5E5] px-20 py-5 text-gray-600 border-t">
+      <div className="w-full h-[162px] bg-custom-divGrayBackground px-20 py-5 text-gray-600 border-t">
         <div className="flex mb-10 gap-2 desktop:flex-row tablet:flex-row mobile:flex-col">
           {/* TODO: URL ENV 처리 필요한지 확인: 공유 페이지라 괜찮을 것 같지만 확인 필요 */}
           {externalLinkList.map((externalLink) => {
