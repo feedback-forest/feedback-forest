@@ -12,8 +12,7 @@ import { useEffect, useState } from "react";
 
 import Image from "next/image";
 
-const Description = () => {
-  const [api, setApi] = useState<CarouselApi>();
+const useCarouselApi = (api: CarouselApi) => {
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
@@ -22,13 +21,23 @@ const Description = () => {
       return;
     }
 
+    const handleSelect = () => setCurrent(api.selectedScrollSnap() + 1);
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
+    api.on("select", handleSelect);
+
+    return () => {
+      api.off("select", handleSelect);
+    };
+  }, [api, count, current]);
+
+  return { current, count };
+};
+
+const Description = () => {
+  const [api, setApi] = useState<CarouselApi>();
+  const { current, count } = useCarouselApi(api);
 
   return (
     <div className="flex w-full flex-col justify-center items-center ">
