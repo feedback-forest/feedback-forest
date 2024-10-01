@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/shared/ui";
+import { Button, Input, InputLabel } from "@/shared/ui";
 
 import { User } from "@/entities/user/model/user";
 import { useState } from "react";
@@ -65,24 +65,16 @@ const UserInfoPage = () => {
           <div className="flex flex-col h-full">
             {/* TODO: 컴포넌트화 InputLabel */}
             <div className="flex flex-col w-[400px] gap-6">
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#4F118C]">닉네임</div>
-                <div className={`border-b-2 border-[#4F118C]`}>
-                  <Input
-                    placeholder={loginedUser.name}
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#4F118C]">지역</div>
-                <div className="flex flex-row gap-4">
-                  <div className={`border-b-2 border-[#4F118C]`}>
-                    <Input
-                      placeholder={loginedUser.city}
-                      className="text-xl border-none shadow-none w-[292px] h-14 focus-visible:ring-0"
-                    />
-                  </div>
+              <InputLabel
+                labelContent="닉네임"
+                borderColor="#4F118C"
+                placeholder={loginedUser.name}
+              />
+              <InputLabel
+                labelContent="지역"
+                borderColor="#4F118C"
+                placeholder={loginedUser.city}
+                renderItem={
                   <div>
                     <Button
                       variant="ghost"
@@ -91,66 +83,45 @@ const UserInfoPage = () => {
                       현재 위치
                     </Button>
                   </div>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#404040]">이메일</div>
-                <div className={`border-b-2 border-[#D4D4D4]`}>
-                  <Input
-                    type="email"
-                    placeholder={loginedUser.account_email}
-                    disabled
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
-                  />
-                </div>
-              </div>
-              {/* TODO: 휴대폰 번호, 생년월일 필요한지 물어볼 것 */}
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#404040]">
-                  휴대폰 번호
-                </div>
-                <div className={`border-b-2 border-[#D4D4D4]`}>
-                  <Input
-                    type="tel"
-                    placeholder="010-0000-0000"
-                    disabled
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#404040]">
-                  생년월일
-                </div>
-                <div className={`border-b-2 border-[#D4D4D4]`}>
-                  <Input
-                    placeholder="1900.01.01"
-                    disabled
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-base h-[21px] text-[#404040]">성별</div>
-                <div className={`border-b-2 border-[#D4D4D4]`}>
-                  <Input
-                    placeholder={
-                      loginedUser.gender === "male" ? "남성" : "여성"
-                    }
-                    disabled
-                    className="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
-                  />
-                </div>
-              </div>
+                }
+              />
+              <InputLabel
+                labelContent="이메일"
+                borderColor="#D4D4D4"
+                placeholder={loginedUser.account_email}
+                disabled
+                inputClassName="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
+              />
+              <InputLabel
+                labelContent="휴대폰 번호"
+                borderColor="#D4D4D4"
+                placeholder="010-0000-0000"
+                disabled
+                inputClassName="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
+              />
+              <InputLabel
+                labelContent="생년월일"
+                borderColor="#D4D4D4"
+                placeholder="1900.01.01"
+                disabled
+                inputClassName="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
+              />
+              <InputLabel
+                labelContent="성별"
+                borderColor="#D4D4D4"
+                placeholder={loginedUser.gender === "male" ? "남성" : "여성"}
+                disabled
+                inputClassName="text-xl border-none shadow-none h-14 focus-visible:ring-0 text-[#A3A3A3]"
+              />
             </div>
           </div>
           <div className="flex flex-col gap-6">
-            <div className="">
+            <div>
               <Button className="w-[400px] h-14 font-semibold text-2xl bg-[#4F118C] hover:bg-purple-950">
                 저장하기
               </Button>
             </div>
-            <div className="">
+            <div>
               <Button
                 variant="outline"
                 className="w-[400px] h-14 text-2xl text-[#737373]"

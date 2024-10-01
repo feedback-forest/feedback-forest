@@ -12,3 +12,4 @@ export * from "./Skeleton";
 export * from "./Sooner";
 export * from "./ExternalLink";
 export * from "./ImageCarousel";
+export * from "./InputLabel";
