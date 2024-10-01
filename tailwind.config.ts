@@ -24,6 +24,23 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        custom: {
+          homeMapBackground: "#F0F0F0",
+          entireLikeBackground: "#E9E8EC",
+          tooltipBackground: "#525252",
+          buttonGrayBackground: "#F5F5F5",
+          divGrayBackground: "#E5E5E5",
+          kakao: "#FEE500",
+          purple: "#4F118C",
+          textBlackColor: "#171717",
+          textSemiBoldBlackColor: "#404040",
+          textGrayColor: "#737373",
+          textDescriptionGrayColor: "#A3A3A3",
+          textTitleGrayColor: "#797979",
+          correct: "#4CAF50",
+          error: "#D32F2F",
+          disabled: "#D4D4D4",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -69,6 +86,9 @@ const config: Config = {
         mobile: "360px",
         tablet: "768px",
         desktop: "1440px",
+      },
+      spacing: {
+        "flex-center": "flex justify-center items-center",
       },
     },
   },
