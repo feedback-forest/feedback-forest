@@ -8,32 +8,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../../../shared/ui";
-import { useEffect, useState } from "react";
 
 import Image from "next/image";
-
-const useCarouselApi = (api: CarouselApi) => {
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    const handleSelect = () => setCurrent(api.selectedScrollSnap() + 1);
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", handleSelect);
-
-    return () => {
-      api.off("select", handleSelect);
-    };
-  }, [api, count, current]);
-
-  return { current, count };
-};
+import { useCarouselApi } from "@/shared/lib/useCarouselApi";
+import { useState } from "react";
 
 const Description = () => {
   const [api, setApi] = useState<CarouselApi>();
