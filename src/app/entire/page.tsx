@@ -37,7 +37,7 @@ const EntirePage = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-[#E9E8EC]">
+    <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-custom-entireLikeBackground">
       <div className="flex flex-row w-full h-12 items-start justify-center">
         <div className="flex flew-row gap-1">
           <div className="text-gray-900 text-[32px] font-bold">전체 클래스</div>

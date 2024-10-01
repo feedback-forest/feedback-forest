@@ -31,7 +31,7 @@ const SignUpPage = () => {
         </div>
         <div className="flex flex-col w-full h-full gap-[72px] items-center">
           <div className="w-[400px] h-[88px]">
-            <div className="text-[#4F118C]">닉네임 입력</div>
+            <div className="text-custom-purple]">닉네임 입력</div>
             {/* TODO: 이 방식이 맞는지 확인 필요 */}
             <div className={`border-b-2 border-[${borderColor}]`}>
               <Input
@@ -40,7 +40,7 @@ const SignUpPage = () => {
               />
             </div>
           </div>
-          <Button className="flex justify-center items-center w-[400px] h-14 bg-[#4F118C]">
+          <Button className="flex justify-center items-center w-[400px] h-14 bg-custom-purple">
             <div className="text-2xl text-center">시ː작 하기</div>
           </Button>
         </div>
