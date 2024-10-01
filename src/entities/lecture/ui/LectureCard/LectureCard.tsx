@@ -87,10 +87,10 @@ const LectureCard = ({ lectureData, type }: LectureCardProps) => {
               </div>
               <div className="flex justify-between max-w-[336px] max-h-[28px]">
                 {/* FIXME: 색상 추가 */}
-                <div className="text-lg text-[#404040] font-semibold">
+                <div className="text-lg text-custom-textSemiBoldBlackColor font-semibold">
                   {location}
                 </div>
-                <div className="text-lg text-[#737373]">
+                <div className="text-lg text-custom-textGrayColor">
                   {time.split(" ")[0].replaceAll("-", ".")}
                 </div>
               </div>
@@ -114,7 +114,7 @@ const LectureCard = ({ lectureData, type }: LectureCardProps) => {
         <div className="flex flex-col gap-[18px] py-6">
           <div className="flex h-[35px]">
             {/* TODO: CHIP 컴포넌트 개발 필요 */}
-            <div className="w-[56px] h-[35px] rounded-3xl text-lg font-bold bg-[#4F118c] text-white content-center text-center ">
+            <div className="w-[56px] h-[35px] rounded-3xl text-lg font-bold bg-custom-purple text-white content-center text-center ">
               문화
             </div>
           </div>
@@ -122,16 +122,16 @@ const LectureCard = ({ lectureData, type }: LectureCardProps) => {
             <div className="text-3xl min-w-[150px] max-w-[368px] whitespace-nowrap break-words text-ellipsis overflow-hidden">
               {name}
             </div>
-            <div className="text-lg text-[#A3A3A3] min-w-[150px] max-w-[368px] whitespace-nowrap break-words text-ellipsis overflow-hidden">
+            <div className="text-lg text-custom-textDescriptionGrayColor min-w-[150px] max-w-[368px] whitespace-nowrap break-words text-ellipsis overflow-hidden">
               {target}
             </div>
           </div>
           <div className="flex justify-between w-[368px] max-w-[368px] max-h-[27px]">
             {/* FIXME: 색상 추가 */}
-            <div className="text-lg text-[#404040] font-semibold">
+            <div className="text-lg text-custom-textSemiBoldBlackColor font-semibold">
               {location}
             </div>
-            <div className="text-lg text-[#737373]">
+            <div className="text-lg text-custom-textGrayColor">
               {time.split(" ")[0].replaceAll("-", ".")}
             </div>
           </div>
