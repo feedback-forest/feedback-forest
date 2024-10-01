@@ -10,3 +10,4 @@ export * from "./Divider";
 export * from "./Tooltip";
 export * from "./Skeleton";
 export * from "./Sooner";
+export * from "./ExternalLink";
