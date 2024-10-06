@@ -2,14 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { Lecture } from "@/entities/lecture/model/lecture";
+import { LectureInfo } from "@/entities/lecture/model/lecture";
 
 export type NaverMap = naver.maps.Map;
 
 interface MapProps {
   latitude: number;
   longitude: number;
-  lectureListData: Lecture[];
+  lectureListData: LectureInfo[];
 }
 
 const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
@@ -23,6 +23,7 @@ const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
     return [];
   }, []);
 
+  // 커스텀 훅을 만들어서 useMapInit() -> createPositionMarker 현재 위치 마커, 함수로 ClassMarker 클래스 마커 생성, infoWindow 도 훅으로 그 아래 마커 업데이트는 함수로 생성, 언마운트 하는 코드도 작성 필요성이 있음
   const initMap = useCallback(() => {
     const location = new naver.maps.LatLng(latitude, longitude);
 
@@ -52,57 +53,60 @@ const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
     });
 
     // 클래스 Marker
+
     lectureListData.forEach((lectureData) => {
-      const classMarker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(
-          lectureData.latitude,
-          lectureData.longitude,
-        ),
-        title: lectureData.hosted_by,
-        clickable: true,
-        map: map,
-        icon: {
-          content: `<img src="/images/marker_icon.png" width="24" height="24" alt="클래스 위치" />`,
-          size: new naver.maps.Size(35, 35),
-          anchor: new naver.maps.Point(11, 35),
-        },
-      });
+      if (lectureData.latitude && lectureData.longitude) {
+        const classMarker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(
+            lectureData.latitude,
+            lectureData.longitude,
+          ),
+          title: lectureData.hosted_by,
+          clickable: true,
+          map: map,
+          icon: {
+            content: `<img src="/images/marker_icon.png" width="24" height="24" alt="클래스 위치" />`,
+            size: new naver.maps.Size(35, 35),
+            anchor: new naver.maps.Point(11, 35),
+          },
+        });
 
-      const hostedBy = lectureData.hosted_by;
+        const hostedBy = lectureData.hosted_by;
 
-      // InfoWindow 생성
-      const infoWindow = new naver.maps.InfoWindow({
-        content: `
-    <div style="display: flex; flex-direction: column; width: 347px; height: 83px; gap: 2px; background: linear-gradient(#A249A8, #430347); border-radius: 20px; padding: 10px 23px 14px 31px;">
-      <div style="display: flex; flex-direction: row; align-items: center; justify-items: center; gap: 5px;">
-        <div style="display: flex;">
-          <img src="/icons/home_alt.svg" width="24" height="24" alt="" />
-        </div>
-        <div style="width: 257px; height: 33px; font-size: 22px; font-weight: 600; color: #fff;">
-          ${hostedBy}
-        </div>
-      </div>
-      <div style="width: 293px; height: 24px; font-size: 15px; color: #fff;">
-        서울 송파구 백제고분로42길 5 송파여성문화회관
-      </div>
-    </div>`,
-        borderWidth: 0,
-        disableAnchor: true,
-        backgroundColor: "transparent",
-        pixelOffset: new naver.maps.Point(0, -8),
-      });
+        // InfoWindow 생성
+        const infoWindow = new naver.maps.InfoWindow({
+          content: `
+            <div style="display: flex; flex-direction: column; width: 347px; height: 83px; gap: 2px; background: linear-gradient(#A249A8, #430347); border-radius: 20px; padding: 10px 23px 14px 31px;">
+              <div style="display: flex; flex-direction: row; align-items: center; justify-items: center; gap: 5px;">
+                <div style="display: flex;">
+                  <img src="/icons/home_alt.svg" width="24" height="24" alt="" />
+                </div>
+                <div style="width: 257px; height: 33px; font-size: 22px; font-weight: 600; color: #fff;">
+                  ${hostedBy}
+                </div>
+              </div>
+              <div style="width: 293px; height: 24px; font-size: 15px; color: #fff;">
+                서울 송파구 백제고분로42길 5 송파여성문화회관
+              </div>
+            </div>`,
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: "transparent",
+          pixelOffset: new naver.maps.Point(0, -8),
+        });
 
-      markers.push(classMarker);
-      infoWindows.push(infoWindow);
+        markers.push(classMarker);
+        infoWindows.push(infoWindow);
 
-      // 마커 클릭 시 InfoWindow 열기
-      naver.maps.Event.addListener(classMarker, "click", function () {
-        // 이미 열려있는 InfoWindow가 있다면 닫기
-        infoWindows.forEach((iw) => iw.close());
+        // 마커 클릭 시 InfoWindow 열기
+        naver.maps.Event.addListener(classMarker, "click", function () {
+          // 이미 열려있는 InfoWindow가 있다면 닫기
+          infoWindows.forEach((iw) => iw.close());
 
-        // 클릭한 마커에 해당하는 InfoWindow 열기
-        infoWindow.open(map, classMarker);
-      });
+          // 클릭한 마커에 해당하는 InfoWindow 열기
+          infoWindow.open(map, classMarker);
+        });
+      }
     });
 
     // 지도 상태가 변경될 때 마커 업데이트
