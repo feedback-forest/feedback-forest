@@ -6,6 +6,7 @@ import {
 } from "../../model/lecture";
 
 import { LectureDetailItem } from "./LectureDetailItem";
+import { SquareLoader } from "react-spinners";
 
 interface LectureDetailProps {
   lectureInfo?: Lecture;
@@ -13,6 +14,9 @@ interface LectureDetailProps {
 }
 
 const LectureDetail = ({ lectureInfo, isLoading }: LectureDetailProps) => {
+  if (isLoading) {
+    return <SquareLoader />;
+  }
   return (
     <div className="flex flex-col w-full px-[120px] pb-[349px] gap-[140px]">
       <div className="flex flex-col w-full gap-[30px]">
@@ -48,14 +52,14 @@ const LectureDetail = ({ lectureInfo, isLoading }: LectureDetailProps) => {
         {lectureInfo && (
           <div className="flex flex-col gap-1">
             <div className="flex w-[52px] h-8 font-bold text-xl">
-              {lectureInfo.instructorName}
+              {lectureInfo.instructor_name.map((instructor) => instructor.name)}
             </div>
             <ul className="flex flex-col h-full text-xl">
-              {lectureInfo.instructorHistory &&
-                lectureInfo.instructorHistory.length > 0 &&
-                lectureInfo.instructorHistory.map((history, idx) => {
-                  return <li key={idx}>{history}</li>;
-                })}
+              {lectureInfo.instructor_name.map((instructor) => {
+                return instructor.instructor_history.map((history, idx) => {
+                  return <li key={idx}>{history.content}</li>;
+                });
+              })}
             </ul>
           </div>
         )}
@@ -63,7 +67,7 @@ const LectureDetail = ({ lectureInfo, isLoading }: LectureDetailProps) => {
       <div className="font-bold desktop:w-full h-[70px] text-[28px] border-b">
         <div className="font-bold text-[28px] gap-4">교육 계획</div>
         {/* {isLoading && <Skeleton className="w-[698px] h-[148px]" />} */}
-        {lectureInfo && <div>{lectureInfo.educationPlan}</div>}
+        {/* {lectureInfo && <div>{lectureInfo.educationPlan}</div>} */}
       </div>
     </div>
   );

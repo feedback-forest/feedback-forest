@@ -1,11 +1,16 @@
+import { LectureInfo, PickLectureInfo } from "@/entities/lecture/model/lecture";
+
 import { Button } from "@/shared/ui";
+import { HeartsLectureListResDataInfo } from "@/features/like/model/like";
 import Image from "next/image";
-import { Lecture } from "@/entities/lecture/model/lecture";
 import Link from "next/link";
 import { MouseEvent } from "react";
+import { toast } from "sonner";
+import useDeleteLikeLecture from "@/features/like/api/useDeleteLikeLecture";
+import usePostLikeLecture from "@/features/like/api/usePostLikeLecture";
 
 interface LectureCardProps {
-  lectureData: Lecture;
+  lectureData: LectureInfo | PickLectureInfo | HeartsLectureListResDataInfo;
   type: "row" | "col";
 }
 
@@ -14,26 +19,48 @@ const LectureCard = ({ lectureData, type }: LectureCardProps) => {
     id,
     thumbnail,
     name,
-    description,
-    price,
-    day_of_week,
     time,
-    capacity,
-    link,
-    location,
     target,
     status,
-    like,
-    location_detail,
-    hosted_by,
+    address,
+    link,
+    heart,
+    start_date,
+    end_date,
+    day_of_week,
   } = lectureData;
+
+  const postLikeLecture = usePostLikeLecture(id);
+  const deleteLikeLecture = useDeleteLikeLecture(id);
 
   const handleLikeClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    // FIXME: 콘솔 로그 삭제
-    console.log("좋아요!");
-    // TODO: 좋아요 API 연동
+
+    if (lectureData.heart === true) {
+      deleteLikeLecture.mutate(
+        {
+          lectureId: id,
+        },
+        {
+          onSuccess: () => {
+            toast("좋아요 삭제 성공");
+          },
+        },
+      );
+    }
+    if (lectureData.heart === false) {
+      postLikeLecture.mutate(
+        {
+          lectureId: id,
+        },
+        {
+          onSuccess: () => {
+            toast("좋아요 성공");
+          },
+        },
+      );
+    }
   };
 
   return type === "col" ? (
@@ -66,7 +93,7 @@ const LectureCard = ({ lectureData, type }: LectureCardProps) => {
                       className="flex items-center justify-center min-w-[36px] min-h-[36px]"
                       onClick={(e) => handleLikeClick(e)}
                     >
-                      {like ? (
+                      {heart ? (
                         <Image
                           src="/icons/like_filled.svg"
                           alt="heart"
@@ -88,7 +115,7 @@ const LectureCard = ({ lectureData, type }: LectureCardProps) => {
               <div className="flex justify-between max-w-[336px] max-h-[28px]">
                 {/* FIXME: 색상 추가 */}
                 <div className="text-lg text-custom-textSemiBoldBlackColor font-semibold">
-                  {location}
+                  {address}
                 </div>
                 <div className="text-lg text-custom-textGrayColor">
                   {time.split(" ")[0].replaceAll("-", ".")}
@@ -129,7 +156,7 @@ const LectureCard = ({ lectureData, type }: LectureCardProps) => {
           <div className="flex justify-between w-[368px] max-w-[368px] max-h-[27px]">
             {/* FIXME: 색상 추가 */}
             <div className="text-lg text-custom-textSemiBoldBlackColor font-semibold">
-              {location}
+              {address}
             </div>
             <div className="text-lg text-custom-textGrayColor">
               {time.split(" ")[0].replaceAll("-", ".")}
