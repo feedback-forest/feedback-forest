@@ -1,22 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { Button } from "../../Button";
 import Image from "next/image";
 import Link from "next/link";
+import { LoginUserInfo } from "@/entities/user/model/user";
 import { UnifiedDialog } from "../../UnifiedDialog";
-import { User } from "@/entities/user/model/user";
+import { getCookie } from "cookies-next";
+import useLoginedUserStore from "@/shared/store/user";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const HeaderFeatures = () => {
-  // TODO: 전역 상태 관리 - 로그인 된 유저 여부 판단
-  const [loginedUser, setLoginedUser] = useState<User>();
-
-  /* FIXME: isLogin 개발 편의상 임시 처리 */
-  const [isLogin, setIsLogin] = useState(false);
+  const [loginedUser, setLoginedUser] = useState<LoginUserInfo>();
   const [openLike, setOpenLike] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const router = useRouter();
+
+  const { loginedUser: loginedUserInfo } = useLoginedUserStore();
+
+  const accessToken = getCookie("accessToken");
 
   const handleOpenLikeDialog = () => {
     setOpenLike(true);
@@ -31,6 +34,12 @@ const HeaderFeatures = () => {
     setOpenUser(false);
     router.push("/login");
   };
+
+  useEffect(() => {
+    if (loginedUserInfo) {
+      setLoginedUser(loginedUserInfo);
+    }
+  }, [loginedUserInfo]);
 
   const dialogContent = () => {
     return (
@@ -61,19 +70,23 @@ const HeaderFeatures = () => {
 
   const renderLikeIcon = () => {
     // 개발 편의상 임시 처리
-    if (loginedUser && isLogin) {
+    if (loginedUser && loginedUserInfo && accessToken) {
       return (
-        <Link href="/like">
-          <div className="flex flex-col items-center justify-center w-[38px] h-[52px]">
-            <Image
-              src={"/icons/heart_default.svg"}
-              alt="heart-icons"
-              width={28}
-              height={28}
-            />
-            <div className="flex justify-center text-sm text-gray-400">찜</div>
-          </div>
-        </Link>
+        <div>
+          <Link href="/like">
+            <div className="flex flex-col items-center justify-center w-[38px] h-[52px]">
+              <Image
+                src={"/icons/heart_default.svg"}
+                alt="heart-icons"
+                width={28}
+                height={28}
+              />
+              <div className="flex justify-center text-sm text-gray-400">
+                찜
+              </div>
+            </div>
+          </Link>
+        </div>
       );
     }
     return (
@@ -102,21 +115,28 @@ const HeaderFeatures = () => {
   };
 
   const renderUserIcon = () => {
-    if (loginedUser && isLogin) {
+    if (
+      loginedUser &&
+      loginedUserInfo &&
+      loginedUserInfo.nickname &&
+      accessToken
+    ) {
       return (
-        <Link href={`/user/${loginedUser.id}`}>
-          <div className="flex flex-col items-center justify-center w-[70px] h-[52px]">
-            <Image
-              src={"/icons/user_default.svg"}
-              alt="user-icons"
-              width={28}
-              height={28}
-            />
-            <div className="flex w-[70px] justify-center text-sm text-gray-400">
-              마이페이지
+        <div>
+          <Link href={`/user/${loginedUserInfo.nickname}`}>
+            <div className="flex flex-col items-center justify-center w-[70px] h-[52px]">
+              <Image
+                src={"/icons/user_default.svg"}
+                alt="user-icons"
+                width={28}
+                height={28}
+              />
+              <div className="flex w-[70px] justify-center text-sm text-gray-400">
+                마이페이지
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+        </div>
       );
     }
 
