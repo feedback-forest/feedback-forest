@@ -12,19 +12,19 @@ const Description = () => {
 
   const descriptionImages: CarouselImage[] = [
     {
-      src: "/images/senior.png",
+      src: "/images/main_banner_1.png",
       alt: "senior",
       width: 1440,
       height: 640,
     },
     {
-      src: "/images/sijak_happy.png",
+      src: "/images/main_banner_2.png",
       alt: "sijak_happy",
       width: 1440,
       height: 640,
     },
     {
-      src: "/images/sijak_position.png",
+      src: "/images/main_banner_3.png",
       alt: "sijak_position",
       width: 1440,
       height: 640,
