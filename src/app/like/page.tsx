@@ -3,16 +3,28 @@
 import { LectureList, SkeletonCard } from "@/entities/lecture/ui";
 import { useEffect, useState } from "react";
 
-import { Lecture } from "@/entities/lecture/model/lecture";
+import { HeartsLectureListResDataInfo } from "@/features/like/model/like";
+import { LectureSize } from "@/entities/lecture/model/lecture";
 import useLikeLectureList from "@/features/like/api/useLikeLectureList";
 
 const LikePage = () => {
-  const [lectureListData, setLectureListData] = useState<Lecture[]>();
-  const { data, isLoading, isSuccess } = useLikeLectureList();
+  const [lectureListData, setLectureListData] =
+    useState<HeartsLectureListResDataInfo[]>();
+  const [lectureSize, setLectureSize] = useState<LectureSize>({
+    page: 1,
+    size: 2,
+    dist: 500,
+  });
+
+  const { data, isLoading, isSuccess } = useLikeLectureList({
+    page: lectureSize.page,
+    size: lectureSize.size,
+    dist: lectureSize.dist,
+  });
 
   useEffect(() => {
     if (isSuccess) {
-      setLectureListData(data);
+      setLectureListData(data.data.data);
     }
   }, [data, isSuccess]);
 
