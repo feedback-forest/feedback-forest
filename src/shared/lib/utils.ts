@@ -11,6 +11,6 @@ export const handleCopyClipBoard = async (text: string) => {
     await navigator.clipboard.writeText(text);
     toast("링크를 복사했어요.");
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
