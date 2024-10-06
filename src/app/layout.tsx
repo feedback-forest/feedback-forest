@@ -2,7 +2,6 @@ import "./globals.css";
 
 import { Footer, Header, Toaster } from "@/shared/ui";
 
-import Initializer from "@/mocks/Initializer";
 import type { Metadata } from "next";
 import Providers from "@/features/provider/Provider";
 import Script from "next/script";
@@ -44,11 +43,9 @@ export default function RootLayout({
                 <div className="flex flex-col w-full h-full justify-start items-start pt-16">
                   {children}
                 </div>
-                <Initializer />
               </div>
             </div>
           </main>
-          {/* FIXME: footer 하단 고정 필요 */}
           <Footer />
           <Toaster />
         </Providers>

@@ -1,6 +1,6 @@
-name = "sijak"
-compatibility_flags = [ "nodejs_compat" ]
-compatibility_date = "2024-09-30"
 
 [build]
+name = "sijak"
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2024-09-23"
 pages_build_output_dir = ".vercel/output/static"
