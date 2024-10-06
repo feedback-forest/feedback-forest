@@ -1,22 +1,73 @@
 "use client";
 
+import {
+  LectureInfo,
+  LecturePayload,
+  LectureSize,
+} from "@/entities/lecture/model/lecture";
 import { LectureList, SkeletonCard } from "@/entities/lecture/ui";
 import { useEffect, useState } from "react";
 
-import { Lecture } from "@/entities/lecture/model/lecture";
-import useEntireLecture from "@/entities/lecture/api/useEntireLecture";
+import { useGeoLocation } from "@/shared/lib/useGeolocation";
+import useLectureList from "@/entities/lecture/api/useLectureList";
+import useLoginedUserStore from "@/shared/store/user";
 
 const EntirePage = () => {
-  const [lectureListData, setLectureListData] = useState<Lecture[]>();
+  const [lectureListData, setLectureListData] = useState<LectureInfo[]>();
+  const [user, setUser] = useState<LecturePayload>();
+  const [lectureSize, setLectureSize] = useState<LectureSize>({
+    page: 0,
+    size: 9,
+    dist: 500,
+  });
 
-  // TODO: 전체 클래스 가져오는 API로 수정 필요
-  const { data, isLoading, isSuccess } = useEntireLecture();
+  const getLectureList = useLectureList();
+  const isLoading = getLectureList.isIdle || getLectureList.isPending;
+
+  const geolocation = useGeoLocation();
 
   useEffect(() => {
-    if (isSuccess) {
-      setLectureListData(data.data.data);
+    if (user && user.latitude && user.longitude) {
+      getLectureList.mutate(
+        {
+          params: {
+            page: lectureSize.page,
+            size: lectureSize.size,
+            dist: lectureSize.dist,
+          },
+          payload: { latitude: user.latitude, longitude: user.longitude },
+        },
+        {
+          onSuccess: (data) => {
+            const lectureListData = data.data.data.data;
+            setLectureListData(lectureListData);
+          },
+          onError: () => {},
+        },
+      );
     }
-  }, [data, isSuccess]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lectureSize.page, lectureSize.size, user]);
+
+  useEffect(() => {
+    if (
+      geolocation.curLocation &&
+      geolocation.curLocation.latitude &&
+      geolocation.curLocation.longitude
+    ) {
+      setUser((prev) => {
+        return {
+          ...prev,
+          latitude: geolocation.curLocation
+            ? geolocation.curLocation.latitude
+            : 0,
+          longitude: geolocation.curLocation
+            ? geolocation.curLocation.longitude
+            : 0,
+        };
+      });
+    }
+  }, [geolocation.curLocation]);
 
   const renderEntireCardContent = () => {
     if (isLoading) {
@@ -35,6 +86,8 @@ const EntirePage = () => {
 
     return <div>클래스가 존재하지 않습니다</div>;
   };
+
+  // TODO: 무한 스크롤
 
   return (
     <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-custom-entireLikeBackground">
