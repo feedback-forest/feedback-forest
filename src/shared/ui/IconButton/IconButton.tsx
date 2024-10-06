@@ -29,6 +29,7 @@ const IconButton = ({
         "flex flex-col items-center justify-center content-center w-[32px] h-[32px] hover:bg-gray-200",
         `w-[${buttonWidth}px], h-[${buttonHeight}px]`,
       )}
+      onClick={handleClick}
     >
       <Image src={src} alt={alt} width={iconWidth} height={iconHeight} />
     </Button>
