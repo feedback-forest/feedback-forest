@@ -4,6 +4,9 @@ import { Button, IconButton, Skeleton, UnifiedDialog } from "@/shared/ui";
 
 import Image from "next/image";
 import { Lecture } from "../../model/lecture";
+import { toast } from "sonner";
+import useDeleteLikeLecture from "@/features/like/api/useDeleteLikeLecture";
+import usePostLikeLecture from "@/features/like/api/usePostLikeLecture";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -17,12 +20,47 @@ const LectureFooter = ({ lectureInfo, isLoading }: LectureFooterProps) => {
   const tempApplyStatus = false;
   const router = useRouter();
 
+  const postLikeLecture = usePostLikeLecture(lectureInfo ? lectureInfo.id : -1);
+  const deleteLikeLecture = useDeleteLikeLecture(
+    lectureInfo ? lectureInfo.id : -1,
+  );
+
   const linkToApplyPage = (link: string) => {
     window.open(link);
   };
 
   const linkToHomePage = () => {
     router.push("/");
+  };
+
+  const handleLikeLecture = () => {
+    if (lectureInfo) {
+      // TODO: 좋아요 API TEST
+      if (lectureInfo.heart === true) {
+        deleteLikeLecture.mutate(
+          {
+            lectureId: lectureInfo.id,
+          },
+          {
+            onSuccess: () => {
+              toast("좋아요 삭제 성공");
+            },
+          },
+        );
+      }
+      if (lectureInfo.heart === false) {
+        postLikeLecture.mutate(
+          {
+            lectureId: lectureInfo.id,
+          },
+          {
+            onSuccess: () => {
+              toast("좋아요 성공");
+            },
+          },
+        );
+      }
+    }
   };
 
   const triggerItem = () => {
@@ -83,17 +121,28 @@ const LectureFooter = ({ lectureInfo, isLoading }: LectureFooterProps) => {
   return (
     <div className="flex flex-row w-full h-[92px] items-center px-[120px] bg-white drop-shadow fixed bottom-0 gap-[42px] overflow-x-hidden z-10">
       <div className="flex w-16 h-[50px] border-r border-gray-400 justify-center items-center">
-        <IconButton
-          src="/icons/heart.svg"
-          alt="heart"
-          iconWidth={27}
-          iconHeight={24}
-        />
+        {lectureInfo && lectureInfo.heart === true ? (
+          <IconButton
+            src="/icons/like_filled.svg"
+            alt="like_filled"
+            iconWidth={27}
+            iconHeight={24}
+            handleClick={handleLikeLecture}
+          />
+        ) : (
+          <IconButton
+            src="/icons/heart.svg"
+            alt="heart"
+            iconWidth={27}
+            iconHeight={24}
+            handleClick={handleLikeLecture}
+          />
+        )}
       </div>
       {isLoading && <Skeleton className="w-[100px] h-[33px]" />}
       {lectureInfo && (
         <div className="flex w-[106px] min-w-[106px] h-[33px] justify-center items-center text-[22px] font-extrabold">
-          {lectureInfo.price.toLocaleString("ko-KR")}원
+          {lectureInfo.price}
         </div>
       )}
       {isLoading && (

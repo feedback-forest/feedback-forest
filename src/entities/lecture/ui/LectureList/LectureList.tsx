@@ -1,8 +1,13 @@
-import { Lecture } from "@/entities/lecture/model/lecture";
+import { LectureInfo, PickLectureInfo } from "@/entities/lecture/model/lecture";
+
+import { HeartsLectureListResDataInfo } from "@/features/like/model/like";
 import { LectureCard } from "../LectureCard";
 
 interface LectureListProps {
-  lectureListData: Lecture[];
+  lectureListData:
+    | LectureInfo[]
+    | PickLectureInfo[]
+    | HeartsLectureListResDataInfo[];
   type: "row" | "col";
 }
 

@@ -3,6 +3,9 @@ import { Button, IconDialog, ImageDescription, Skeleton } from "@/shared/ui";
 import Image from "next/image";
 import { Lecture } from "@/entities/lecture/model/lecture";
 import { handleCopyClipBoard } from "@/shared/lib/utils";
+import { toast } from "sonner";
+import useDeleteLikeLecture from "@/features/like/api/useDeleteLikeLecture";
+import usePostLikeLecture from "@/features/like/api/usePostLikeLecture";
 
 interface LectureInfoDetailHeaderProps {
   lectureInfo?: Lecture;
@@ -13,8 +16,39 @@ const LectureSummaryHeader = ({
   lectureInfo,
   isLoading,
 }: LectureInfoDetailHeaderProps) => {
+  const postLikeLecture = usePostLikeLecture(lectureInfo ? lectureInfo.id : -1);
+  const deleteLikeLecture = useDeleteLikeLecture(
+    lectureInfo ? lectureInfo.id : -1,
+  );
+
   const handleLikeLecture = () => {
-    // TODO: 좋아요 API
+    if (lectureInfo) {
+      // TODO: 좋아요 API TEST 필요
+      if (lectureInfo.heart === true) {
+        deleteLikeLecture.mutate(
+          {
+            lectureId: lectureInfo.id,
+          },
+          {
+            onSuccess: () => {
+              toast("좋아요 삭제 성공");
+            },
+          },
+        );
+      }
+      if (lectureInfo.heart === false) {
+        postLikeLecture.mutate(
+          {
+            lectureId: lectureInfo.id,
+          },
+          {
+            onSuccess: () => {
+              toast("좋아요 성공");
+            },
+          },
+        );
+      }
+    }
   };
 
   const shareLinkToKakao = () => {
@@ -64,14 +98,35 @@ const LectureSummaryHeader = ({
           </div>
         )}
         <div className="flex justify-center items-center gap-7">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="w-8 h-8"
-            onClick={handleLikeLecture}
-          >
-            <Image src="/icons/heart.svg" alt="heart" width={27} height={24} />
-          </Button>
+          {lectureInfo && lectureInfo.heart === true ? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="w-8 h-8"
+              onClick={handleLikeLecture}
+            >
+              <Image
+                src="/icons/like_filled.svg"
+                alt="like_filled"
+                width={27}
+                height={24}
+              />
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="w-8 h-8"
+              onClick={handleLikeLecture}
+            >
+              <Image
+                src="/icons/heart.svg"
+                alt="heart"
+                width={27}
+                height={24}
+              />
+            </Button>
+          )}
           <IconDialog
             dialogTitle="링크 공유"
             dialogDescription="링크 공유용 모달"
