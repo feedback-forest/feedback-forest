@@ -17,6 +17,7 @@ const config: Config = {
       fontFamily: {
         notoSansKr: ["var(--noto-sans-kr)"],
         roboto: ["var(--roboto)"],
+        pretendard: ["var(--font-pretendard"],
       },
       borderRadius: {
         lg: "var(--radius)",
