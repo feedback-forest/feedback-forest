@@ -39,7 +39,7 @@ export default function RootLayout({
             <div className="flex flex-col w-full h-full justify-start items-start relative">
               <div className="flex flex-col w-full h-full justify-start items-start relative">
                 <Header />
-                <div className="flex flex-col w-full h-full justify-start items-start pt-16">
+                <div className="flex flex-col w-full h-full justify-start items-start desktop:pt-[70px] tablet:pt-[70px] mobile:pt-12">
                   {children}
                 </div>
               </div>

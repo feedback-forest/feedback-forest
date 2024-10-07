@@ -74,14 +74,16 @@ const HeaderFeatures = () => {
       return (
         <div>
           <Link href="/like">
-            <div className="flex flex-col items-center justify-center w-[38px] h-[52px]">
-              <Image
-                src={"/icons/heart_default.svg"}
-                alt="heart-icons"
-                width={28}
-                height={28}
-              />
-              <div className="flex justify-center text-sm text-gray-400">
+            <div className="flex flex-col items-center justify-center w-[36px] h-[43px]">
+              <div className="flex items-center justify-center w-[36px] h-[25px]">
+                <Image
+                  src={"/icons/heart_default.svg"}
+                  alt="heart-icons"
+                  width={32}
+                  height={25}
+                />
+              </div>
+              <div className="desktop:flex tablet:flex mobile:hidden items-center justify-center text-sm text-custom-textDescriptionGrayColor">
                 찜
               </div>
             </div>
@@ -95,16 +97,20 @@ const HeaderFeatures = () => {
         dialogDescription="로그인 오류 Dialog"
         triggerItem={
           <div
-            className="flex flex-col items-center justify-center w-[38px] h-[52px] cursor-pointer"
+            className="flex flex-col items-center justify-center w-[36px] h-[43px] cursor-pointer"
             onClick={handleOpenLikeDialog}
           >
-            <Image
-              src={"/icons/heart_default.svg"}
-              alt="heart-icons"
-              width={28}
-              height={28}
-            />
-            <div className="flex justify-center text-sm text-gray-400">찜</div>
+            <div className="flex items-center justify-center w-[36px] h-[25px]">
+              <Image
+                src={"/icons/heart_default.svg"}
+                alt="heart-icons"
+                width={32}
+                height={32}
+              />
+            </div>
+            <div className="desktop:flex tablet:flex mobile:hidden items-center justify-center text-sm text-custom-textDescriptionGrayColor">
+              찜
+            </div>
           </div>
         }
         dialogContent={dialogContent()}
@@ -124,15 +130,17 @@ const HeaderFeatures = () => {
       return (
         <div>
           <Link href={`/user/${loginedUserInfo.nickname}`}>
-            <div className="flex flex-col items-center justify-center w-[70px] h-[52px]">
-              <Image
-                src={"/icons/user_default.svg"}
-                alt="user-icons"
-                width={28}
-                height={28}
-              />
-              <div className="flex w-[70px] justify-center text-sm text-gray-400">
-                마이페이지
+            <div className="flex flex-col items-center justify-center w-[36px] h-[43px]">
+              <div className="flex items-center justify-center w-[36px] h-[25px]">
+                <Image
+                  src={"/icons/user_default.svg"}
+                  alt="user-icons"
+                  width={32}
+                  height={32}
+                />
+              </div>
+              <div className="desktop:flex tablet:flex mobile:hidden items-center justify-center text-sm text-custom-textDescriptionGrayColor">
+                마이
               </div>
             </div>
           </Link>
@@ -146,17 +154,19 @@ const HeaderFeatures = () => {
         dialogDescription="로그인 오류 알림"
         triggerItem={
           <div
-            className="flex flex-col items-center justify-center w-[70px] h-[52px]"
+            className="flex flex-col items-center justify-center w-[36px] h-[43px]"
             onClick={handleOpenUserDialog}
           >
-            <Image
-              src={"/icons/user_default.svg"}
-              alt="user-icons"
-              width={28}
-              height={28}
-            />
-            <div className="flex w-[70px] justify-center text-sm text-gray-400">
-              마이페이지
+            <div className="flex items-center justify-center w-[36px] h-[25px]">
+              <Image
+                src={"/icons/user_default.svg"}
+                alt="user-icons"
+                width={32}
+                height={32}
+              />
+            </div>
+            <div className="desktop:flex tablet:flex mobile:hidden items-center justify-center text-sm text-custom-textDescriptionGrayColor">
+              마이
             </div>
           </div>
         }
@@ -168,7 +178,7 @@ const HeaderFeatures = () => {
   };
 
   return (
-    <div className="flex flex-row items-start justify-center gap-2 h-full">
+    <div className="flex flex-row items-center justify-center desktop:gap-5 tablet:gap-5 mobile:gap-4 desktop:h-[43px] tablet:h-[43px] mobile:h-[25px]">
       {renderLikeIcon()}
       {renderUserIcon()}
     </div>
