@@ -35,13 +35,17 @@ const Description = () => {
     <div className="flex w-full flex-col justify-center items-center ">
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="flex flex-col gap-3">
-          <div className="flex flex-col w-full h-full">
+          <div className="flex relative flex-col desktop:w-full desktop:h-full tablet:w-full table:h-full mobile:w-full ">
             <ImageCarousel
               setApi={setApi}
               images={descriptionImages}
               isPreviousIcon
               isNextIcon
             />
+            <div className="flex flex-row absolute bottom-5 desktop:right-[122px] tablet:right-8 mobile:right-6 gap-1 bg-custom-blackBackground px-3 py-[3px] rounded-full">
+              <div className="text-white text-sm font-bold">{`${current}`}</div>
+              <div className="text-custom-textDescriptionGrayColor text-sm font-bold">{`/ ${count}`}</div>
+            </div>
           </div>
         </div>
       </div>
