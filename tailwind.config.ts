@@ -33,6 +33,7 @@ const config: Config = {
           divGrayBackground: "#E5E5E5",
           blackBackground: "#060606",
           bannerBackground: "#CCCCCC",
+          footerBackground: "#3E3E3E",
           kakao: "#FEE500",
           purple: "#4F118C",
           textBlackColor: "#171717",
