@@ -32,6 +32,7 @@ const config: Config = {
           buttonGrayBackground: "#F5F5F5",
           divGrayBackground: "#E5E5E5",
           blackBackground: "#060606",
+          bannerBackground: "#CCCCCC",
           kakao: "#FEE500",
           purple: "#4F118C",
           textBlackColor: "#171717",
