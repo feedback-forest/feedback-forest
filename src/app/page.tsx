@@ -1,6 +1,11 @@
 "use client";
 
-import { Description, LectureList, SkeletonCard } from "@/entities/lecture/ui";
+import {
+  Description,
+  IntroductionBanner,
+  LectureList,
+  SkeletonCard,
+} from "@/entities/lecture/ui";
 import {
   LectureInfo,
   LectureSize,
@@ -134,7 +139,7 @@ const Home = () => {
     router.push("/entire");
   };
 
-  const renderColLectureList = () => {
+  const renderHomeLectureList = () => {
     if (isLoading) {
       return (
         <div className="flex flex-row space-x-6">
@@ -146,7 +151,9 @@ const Home = () => {
     }
 
     if (lectureListData && lectureListData.length > 0) {
-      return <LectureList lectureListData={lectureListData} type="col" />;
+      return (
+        <LectureList lectureListData={lectureListData} type="homeLecture" />
+      );
     }
 
     return (
@@ -154,18 +161,20 @@ const Home = () => {
     );
   };
 
-  const renderRowLectureList = () => {
+  const renderPickLectureList = () => {
     if (isLoading) {
       return (
         <div className="flex desktop:flex-row tablet:flex-col gap-6">
-          <SkeletonCard type="row" />
-          <SkeletonCard type="row" />
+          <SkeletonCard type="col" />
+          <SkeletonCard type="col" />
         </div>
       );
     }
 
     if (pickLectureListData && pickLectureListData.length > 0) {
-      return <LectureList lectureListData={pickLectureListData} type="col" />;
+      return (
+        <LectureList lectureListData={pickLectureListData} type="pickLecture" />
+      );
     }
 
     return (
@@ -179,65 +188,79 @@ const Home = () => {
   return (
     <div className="flex w-full h-full flex-col 16">
       <Description />
-      <div className="flex flex-col desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:pt-[84px] tablet:pt-12 mobile:pt-12 desktop:pb-[120px] tablet:pb-[99px] mobile:pb-[82px] bg-custom-homeMapBackground desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
-        <div className="flex flex-col desktop:gap-8 tablet:gap-6 mobile:gap-6">
-          <div className="flex flex-row justify-between">
-            <div className="flex flex-row gap-1">
-              <div className="text-2xl font-bold">
-                내 주변 문화생활 클래스☺️
-              </div>
-            </div>
-            <div className="flex justify-center items-center content-center text-base">
-              <Button
-                variant={"outline"}
-                onClick={linkToEntireLecture}
-                className="px-3"
-              >
-                <div className="flex justify-center items-center gap-1">
-                  <div className="desktop:flex tablet:hidden mobile:hidden text-sm">
-                    클래스
-                  </div>
-                  <div className="text-sm">더보기</div>
-                  <Image
-                    src="/icons/class_arrow_right.svg"
-                    alt="class arrow right"
-                    width={20}
-                    height={20}
-                  />
-                </div>
-              </Button>
-            </div>
-          </div>
-          {isLoading && <MapSkeleton />}
-          {lectureListData && (
-            <Map
-              latitude={loginedUser.latitude}
-              longitude={loginedUser.longitude}
-              lectureListData={lectureListData}
-            />
-          )}
-        </div>
+      <div className="flex flex-col desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:pt-[84px] tablet:pt-12 mobile:pt-12 desktop:pb-[120px] tablet:pb-[99px] mobile:pb-[82px] bg-custom-homeMapBackground desktop:gap-[120px] tablet:gap-[80px] mobile:gap-[80px]">
         <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
-          <div className="flex flex-row gap-1">
-            <div className="font-semibold text-xl">내 위치에서</div>
-            <div className="flex">
-              <div className="text-custom-purple font-bold text-xl">
-                1km 이내
+          <div className="flex flex-col desktop:gap-8 tablet:gap-6 mobile:gap-6">
+            <div className="flex flex-row justify-between">
+              <div className="flex flex-row gap-1">
+                <div className="desktop:text-2xl tablet:text-xl mobile:text-xl font-bold">
+                  내 주변 문화생활 클래스☺️
+                </div>
               </div>
-              <div className="font-semibold text-xl">
-                에 이런 클래스가 있어요!
+              <div className="flex justify-center items-center content-center text-base">
+                <Button
+                  variant={"outline"}
+                  onClick={linkToEntireLecture}
+                  className="px-3"
+                >
+                  <div className="flex justify-center items-center gap-1">
+                    <div className="desktop:flex tablet:hidden mobile:hidden text-sm">
+                      클래스
+                    </div>
+                    <div className="text-sm">더보기</div>
+                    <Image
+                      src="/icons/class_arrow_right.svg"
+                      alt="class arrow right"
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                </Button>
               </div>
             </div>
+            {isLoading && <MapSkeleton />}
+            {lectureListData && (
+              <Map
+                latitude={loginedUser.latitude}
+                longitude={loginedUser.longitude}
+                lectureListData={lectureListData}
+              />
+            )}
           </div>
-          <div>{renderColLectureList()}</div>
+          <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
+            <div className="flex flex-row w-full gap-1">
+              <div className="font-semibold desktop:text-xl tablet:text-base mobile:text-base">
+                내 위치에서
+              </div>
+              <div className="flex">
+                <div className="text-custom-purple font-bold desktop:text-xl tablet:text-base mobile:text-base">
+                  1km 이내
+                </div>
+                <div className="font-semibold desktop:text-xl tablet:text-base mobile:text-base">
+                  에 이런 클래스가 있어요!
+                </div>
+              </div>
+            </div>
+            <div>{renderHomeLectureList()}</div>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-col pb-4 px-[120px] py-[60px] gap-5">
-        <div className="flex flex-row gap-1">
-          <div className="font-bold text-2xl">시:작 PICK</div>
-          <div className="text-2xl">클래스 📌</div>
+        <IntroductionBanner />
+        <div className="flex flex-col pb-4 gap-5">
+          <div className="flex flex-col">
+            <div className="flex flex-row gap-1">
+              <div className="font-bold desktop:text-2xl tablet:text-xl mobile:text-xl">
+                시:작 PICK
+              </div>
+              <div className="desktop:text-2xl tablet:text-xl mobile:text-xl">
+                클래스 📌
+              </div>
+            </div>
+            <div className="font-medium desktop:text-xl tablet:text-base mobile:text-base">
+              조회 수 많은 추천 클래스를 소개할게요!
+            </div>
+          </div>
+          <div>{renderPickLectureList()}</div>
         </div>
-        <div>{renderRowLectureList()}</div>
       </div>
     </div>
   );
