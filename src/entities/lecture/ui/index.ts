@@ -6,3 +6,4 @@ export * from "./LectureImageInfo";
 export * from "./LectureSummary";
 export * from "./LectureDetail";
 export * from "./LectureFooter";
+export * from "./IntroductionBanner";
