@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { Button } from "@/shared/ui";
+import Image from "next/image";
 import { LoginUserInfo } from "@/entities/user/model/user";
 import Map from "@/features/map/ui/Map/Map";
 import MapSkeleton from "@/features/map/ui/MapSkeleton/MapSkeleton";
@@ -164,7 +165,7 @@ const Home = () => {
     }
 
     if (pickLectureListData && pickLectureListData.length > 0) {
-      return <LectureList lectureListData={pickLectureListData} type="row" />;
+      return <LectureList lectureListData={pickLectureListData} type="col" />;
     }
 
     return (
@@ -178,29 +179,55 @@ const Home = () => {
   return (
     <div className="flex w-full h-full flex-col 16">
       <Description />
-      <div className="flex flex-col px-[120px] py-[60px] bg-custom-homeMapBackground gap-5">
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row gap-1">
-            <div className="text-3xl font-bold">📍 내 주변 클래스</div>
-            <div className="text-3xl">둘러보기</div>
+      <div className="flex flex-col desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:pt-[84px] tablet:pt-12 mobile:pt-12 desktop:pb-[120px] tablet:pb-[99px] mobile:pb-[82px] bg-custom-homeMapBackground desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
+        <div className="flex flex-col desktop:gap-8 tablet:gap-6 mobile:gap-6">
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-row gap-1">
+              <div className="text-2xl font-bold">
+                내 주변 문화생활 클래스☺️
+              </div>
+            </div>
+            <div className="flex justify-center items-center content-center text-base">
+              <Button
+                variant={"outline"}
+                onClick={linkToEntireLecture}
+                className="px-3"
+              >
+                <div className="flex justify-center items-center gap-1">
+                  <div className="desktop:flex tablet:hidden mobile:hidden text-sm">
+                    클래스
+                  </div>
+                  <div className="text-sm">더보기</div>
+                  <Image
+                    src="/icons/class_arrow_right.svg"
+                    alt="class arrow right"
+                    width={20}
+                    height={20}
+                  />
+                </div>
+              </Button>
+            </div>
           </div>
-          <div className="flex justify-center items-center content-center text-base">
-            <Button variant={"outline"} onClick={linkToEntireLecture}>
-              더보기
-            </Button>
-          </div>
+          {isLoading && <MapSkeleton />}
+          {lectureListData && (
+            <Map
+              latitude={loginedUser.latitude}
+              longitude={loginedUser.longitude}
+              lectureListData={lectureListData}
+            />
+          )}
         </div>
-        {isLoading && <MapSkeleton />}
-        {lectureListData && (
-          <Map
-            latitude={loginedUser.latitude}
-            longitude={loginedUser.longitude}
-            lectureListData={lectureListData}
-          />
-        )}
-        <div className="flex flex-col gap-5 pt-10">
-          <div className="font-semibold text-2xl">
-            가장 가까운 순으로 클래스 정보를 보여드릴게요!
+        <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
+          <div className="flex flex-row gap-1">
+            <div className="font-semibold text-xl">내 위치에서</div>
+            <div className="flex">
+              <div className="text-custom-purple font-bold text-xl">
+                1km 이내
+              </div>
+              <div className="font-semibold text-xl">
+                에 이런 클래스가 있어요!
+              </div>
+            </div>
           </div>
           <div>{renderColLectureList()}</div>
         </div>
