@@ -1,8 +1,10 @@
 "use client";
 
+import { Button, CarouselApi, Progress } from "@/shared/ui";
 import {
   Description,
   IntroductionBanner,
+  LectureCarousel,
   LectureList,
   SkeletonCard,
 } from "@/entities/lecture/ui";
@@ -13,11 +15,11 @@ import {
 } from "@/entities/lecture/model/lecture";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/shared/ui";
 import Image from "next/image";
 import { LoginUserInfo } from "@/entities/user/model/user";
 import Map from "@/features/map/ui/Map/Map";
 import MapSkeleton from "@/features/map/ui/MapSkeleton/MapSkeleton";
+import { useCarouselApi } from "@/shared/lib/useCarouselApi";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
 import useGetLoginUserInfo from "@/entities/user/api/useGetLoginUserInfo";
 import useHomeLectureList from "@/entities/lecture/api/useHomeLectureList";
@@ -45,6 +47,8 @@ const Home = () => {
     longitude: 0,
     location: "",
   });
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const { current, count } = useCarouselApi(carouselApi);
 
   const { setLoginedUser: setLoginedUserStore } = useLoginedUserStore();
 
@@ -139,6 +143,13 @@ const Home = () => {
     router.push("/entire");
   };
 
+  const calculateProgressBar = () => {
+    if (current === count) {
+      return 100;
+    }
+    return (100 / count) * current;
+  };
+
   const renderHomeLectureList = () => {
     if (isLoading) {
       return (
@@ -152,7 +163,21 @@ const Home = () => {
 
     if (lectureListData && lectureListData.length > 0) {
       return (
-        <LectureList lectureListData={lectureListData} type="homeLecture" />
+        <div className="flex flex-col desktop:w-full desktop:h-full tablet:w-full table:h-full mobile:w-full gap-9">
+          <LectureCarousel
+            lectureInfo={lectureListData}
+            setApi={setCarouselApi}
+            isNextIcon
+            isPreviousIcon
+          />
+          <div className="flex flex-row items-center justify-center gap-[18px]">
+            <Progress value={calculateProgressBar()} />
+            <div className="flex flex-row items-center justify-center w-[60px] h-[38px] gap-1">
+              <div className="text-custom-textBlackColor text-sm font-bold">{`${current}`}</div>
+              <div className="text-custom-textDescriptionGrayColor text-sm font-bold">{`/ ${count}`}</div>
+            </div>
+          </div>
+        </div>
       );
     }
 

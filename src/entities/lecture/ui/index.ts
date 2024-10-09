@@ -7,3 +7,4 @@ export * from "./LectureSummary";
 export * from "./LectureDetail";
 export * from "./LectureFooter";
 export * from "./IntroductionBanner";
+export * from "./LectureCarousel";
