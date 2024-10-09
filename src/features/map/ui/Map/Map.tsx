@@ -141,7 +141,9 @@ const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
   }, [lectureListData, infoWindows, latitude, longitude, markers]);
 
   useEffect(() => {
-    initMap();
+    if (typeof naver !== "undefined") {
+      initMap();
+    }
   }, [initMap]);
 
   return (
