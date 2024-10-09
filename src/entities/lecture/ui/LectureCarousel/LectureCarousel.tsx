@@ -34,10 +34,13 @@ const LectureCarousel = ({
 }: LectureCarouselProps) => {
   return (
     <Carousel setApi={setApi} className="w-full">
-      <CarouselContent>
+      <CarouselContent className="desktop:gap-6 tablet:gap-4 mobile:gap-3">
         {lectureInfo.map((lectureData) => {
           return (
-            <CarouselItem key={lectureData.id} className="basis-1/3">
+            <CarouselItem
+              key={lectureData.id}
+              className="desktop:basis-[384px] tablet:basis-[280px] mobile:basis-[240px]"
+            >
               <LectureCard
                 key={lectureData.id}
                 lectureData={lectureData}
