@@ -13,15 +13,15 @@ const LectureSummaryItem = ({
   content,
 }: LectureSummaryItemProps) => {
   return (
-    <div className="flex flex-row gap-5">
+    <div className="flex flex-row desktop:h-[30px] tablet:h-[24px] gap-3">
       <div className="flex flex-row justify-center items-center gap-2">
-        <Image src={src} alt={title} width={28} height={28} />
-        <div className="min-w-[38px] text-custom-textGrayColor text-[22px]">
+        <Image src={src} alt={title} width={24} height={24} />
+        <div className="min-w-[38px] text-custom-textTitleGrayColor desktop:text-xl tablet:text-base">
           {title}
         </div>
       </div>
       {content ? (
-        <div className="desktop:max-w-[476px] tablet:max-w-[300px] text-[22px] whitespace-nowrap">
+        <div className="desktop:max-w-[487px] content-center tablet:max-w-[300px] desktop:text-xl tablet:text-base whitespace-nowrap">
           {content}
         </div>
       ) : (

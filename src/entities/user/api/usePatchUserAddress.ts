@@ -1,21 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { AxiosError } from "axios";
+import { PatchUserAddress } from "../model/user";
 import { USER_KEYS } from "@/shared/api/keyFactory";
-import { postLogin } from ".";
+import { patchUserAddress } from ".";
 
-const usePostKakaoCode = () => {
+const usePatchUserAddress = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: { code: string }) => postLogin({ payload }),
+    mutationFn: (payload: PatchUserAddress["Request"]["body"]) =>
+      patchUserAddress(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: USER_KEYS.lists() });
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 };
 
-export default usePostKakaoCode;
+export default usePatchUserAddress;

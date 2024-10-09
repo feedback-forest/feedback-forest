@@ -1,19 +1,46 @@
-import { Lecture } from "@/entities/lecture/model/lecture";
+import {
+  GetHomeLectureList,
+  GetLecture,
+  GetLectureList,
+  Lecture,
+} from "@/entities/lecture/model/lecture";
+
 import apiRequest from "@/shared/api";
 
-// TODO: BASE_PATH "/lectures"로 변경 필요
-const BASE_PATH = "/class";
-const API_BASE_PATH = "/lectures";
+const BASE_PATH = "/api/lectures";
+const HOME_BASE_PATH = "/api/home";
 
-export const getLectureList = () =>
-  apiRequest.get<Lecture[]>(`${BASE_PATH}`, {});
+export const getLectureList = ({
+  params,
+  payload,
+}: {
+  params: GetLectureList["Request"]["body"]["params"];
+  payload: GetLectureList["Request"]["body"]["payload"];
+}) =>
+  apiRequest.post<GetLectureList["Response"]>(`${BASE_PATH}`, payload, {
+    params,
+  });
 
-export const getLectureInfo = (id: number) =>
-  apiRequest.get<Lecture>(`${BASE_PATH}/${id}`, {});
+export const getHomeLectureList = ({
+  params,
+  payload,
+}: {
+  params: GetHomeLectureList["Request"]["body"]["params"];
+  payload: GetHomeLectureList["Request"]["body"]["payload"];
+}) =>
+  apiRequest.post<GetHomeLectureList["Response"]>(
+    `${HOME_BASE_PATH}`,
+    payload,
+    {
+      params,
+    },
+  );
 
-export const getEntireLecture = () =>
-  apiRequest.get<{
-    status: string;
-    message: string;
-    data: { data: Lecture[]; hasNext: boolean };
-  }>(`${API_BASE_PATH}`, {});
+export const getLectureInfo = ({
+  lectureId,
+  payload,
+}: {
+  lectureId: number;
+  payload: GetLecture["Request"]["body"];
+}) =>
+  apiRequest.post<GetLecture["Response"]>(`${BASE_PATH}/${lectureId}`, payload);

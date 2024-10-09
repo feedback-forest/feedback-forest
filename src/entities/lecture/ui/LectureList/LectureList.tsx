@@ -1,21 +1,19 @@
-import { Lecture } from "@/entities/lecture/model/lecture";
+import { LectureInfo, PickLectureInfo } from "@/entities/lecture/model/lecture";
+
+import { HeartsLectureListResDataInfo } from "@/features/like/model/like";
 import { LectureCard } from "../LectureCard";
 
 interface LectureListProps {
-  lectureListData: Lecture[];
-  type: "row" | "col";
+  lectureListData:
+    | LectureInfo[]
+    | PickLectureInfo[]
+    | HeartsLectureListResDataInfo[];
+  type: "homeLecture" | "pickLecture";
 }
 
 const LectureList = ({ lectureListData, type }: LectureListProps) => {
-  const setClassNameByType = () => {
-    if (type === "col") {
-      return `w-full grid grid-cols-3 gap-6 mobile:grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3`;
-    }
-    return `w-full grid grid-cols-2 gap-6 mobile:grid-cols-1 tablet:grid-cols-1 desktop:grid-cols-2 pb-[265px]`;
-  };
-
   return (
-    <div className={setClassNameByType()}>
+    <div className="w-full grid grid-cols-3 desktop:gap-6 tablet:gap-4 mobile:gap-9 mobile:grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3">
       {lectureListData.map((lectureData) => {
         return (
           <LectureCard

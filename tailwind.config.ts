@@ -17,6 +17,7 @@ const config: Config = {
       fontFamily: {
         notoSansKr: ["var(--noto-sans-kr)"],
         roboto: ["var(--roboto)"],
+        pretendard: ["var(--font-pretendard"],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -30,6 +31,9 @@ const config: Config = {
           tooltipBackground: "#525252",
           buttonGrayBackground: "#F5F5F5",
           divGrayBackground: "#E5E5E5",
+          blackBackground: "#060606",
+          bannerBackground: "#CCCCCC",
+          footerBackground: "#3E3E3E",
           kakao: "#FEE500",
           purple: "#4F118C",
           textBlackColor: "#171717",

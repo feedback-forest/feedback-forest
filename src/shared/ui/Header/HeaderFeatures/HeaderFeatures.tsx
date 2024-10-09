@@ -1,22 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { Button } from "../../Button";
 import Image from "next/image";
 import Link from "next/link";
+import { LoginUserInfo } from "@/entities/user/model/user";
 import { UnifiedDialog } from "../../UnifiedDialog";
-import { User } from "@/entities/user/model/user";
+import { getCookie } from "cookies-next";
+import useLoginedUserStore from "@/shared/store/user";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const HeaderFeatures = () => {
-  // TODO: 전역 상태 관리 - 로그인 된 유저 여부 판단
-  const [loginedUser, setLoginedUser] = useState<User>();
-
-  /* FIXME: isLogin 개발 편의상 임시 처리 */
-  const [isLogin, setIsLogin] = useState(false);
+  const [loginedUser, setLoginedUser] = useState<LoginUserInfo>();
   const [openLike, setOpenLike] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const router = useRouter();
+
+  const { loginedUser: loginedUserInfo } = useLoginedUserStore();
+
+  const accessToken = getCookie("accessToken");
 
   const handleOpenLikeDialog = () => {
     setOpenLike(true);
@@ -32,27 +35,28 @@ const HeaderFeatures = () => {
     router.push("/login");
   };
 
+  useEffect(() => {
+    if (loginedUserInfo) {
+      setLoginedUser(loginedUserInfo);
+    }
+  }, [loginedUserInfo]);
+
   const dialogContent = () => {
     return (
-      <div className="flex flex-col gap-[19px] py-10">
+      <div className="flex flex-col gap-[55px] pt-[30px] pb-5">
         <div className="flex flex-col items-center justify-center">
-          <div className="font-bold text-[28px] h-[71px] content-center">
-            로그인이 필요한 서비스 입니다.
+          <div className="font-bold text-[28px] content-center">
+            로그인이 필요한
           </div>
-          <div
-            className="text-custom-textGrayColor text-base underline cursor-pointer"
-            onClick={linkToLogin}
-          >
-            간편 회원가입
-          </div>
+          <div className="font-bold text-[28px] content-center">서비스에요</div>
         </div>
         <div className="flex items-center justify-center ">
           <Button
-            className="w-[410px] h-[56px] text-2xl font-semibold bg-custom-purple"
+            className="w-[300px] h-[52px] text-base font-semibold bg-custom-purple rounded"
             type="submit"
             onClick={linkToLogin}
           >
-            로그인 하기
+            회원가입 / 로그인 하기
           </Button>
         </div>
       </div>
@@ -60,20 +64,25 @@ const HeaderFeatures = () => {
   };
 
   const renderLikeIcon = () => {
-    // 개발 편의상 임시 처리
-    if (loginedUser && isLogin) {
+    if (loginedUser && loginedUserInfo && accessToken) {
       return (
-        <Link href="/like">
-          <div className="flex flex-col items-center justify-center w-[38px] h-[52px]">
-            <Image
-              src={"/icons/heart_default.svg"}
-              alt="heart-icons"
-              width={28}
-              height={28}
-            />
-            <div className="flex justify-center text-sm text-gray-400">찜</div>
-          </div>
-        </Link>
+        <div>
+          <Link href="/like">
+            <div className="flex flex-col items-center justify-center desktop:w-[36px] tablet:w-[36px] desktop:h-[43px] tablet:h-[43px]">
+              <div className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[24px] desktop:h-[25px] tablet:h-[25px] mobile:h-[24px]">
+                <Image
+                  src={"/icons/heart_default.svg"}
+                  alt="heart-icons"
+                  width={32}
+                  height={25}
+                />
+              </div>
+              <div className="desktop:flex tablet:flex mobile:hidden items-center justify-center text-sm text-custom-textDescriptionGrayColor">
+                찜
+              </div>
+            </div>
+          </Link>
+        </div>
       );
     }
     return (
@@ -82,16 +91,20 @@ const HeaderFeatures = () => {
         dialogDescription="로그인 오류 Dialog"
         triggerItem={
           <div
-            className="flex flex-col items-center justify-center w-[38px] h-[52px] cursor-pointer"
+            className="flex flex-col items-center justify-center w-[36px] h-[43px] cursor-pointer"
             onClick={handleOpenLikeDialog}
           >
-            <Image
-              src={"/icons/heart_default.svg"}
-              alt="heart-icons"
-              width={28}
-              height={28}
-            />
-            <div className="flex justify-center text-sm text-gray-400">찜</div>
+            <div className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[24px] desktop:h-[25px] tablet:h-[25px] mobile:h-[24px]">
+              <Image
+                src={"/icons/heart_default.svg"}
+                alt="heart-icons"
+                width={32}
+                height={32}
+              />
+            </div>
+            <div className="desktop:flex tablet:flex mobile:hidden items-center justify-center text-sm text-custom-textDescriptionGrayColor">
+              찜
+            </div>
           </div>
         }
         dialogContent={dialogContent()}
@@ -102,21 +115,30 @@ const HeaderFeatures = () => {
   };
 
   const renderUserIcon = () => {
-    if (loginedUser && isLogin) {
+    if (
+      loginedUser &&
+      loginedUserInfo &&
+      loginedUserInfo.nickname &&
+      accessToken
+    ) {
       return (
-        <Link href={`/user/${loginedUser.id}`}>
-          <div className="flex flex-col items-center justify-center w-[70px] h-[52px]">
-            <Image
-              src={"/icons/user_default.svg"}
-              alt="user-icons"
-              width={28}
-              height={28}
-            />
-            <div className="flex w-[70px] justify-center text-sm text-gray-400">
-              마이페이지
+        <div>
+          <Link href={`/user/${loginedUserInfo.nickname}`}>
+            <div className="flex flex-col items-center justify-center w-[36px] h-[43px]">
+              <div className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[24px] desktop:h-[25px] tablet:h-[25px] mobile:h-[24px]">
+                <Image
+                  src={"/icons/user_default.svg"}
+                  alt="user-icons"
+                  width={32}
+                  height={32}
+                />
+              </div>
+              <div className="desktop:flex tablet:flex mobile:hidden items-center justify-center text-sm text-custom-textDescriptionGrayColor">
+                마이
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+        </div>
       );
     }
 
@@ -126,17 +148,19 @@ const HeaderFeatures = () => {
         dialogDescription="로그인 오류 알림"
         triggerItem={
           <div
-            className="flex flex-col items-center justify-center w-[70px] h-[52px]"
+            className="flex flex-col items-center justify-center w-[36px] h-[43px]"
             onClick={handleOpenUserDialog}
           >
-            <Image
-              src={"/icons/user_default.svg"}
-              alt="user-icons"
-              width={28}
-              height={28}
-            />
-            <div className="flex w-[70px] justify-center text-sm text-gray-400">
-              마이페이지
+            <div className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[24px] desktop:h-[25px] tablet:h-[25px] mobile:h-[24px]">
+              <Image
+                src={"/icons/user_default.svg"}
+                alt="user-icons"
+                width={32}
+                height={32}
+              />
+            </div>
+            <div className="desktop:flex tablet:flex mobile:hidden items-center justify-center text-sm text-custom-textDescriptionGrayColor">
+              마이
             </div>
           </div>
         }
@@ -148,7 +172,7 @@ const HeaderFeatures = () => {
   };
 
   return (
-    <div className="flex flex-row items-start justify-center gap-2 h-full">
+    <div className="flex flex-row items-center justify-center desktop:gap-5 tablet:gap-5 mobile:gap-4 mobile:min-w-[80px] desktop:h-[43px] tablet:h-[43px] mobile:h-[25px]">
       {renderLikeIcon()}
       {renderUserIcon()}
     </div>
