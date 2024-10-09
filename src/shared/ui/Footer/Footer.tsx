@@ -18,15 +18,15 @@ const Footer = () => {
 
   const externalLinkList: Array<ExternalLinkProps> = [
     {
-      link: "https://ebony-specialist-cf1.notion.site/59f05d08d90346ad989223480f372c84?pvs=4",
+      link: "https://www.notion.so/6d012c4a80f845eca3d98defc11d6d86?pvs=4",
       content: "개인정보처리방침",
     },
     {
-      link: "https://ebony-specialist-cf1.notion.site/a46bfe06464b4101927da295479d4576?pvs=4",
+      link: "https://www.notion.so/b942a4f9070442b7891cb136037ffa74?pvs=4",
       content: "이용약관",
     },
     {
-      link: "https://ebony-specialist-cf1.notion.site/807318b7508f4b0c977a2be77f22dfdb?pvs=4",
+      link: "https://www.notion.so/17e92e6c1188429cb17ad92d84f65103?pvs=4",
       content: "위치기반시스템이용약관",
     },
   ];
@@ -51,7 +51,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex mb-10 gap-10 desktop:flex-row tablet:flex-row mobile:flex-col text-custom-textDescriptionGrayColor">
+        <div className="flex mb-10 gap-10 desktop:flex-row tablet:flex-row mobile:flex-col text-custom-textDescriptionGrayColor text-[10px]">
           {/* TODO: URL ENV 처리 필요한지 확인: 공유 페이지라 괜찮을 것 같지만 확인 필요 */}
           {externalLinkList.map((externalLink) => {
             return (
