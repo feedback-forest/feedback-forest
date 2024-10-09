@@ -69,13 +69,12 @@ const HeaderFeatures = () => {
   };
 
   const renderLikeIcon = () => {
-    // 개발 편의상 임시 처리
     if (loginedUser && loginedUserInfo && accessToken) {
       return (
         <div>
           <Link href="/like">
-            <div className="flex flex-col items-center justify-center w-[36px] h-[43px]">
-              <div className="flex items-center justify-center w-[36px] h-[25px]">
+            <div className="flex flex-col items-center justify-center desktop:w-[36px] tablet:w-[36px] desktop:h-[43px] tablet:h-[43px]">
+              <div className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[24px] desktop:h-[25px] tablet:h-[25px] mobile:h-[24px]">
                 <Image
                   src={"/icons/heart_default.svg"}
                   alt="heart-icons"
@@ -100,7 +99,7 @@ const HeaderFeatures = () => {
             className="flex flex-col items-center justify-center w-[36px] h-[43px] cursor-pointer"
             onClick={handleOpenLikeDialog}
           >
-            <div className="flex items-center justify-center w-[36px] h-[25px]">
+            <div className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[24px] desktop:h-[25px] tablet:h-[25px] mobile:h-[24px]">
               <Image
                 src={"/icons/heart_default.svg"}
                 alt="heart-icons"
@@ -131,7 +130,7 @@ const HeaderFeatures = () => {
         <div>
           <Link href={`/user/${loginedUserInfo.nickname}`}>
             <div className="flex flex-col items-center justify-center w-[36px] h-[43px]">
-              <div className="flex items-center justify-center w-[36px] h-[25px]">
+              <div className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[24px] desktop:h-[25px] tablet:h-[25px] mobile:h-[24px]">
                 <Image
                   src={"/icons/user_default.svg"}
                   alt="user-icons"
@@ -157,7 +156,7 @@ const HeaderFeatures = () => {
             className="flex flex-col items-center justify-center w-[36px] h-[43px]"
             onClick={handleOpenUserDialog}
           >
-            <div className="flex items-center justify-center w-[36px] h-[25px]">
+            <div className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[24px] desktop:h-[25px] tablet:h-[25px] mobile:h-[24px]">
               <Image
                 src={"/icons/user_default.svg"}
                 alt="user-icons"
@@ -178,7 +177,7 @@ const HeaderFeatures = () => {
   };
 
   return (
-    <div className="flex flex-row items-center justify-center desktop:gap-5 tablet:gap-5 mobile:gap-4 desktop:h-[43px] tablet:h-[43px] mobile:h-[25px]">
+    <div className="flex flex-row items-center justify-center desktop:gap-5 tablet:gap-5 mobile:gap-4 mobile:min-w-[80px] desktop:h-[43px] tablet:h-[43px] mobile:h-[25px]">
       {renderLikeIcon()}
       {renderUserIcon()}
     </div>
