@@ -1,19 +1,25 @@
 "use client";
 
-import { Button, InputLabel, UnifiedDialog } from "@/shared/ui";
+import {
+  BackToPrevious,
+  Button,
+  InputLabel,
+  LinkArrowLeft,
+  UnifiedDialog,
+} from "@/shared/ui";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { LoginUserInfo, PatchUserAddress } from "@/entities/user/model/user";
-import { deleteCookie, getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
+import Image from "next/image";
 import { InputLabelStatus } from "@/shared/ui/InputLabel/InputLabel";
 import { SquareLoader } from "react-spinners";
 import axios from "axios";
 import { debounce } from "lodash";
+import { deleteCookie } from "cookies-next";
 import { toast } from "sonner";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
 import useGetLoginUserInfo from "@/entities/user/api/useGetLoginUserInfo";
-import useGetLogout from "@/features/authentication/api/usePostLogout";
 import usePatchUserAddress from "@/entities/user/api/usePatchUserAddress";
 import usePatchUserInfo from "@/entities/user/api/usePatchUserInfo";
 import usePostLogout from "@/features/authentication/api/usePostLogout";
@@ -44,7 +50,6 @@ const UserInfoPage = () => {
   const [openLogoutDialog, setOpenLogoutDialog] = useState<boolean>(false);
 
   const router = useRouter();
-  const accessToken = getCookie("accessToken");
   const geolocation = useGeoLocation();
 
   const { data, isLoading, isSuccess } = useGetLoginUserInfo();
@@ -183,7 +188,7 @@ const UserInfoPage = () => {
   const triggerItem = () => {
     return (
       <div className="flex items-center justify-center">
-        <div className="flex justify-center items-center text-center desktop:w-[400px] tablet:w-[300px] mobile:w-[200px] max-w-[400px] h-14 bg-white hover:bg-gray-300 text-custom-textGrayColor text-xl font-semibold rounded-lg border border-custom-disabled">
+        <div className="flex justify-center items-center text-center desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] max-w-[400px] h-14 bg-white hover:bg-gray-300 text-custom-textGrayColor text-xl font-semibold border border-custom-disabled rounded-md">
           로그아웃
         </div>
       </div>
@@ -192,7 +197,7 @@ const UserInfoPage = () => {
 
   const dialogContent = () => {
     return (
-      <div className="flex flex-col items-center justify-center gap-[69px]">
+      <div className="flex flex-col items-center justify-center h-[238px] gap-[69px]">
         <div className="text-xl font-semibold">로그아웃 하시겠어요?</div>
         <div className="flex flex-row gap-2.5">
           <div>
@@ -227,117 +232,136 @@ const UserInfoPage = () => {
 
   return (
     loginedUser && (
-      <div className="flex flex-col w-full h-full justify-start items-star pt-[79px] gap-[51px] pb-80">
-        <div className="flex flex-row justify-center items-center h-14 px-[120px]">
-          <div className="text-[32px]">마이페이지</div>
+      <div className="flex flex-col w-full h-full justify-start items-star desktop:pt-[79px] tablet:pt-8 mobile:pt-6 desktop:gap-[50px] tablet:gap-5 desktop:pb-[323px] tablet:pb-[208px] mobile:pb-[73px] relative">
+        <div className="desktop:hidden tablet:flex mobile:hidden absolute top-8 left-4">
+          <BackToPrevious />
         </div>
-        <div className="flex flex-col justify-center items-center gap-14">
-          <div className="flex flex-col justify-center items-center gap-4">
-            <div className="flex flex-col justify-center items-center gap-1">
-              <div className="font-bold text-2xl ">
-                {loginedUser.nickname}님
-              </div>
-              {/* TODO: 연령대, 주소 조건문 처리 */}
-              <div className="text-lg text-gray-500">
-                {loginedUser.age_range}대, {loginedUser.location}
+        <div className="desktop:flex tablet:flex mobile:hidden flex-row justify-center items-center h-14 desktop:px-[120px] tablet:px-[184px] mobile:px-[50px]">
+          <div className="desktop:text-[32px] tablet:text-[28px]">
+            마이페이지
+          </div>
+        </div>
+        <div className="flex flex-col justify-center items-center desktop:gap-6 tablet:gap-2 mobile:gap-2">
+          <div className="flex flex-col desktop:gap-14 tablet:gap-5 mobile:gap-6">
+            <div className="flex flex-col justify-center items-center gap-4">
+              <div className="flex flex-col justify-center items-center gap-1">
+                <div className="font-bold desktop:h-12 tablet:h-[42px] mobile:h-6 desktop:text-[32px] tablet:text-[28px] mobile:text-base leading-[42px]">
+                  {loginedUser.nickname}님
+                </div>
+                {/* TODO: 연령대, 주소 조건문 처리 */}
+                <div className="desktop:h-[33px] tablet:h-[30px] mobile:h-[21px] desktop:text-[22px] tablet:text-[20px] mobile:text-sm text-custom-textGrayColor">
+                  {loginedUser.age_range}대, {loginedUser.location}
+                </div>
               </div>
             </div>
-          </div>
-          <form
-            className="flex flex-col h-full gap-14"
-            onSubmit={handleSubmit(updateUserInfo)}
-          >
-            <div className="flex flex-col h-full">
-              <div className="flex flex-col w-[400px] gap-6">
-                <Controller
-                  name="nickname"
-                  control={control}
-                  defaultValue={data?.data.data.nickname}
-                  rules={{
-                    required: "닉네임은 필수로 작성해주셔야 해요.",
-                    minLength: {
-                      value: 2,
-                      message: "띄어쓰기 없이 2자 ~ 12자까지 가능해요.",
-                    },
-                    maxLength: {
-                      value: 12,
-                      message: "닉네임은 최대 12자까지 설정 가능합니다.",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <InputLabel
-                      labelContent="닉네임 입력"
-                      placeholder="띄어쓰기 없이 2자 ~ 12자까지 가능해요."
-                      error={!!errors.nickname}
-                      onChange={(e) => {
-                        field.onChange(e.target.value); // react-hook-form의 onChange 호출
-                        handleChangeNickname(e.target.value); // 디바운스된 유효성 검사 호출
-                      }}
-                      onBlur={field.onBlur}
-                      value={field.value}
-                      status={status}
-                      message={errors.nickname?.message || message} // 메시지 처리
-                    />
-                  )}
-                />
-                <div className="flex flex-row gap-4">
+            <form
+              className="flex flex-col h-full desktop:gap-16 tablet:gap-16 mobile:gap-[42px]"
+              onSubmit={handleSubmit(updateUserInfo)}
+            >
+              <div className="flex flex-col items-center justify-center h-full">
+                <div className="flex flex-col desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] gap-6">
                   <Controller
-                    name="address"
+                    name="nickname"
                     control={control}
-                    defaultValue={data?.data.data.location}
+                    defaultValue={data?.data.data.nickname}
+                    rules={{
+                      required: "닉네임은 필수로 작성해주셔야 해요.",
+                      minLength: {
+                        value: 2,
+                        message: "띄어쓰기 없이 2자 ~ 12자까지 가능해요.",
+                      },
+                      maxLength: {
+                        value: 12,
+                        message: "닉네임은 최대 12자까지 설정 가능합니다.",
+                      },
+                    }}
                     render={({ field }) => (
                       <InputLabel
-                        labelContent="지역"
-                        placeholder={
-                          loginedUser.location ? loginedUser.location : ""
-                        }
+                        labelContent="닉네임 입력"
+                        placeholder="띄어쓰기 없이 2자 ~ 12자까지 가능해요."
+                        error={!!errors.nickname}
                         onChange={(e) => {
                           field.onChange(e.target.value); // react-hook-form의 onChange 호출
+                          handleChangeNickname(e.target.value); // 디바운스된 유효성 검사 호출
                         }}
                         onBlur={field.onBlur}
                         value={field.value}
+                        status={status}
+                        message={errors.nickname?.message || message} // 메시지 처리
                       />
                     )}
                   />
-                  <div className="flex items-end">
-                    <Button
-                      variant="ghost"
-                      type="button"
-                      className="w-[92px] h-14 bg-custom-buttonGrayBackground hover:bg-gray-300 text-base font-semibold"
-                      onClick={updateCurrentPosition}
-                    >
-                      현재 위치
-                    </Button>
+                  <div className="flex flex-row gap-4">
+                    <Controller
+                      name="address"
+                      control={control}
+                      defaultValue={data?.data.data.location}
+                      render={({ field }) => (
+                        <InputLabel
+                          labelContent="지역"
+                          placeholder={
+                            loginedUser.location ? loginedUser.location : ""
+                          }
+                          onChange={(e) => {
+                            field.onChange(e.target.value); // react-hook-form의 onChange 호출
+                          }}
+                          onBlur={field.onBlur}
+                          value={field.value}
+                        />
+                      )}
+                    />
+                    <div className="flex items-end">
+                      <Button
+                        variant="ghost"
+                        type="button"
+                        className="desktop:w-[112px] tablet:w-[112px] mobile:w-[92px] desktop:h-14 tablet:h-14 mobile:h-[41px] bg-custom-buttonGrayBackground hover:bg-gray-300 text-base font-semibold px-3 py-4 rounded-md"
+                        onClick={updateCurrentPosition}
+                      >
+                        <div className="flex flex-row gap-1 mobile:text-sm">
+                          <div className="desktop:w-6 tablet:w-6 mobile:w-5 desktop:h-6 tablet:h-6 mobile:h-5">
+                            <Image
+                              src="/icons/current_location.svg"
+                              alt="current_location"
+                              width={24}
+                              height={24}
+                            />
+                          </div>
+                          현재 위치
+                        </div>
+                      </Button>
+                    </div>
                   </div>
+                  <InputLabel
+                    labelContent="이메일"
+                    placeholder={loginedUser.email}
+                    disabled
+                  />
+                  <InputLabel
+                    labelContent="휴대폰 번호"
+                    placeholder={loginedUser.phone_number}
+                    disabled
+                  />
+                  <InputLabel
+                    labelContent="생년월일"
+                    placeholder={loginedUser.birth}
+                    disabled
+                  />
+                  <InputLabel
+                    labelContent="성별"
+                    placeholder={
+                      loginedUser.gender === "male" ? "남성" : "여성"
+                    }
+                    disabled
+                  />
                 </div>
-                <InputLabel
-                  labelContent="이메일"
-                  placeholder={loginedUser.email}
-                  disabled
-                />
-                <InputLabel
-                  labelContent="휴대폰 번호"
-                  placeholder={loginedUser.phone_number}
-                  disabled
-                />
-                <InputLabel
-                  labelContent="생년월일"
-                  placeholder={loginedUser.birth}
-                  disabled
-                />
-                <InputLabel
-                  labelContent="성별"
-                  placeholder={loginedUser.gender === "male" ? "남성" : "여성"}
-                  disabled
-                />
               </div>
-            </div>
-            <div>
-              <Button className="w-[400px] h-14 font-semibold text-2xl bg-custom-purple hover:bg-purple-950">
-                저장하기
-              </Button>
-            </div>
-          </form>
+              <div>
+                <Button className="desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] h-14 font-semibold text-2xl bg-custom-purple hover:bg-purple-950 rounded-md">
+                  저장하기
+                </Button>
+              </div>
+            </form>
+          </div>
           <div>
             <UnifiedDialog
               open={openLogoutDialog}

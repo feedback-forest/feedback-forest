@@ -19,3 +19,4 @@ export * from "./IconButton";
 export * from "./UnifiedDialog";
 export * from "./UnifiedTooltip";
 export * from "./LinkArrowLeft";
+export * from "./BackToPrevious";
