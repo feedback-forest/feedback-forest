@@ -63,7 +63,7 @@ const InputLabel = forwardRef<HTMLInputElement, InputLabelProps>(
     return (
       <div className={containerClassName()}>
         <div className="flex flex-col w-full">
-          <div className="text-base h-[21px] text-custom-textSemiBoldBlackColor">
+          <div className="desktop:text-base tablet:text-sm desktop:h-[21px] tablet:h-[18px] text-custom-textSemiBoldBlackColor">
             {labelContent}
           </div>
           <div className={twMerge(`flex w-full border-b-2`, borderColor())}>
@@ -72,7 +72,7 @@ const InputLabel = forwardRef<HTMLInputElement, InputLabelProps>(
               placeholder={placeholder}
               value={value}
               disabled={disabled}
-              className="text-xl h-14 border-none shadow-none focus-visible:ring-0"
+              className="desktop:text-xl tablet:text-base desktop:h-14 tablet:h-11 border-none shadow-none focus-visible:ring-0 tablet:px-0 mobile:px-0"
               onChange={onChange}
               onBlur={onBlur} // onBlur 호출
               ref={ref}
