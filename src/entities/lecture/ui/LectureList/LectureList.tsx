@@ -13,7 +13,7 @@ interface LectureListProps {
 
 const LectureList = ({ lectureListData, type }: LectureListProps) => {
   return (
-    <div className="w-full grid grid-cols-3 gap-6 mobile:grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3">
+    <div className="w-full grid grid-cols-3 desktop:gap-6 tablet:gap-4 mobile:gap-9 mobile:grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3">
       {lectureListData.map((lectureData) => {
         return (
           <LectureCard

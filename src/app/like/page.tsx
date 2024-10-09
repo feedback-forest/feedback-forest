@@ -3,6 +3,7 @@
 import { LectureList, SkeletonCard } from "@/entities/lecture/ui";
 import { useEffect, useState } from "react";
 
+import { BackToPrevious } from "@/shared/ui";
 import { HeartsLectureListResDataInfo } from "@/features/like/model/like";
 import { LectureSize } from "@/entities/lecture/model/lecture";
 import useLikeLectureList from "@/features/like/api/useLikeLectureList";
@@ -40,16 +41,21 @@ const LikePage = () => {
     }
 
     if (lectureListData && lectureListData.length > 0) {
-      return <LectureList lectureListData={lectureListData} type="col" />;
+      return (
+        <LectureList lectureListData={lectureListData} type="pickLecture" />
+      );
     }
 
     return <div>클래스가 존재하지 않습니다</div>;
   };
 
   return (
-    <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-custom-entireLikeBackground">
+    <div className="flex flex-col w-full h-full justify-start items-center desktop:pt-20 tablet:pt-10 mobile:pt-10 bg-custom-entireLikeBackground relative">
+      <div className="desktop:hidden tablet:flex mobile:hidden absolute top-10 left-4">
+        <BackToPrevious />
+      </div>
       <div className="flex flex-row w-full h-12 items-start justify-center">
-        <div className="flex flew-row gap-1">
+        <div className="flex flew-row gap-3">
           <div className="text-gray-900 text-[32px] font-bold">
             내가 찜한 클래스
           </div>
@@ -57,7 +63,9 @@ const LikePage = () => {
         </div>
       </div>
       <div className="flex flex-col pt-14 pb-[209px]">
-        <div className="flex px-[120px]">{renderLikeCardContent()}</div>
+        <div className="flex desktop:px-[120px] tablet:px-8 mobile:px-6">
+          {renderLikeCardContent()}
+        </div>
       </div>
     </div>
   );
