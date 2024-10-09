@@ -33,8 +33,7 @@ const Footer = () => {
 
   return (
     isRenderFooter() && (
-      <div className="flex justify-between w-full h-[208px] bg-custom-footerBackground px-[120px] pt-[62px] border-t">
-        {/* FIXME: 디자인 확인 필요 */}
+      <div className="flex justify-between w-full h-[208px] bg-custom-footerBackground desktop:px-[120px] tablet:px-8 mobile:px-6 pt-[62px] border-t">
         <div className="flex flex-row items-center justify-center w-[140px] h-[36px] gap-[7px] text-custom-textDescriptionGrayColor">
           <div className="">
             <Image
@@ -51,15 +50,15 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex mb-10 gap-10 desktop:flex-row tablet:flex-row mobile:flex-col text-custom-textDescriptionGrayColor text-[10px]">
-          {/* TODO: URL ENV 처리 필요한지 확인: 공유 페이지라 괜찮을 것 같지만 확인 필요 */}
+        <div className="flex mb-10 desktop:gap-10 tablet:gap-10 mobile:gap-1 desktop:flex-row tablet:flex-row mobile:flex-col text-custom-textDescriptionGrayColor text-[10px]">
           {externalLinkList.map((externalLink) => {
             return (
-              <ExternalLink
-                key={externalLink.content}
-                link={externalLink.link}
-                content={externalLink.content}
-              />
+              <div key={externalLink.content}>
+                <ExternalLink
+                  link={externalLink.link}
+                  content={externalLink.content}
+                />
+              </div>
             );
           })}
         </div>
