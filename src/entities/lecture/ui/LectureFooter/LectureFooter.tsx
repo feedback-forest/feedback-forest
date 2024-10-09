@@ -76,17 +76,14 @@ const LectureFooter = ({ lectureInfo, isLoading }: LectureFooterProps) => {
 
   const dialogContent = () => {
     return (
-      <div className="flex flex-col items-center justify-center gap-[9px]">
+      <div className="flex flex-col items-center justify-center gap-[55px] pt-[30px] pb-5">
         <div className="flex flex-col items-center justify-center">
           <div className="font-bold text-[28px]">신청 페이지를</div>
-          <div className="font-bold text-[28px]">불러오지 못했습니다.</div>
-        </div>
-        <div className="text-base text-custom-textGrayColor">
-          데이터가 만료되거나 이용 완료되어 불러오지 못했습니다.
+          <div className="font-bold text-[28px]">불러오지 못했어요</div>
         </div>
         <div>
           <Button
-            className="w-[410px] h-14 bg-custom-purple hover:bg-purple-950 text-2xl font-semibold"
+            className="w-[260px] h-[52px] bg-custom-purple hover:bg-purple-950 text-base font-semibold rounded"
             onClick={linkToHomePage}
           >
             목록으로 돌아가기

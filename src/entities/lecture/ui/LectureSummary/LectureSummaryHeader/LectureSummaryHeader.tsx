@@ -33,9 +33,9 @@ const LectureSummaryHeader = ({
 
   const renderDialogContent = () => {
     return (
-      <div className="flex flex-row items-center justify-center py-[102px] gap-5">
+      <div className="flex flex-row items-center justify-center py-[46px] gap-7">
         <ImageDescription
-          containerWidth={180}
+          containerWidth={115}
           containerHeight={96}
           src="/icons/kakao.svg"
           alt="kakao logo"
@@ -45,7 +45,7 @@ const LectureSummaryHeader = ({
           handleClick={shareLinkToKakao}
         />
         <ImageDescription
-          containerWidth={180}
+          containerWidth={115}
           containerHeight={96}
           src="/icons/Copy_link.svg"
           alt="copy_link"

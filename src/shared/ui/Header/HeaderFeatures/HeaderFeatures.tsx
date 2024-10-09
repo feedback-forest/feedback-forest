@@ -43,25 +43,20 @@ const HeaderFeatures = () => {
 
   const dialogContent = () => {
     return (
-      <div className="flex flex-col gap-[19px] py-10">
+      <div className="flex flex-col gap-[55px] pt-[30px] pb-5">
         <div className="flex flex-col items-center justify-center">
-          <div className="font-bold text-[28px] h-[71px] content-center">
-            로그인이 필요한 서비스 입니다.
+          <div className="font-bold text-[28px] content-center">
+            로그인이 필요한
           </div>
-          <div
-            className="text-custom-textGrayColor text-base underline cursor-pointer"
-            onClick={linkToLogin}
-          >
-            간편 회원가입
-          </div>
+          <div className="font-bold text-[28px] content-center">서비스에요</div>
         </div>
         <div className="flex items-center justify-center ">
           <Button
-            className="w-[410px] h-[56px] text-2xl font-semibold bg-custom-purple"
+            className="w-[300px] h-[52px] text-base font-semibold bg-custom-purple rounded"
             type="submit"
             onClick={linkToLogin}
           >
-            로그인 하기
+            회원가입 / 로그인 하기
           </Button>
         </div>
       </div>
