@@ -144,15 +144,14 @@ const UserInfoPage = () => {
       onSuccess: () => {
         deleteCookie("accessToken");
         deleteCookie("refreshToken");
+        toast("로그아웃 성공");
+        router.push("/");
       },
     });
   };
 
   const handleLogout = () => {
     logout();
-
-    toast("로그아웃 성공");
-    router.push("/");
   };
 
   useEffect(() => {
