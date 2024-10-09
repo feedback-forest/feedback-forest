@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, UnifiedTooltip } from "@/shared/ui";
+import { Button, LinkArrowLeft, UnifiedTooltip } from "@/shared/ui";
 
 import Image from "next/image";
 
@@ -16,7 +16,7 @@ const LoginPage = () => {
   const triggerItem = () => {
     return (
       <Button
-        className="bg-custom-kakao hover:bg-amber-300 text-black w-[351px] h-[61px]"
+        className="bg-custom-kakao hover:bg-amber-300 text-black desktop:w-[351px] tablet:w-[351px] mobile:w-[260px] h-[56px]"
         size="lg"
         onClick={linkToKakaoLogin}
       >
@@ -35,21 +35,35 @@ const LoginPage = () => {
 
   const tooltipContent = () => {
     return (
-      //  TODO: Tooltip 화살표 작업
-      // <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-b-custom-tooltipBackground"></div>
-      <div className="flex flex-col justify-center items-center w-[168px] h-10 bg-custom-tooltipBackground rounded-3xl">
+      <div className="flex flex-col justify-center items-center w-[168px] h-10 bg-custom-tooltipBackground rounded-3xl relative">
+        <div className="absolute bottom-[-3.5px]">
+          <Image
+            src="/images/kakao_tooltip_arrow.png"
+            alt="tooltip arrow"
+            width={7}
+            height={7}
+            className="bg-custom-tooltipBackground rotate-45"
+          />
+        </div>
         <div className="font-bold text-sm text-white">🎉 5초만에 시작하기!</div>
       </div>
     );
   };
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-64px)] justify-center items-center pb-4">
-      <div className="flex flex-col w-full gap-24">
-        <div className="flex flex-col gap-10">
+    <div className="flex flex-col w-full h-[calc(100vh-70px)] justify-center items-center pb-4 mobile:relative">
+      <div className="desktop:hidden tablet:hidden mobile:absolute top-3 left-4">
+        <LinkArrowLeft href="/" width={24} height={24} />
+      </div>
+      <div className="flex flex-col desktop:w-[351px] tablet:w-[351px] mobile:w-[260px] desktop:h-[255px] tablet:h-[255px] mobile:h-[231px] gap-24">
+        <div className="flex flex-col">
           <div className="flex w-full flex-col justify-center items-center">
-            <div className="text-gray-700 text-4xl font-bold ">반가워요!</div>
-            <div className="text-gray-900 text-3xl">오늘부터 시ː작해요!</div>
+            <div className="text-custom-textBlackColor desktop:text-[40px] tablet:text-[40px] mobile:text-[28px] desktop:leading-[52px] tablet:leading-[52px] mobile:leading-[36px] font-bold">
+              반가워요!
+            </div>
+            <div className="text-custom-textBlackColor desktop:text-[40px] tablet:text-[40px] mobile:text-[28px] desktop:leading-[52px] tablet:leading-[52px] mobile:leading-[36px] font-normal">
+              오늘부터 시ː작해요!
+            </div>
           </div>
         </div>
         <div className="flex flex-col items-center justify-center gap-4">

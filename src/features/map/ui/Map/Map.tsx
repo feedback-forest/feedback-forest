@@ -65,28 +65,26 @@ const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
           clickable: true,
           map: map,
           icon: {
-            content: `<img src="/images/marker_icon.png" width="24" height="24" alt="클래스 위치" />`,
+            content: `<img src="/images/marker_icon.png" width="44" height="51" alt="클래스 위치" />`,
             size: new naver.maps.Size(35, 35),
             anchor: new naver.maps.Point(11, 35),
           },
         });
 
         const hostedBy = lectureData.hosted_by;
+        const address = lectureData.address;
 
         // InfoWindow 생성
         const infoWindow = new naver.maps.InfoWindow({
           content: `
-            <div style="display: flex; flex-direction: column; width: 347px; height: 83px; gap: 2px; background: linear-gradient(#A249A8, #430347); border-radius: 20px; padding: 10px 23px 14px 31px;">
+            <div style="display: flex; flex-direction: column; width: 284px; height: 81px; gap: 2px; background: #4F118C; border-radius: 12px; padding: 11px 24px 11px 24px;">
               <div style="display: flex; flex-direction: row; align-items: center; justify-items: center; gap: 5px;">
-                <div style="display: flex;">
-                  <img src="/icons/home_alt.svg" width="24" height="24" alt="" />
-                </div>
-                <div style="width: 257px; height: 33px; font-size: 22px; font-weight: 600; color: #fff;">
+                <div style="width: 236px; height: 33px; font-size: 20px; font-weight: 700; color: #fff;">
                   ${hostedBy}
                 </div>
               </div>
-              <div style="width: 293px; height: 24px; font-size: 15px; color: #fff;">
-                서울 송파구 백제고분로42길 5 송파여성문화회관
+              <div style="width: 236px; height: 24px; font-size: 14px; color: #fff;">
+                ${address}
               </div>
             </div>`,
           borderWidth: 0,
@@ -143,11 +141,13 @@ const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
   }, [lectureListData, infoWindows, latitude, longitude, markers]);
 
   useEffect(() => {
-    initMap();
+    if (typeof naver !== "undefined") {
+      initMap();
+    }
   }, [initMap]);
 
   return (
-    <div>
+    <div className="rounded-lg overflow-hidden">
       <div id="map_id" style={{ height: "525px" }}></div>
     </div>
   );

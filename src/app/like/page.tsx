@@ -3,7 +3,9 @@
 import { LectureList, SkeletonCard } from "@/entities/lecture/ui";
 import { useEffect, useState } from "react";
 
+import { BackToPrevious } from "@/shared/ui";
 import { HeartsLectureListResDataInfo } from "@/features/like/model/like";
+import Image from "next/image";
 import { LectureSize } from "@/entities/lecture/model/lecture";
 import useLikeLectureList from "@/features/like/api/useLikeLectureList";
 
@@ -40,24 +42,57 @@ const LikePage = () => {
     }
 
     if (lectureListData && lectureListData.length > 0) {
-      return <LectureList lectureListData={lectureListData} type="col" />;
+      return (
+        <LectureList lectureListData={lectureListData} type="pickLecture" />
+      );
     }
 
-    return <div>클래스가 존재하지 않습니다</div>;
+    return (
+      <div className="flex flex-col items-center justify-center desktop:w-full tablet:w-full mobile:w-[180px] h-full gap-[6px] pt-[173px]">
+        <div className="">
+          <Image
+            src="/icons/x_circle.svg"
+            alt="x_circle"
+            width={40}
+            height={40}
+          />
+        </div>
+        <div className="flex flex-col items-center justify-center gap-[18px]">
+          <div className="flex items-center justify-center desktop:flex-row tablet:flex-row mobile:flex-col desktop:gap-2 tablet:gap-1.5 mobile:gap-0">
+            <div className="desktop:text-[32px] tablet:text-2xl mobile:text-2xl leading-[51px] font-bold">
+              클래스가
+            </div>
+            <div className="desktop:text-[32px] tablet:text-2xl mobile:text-2xl leading-[51px] font-bold">
+              존재하지 않습니다.
+            </div>
+          </div>
+          <div className="desktop:text-lg tablet:text-sm mobile:text-sm text-custom-textGrayColor font-medium">
+            이용에 불편을 드려 죄송합니다.
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="flex flex-col w-full h-screen justify-start items-center p-4 min-h-[336px] pt-20 bg-custom-entireLikeBackground">
+    <div className="flex flex-col w-full h-full justify-start items-center desktop:pt-20 tablet:pt-10 mobile:pt-10 bg-custom-homeMapBackground relative">
+      <div className="desktop:hidden tablet:flex mobile:hidden absolute top-10 left-4">
+        <BackToPrevious />
+      </div>
       <div className="flex flex-row w-full h-12 items-start justify-center">
-        <div className="flex flew-row gap-1">
-          <div className="text-gray-900 text-[32px] font-bold">
+        <div className="flex flew-row gap-3">
+          <div className="text-custom-textBlackColor desktop:text-[32px] tablet:text-[28px] mobile:text-base font-bold">
             내가 찜한 클래스
           </div>
-          <div className="text-gray-900 text-[32px]">한번에 보기</div>
+          <div className="text-custom-textBlackColor desktop:text-[32px] tablet:text-[28px] mobile:text-base">
+            한번에 보기
+          </div>
         </div>
       </div>
       <div className="flex flex-col pt-14 pb-[209px]">
-        <div className="flex px-[120px]">{renderLikeCardContent()}</div>
+        <div className="flex desktop:px-[120px] tablet:px-8 mobile:px-6">
+          {renderLikeCardContent()}
+        </div>
       </div>
     </div>
   );

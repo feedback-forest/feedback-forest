@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
 interface ImageDescriptionProps {
   containerWidth: number;
@@ -23,7 +24,10 @@ const ImageDescription = ({
 }: ImageDescriptionProps) => {
   return (
     <div
-      className={`flex flex-col items-center justify-center w-[${containerWidth}px] h-[${containerHeight}px] gap-3 cursor-pointer`}
+      className={twMerge(
+        `flex flex-col items-center justify-center gap-3 cursor-pointer`,
+        `w-[${containerWidth}px] h-[${containerHeight}px]`,
+      )}
       onClick={handleClick}
     >
       <Image src={src} alt={alt} width={width} height={height} />

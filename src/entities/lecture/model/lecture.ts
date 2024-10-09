@@ -83,7 +83,12 @@ export interface LectureSummaryListProps<
 
 export const lectureSummaryList: Array<LectureSummaryListProps> = [
   {
-    src: "/icons/person.svg",
+    src: "/icons/division.svg",
+    type: "division",
+    render: (content) => `${content}`,
+  },
+  {
+    src: "/icons/capacity.svg",
     type: "capacity",
     render: (content) => `정원 ${content}명`,
   },
@@ -93,12 +98,7 @@ export const lectureSummaryList: Array<LectureSummaryListProps> = [
     render: (content) => `${content}`,
   },
   {
-    src: "/icons/user_circle.svg",
-    type: "division",
-    render: (content) => `${content}`,
-  },
-  {
-    src: "/icons/calendar_filled.svg",
+    src: "/icons/period.svg",
     type: "period",
     render: (content) => {
       const lectureContent = content as LecturePeriod[];
@@ -128,6 +128,7 @@ export const lectureSummaryList: Array<LectureSummaryListProps> = [
 ];
 
 type LectureDetailTitleType =
+  | "condition"
   | "description"
   | "certification"
   | "text_book_name"
@@ -135,7 +136,7 @@ type LectureDetailTitleType =
   | "need";
 
 export const LectureDetailTitleEnum = {
-  target: "수강자격",
+  condition: "수강자격",
   description: "교육내용",
   certification: "자격증 관련사항",
   text_book_name: "교재명",
@@ -149,6 +150,10 @@ export interface LectureDetailListProps {
 }
 
 export const lectureDetailList: Array<LectureDetailListProps> = [
+  {
+    type: "condition",
+    render: (content) => `${content}`,
+  },
   {
     type: "description",
     render: (content) => `${content}`,
@@ -192,6 +197,7 @@ export interface LectureInfo {
   hosted_by: string;
   latitude: number;
   longitude: number;
+  division: string;
 }
 
 export interface LectureListResData {
@@ -236,6 +242,7 @@ export interface PickLectureInfo {
   start_date: string;
   end_date: string;
   day_of_week: string;
+  division: string;
 }
 
 export interface LectureListResData {

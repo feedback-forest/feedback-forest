@@ -19,6 +19,7 @@ export interface HeartsLectureListResDataInfo {
   end_date: string;
   day_of_week: string;
   hosted_by: string | null;
+  division: string;
 }
 
 // TODO: 타입 중복되는 것 리팩토링 => 제네릭으로 처리

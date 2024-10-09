@@ -86,10 +86,23 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-64px)] justify-center items-center p-4">
+    <div className="flex flex-col w-full h-[calc(100vh-70px)] justify-center items-center p-4 gap-12">
+      <div className="flex w-full flex-col justify-center items-center gap-2">
+        <div className="text-custom-textBlackColor font-bold desktop:text-[40px] tablet:text-[28px] mobile:text-[28px] desktop:leading-[64px] tablet:leading-[44px] mobile:leading-[44px]">
+          닉네임을 적어주세요!
+        </div>
+        <div className="flex w-full flex-col justify-center items-center">
+          <div className="text-custom-textGrayColor desktop:text-lg tablet:text-sm mobile:text-sm font-medium">
+            시ː작에서 사용할 닉네임을 적어주세요.
+          </div>
+          <div className="text-custom-textGrayColor desktop:text-lg tablet:text-sm mobile:text-sm font-medium">
+            닉네임은 나중에 수정할 수 있어요.
+          </div>
+        </div>
+      </div>
       <form
         onSubmit={handleSubmit(updateNickname)}
-        className="flex flex-col gap-[72px]"
+        className="flex flex-col desktop:w-[400px] tablet:w-[260px] mobile:w-[260px]  desktop:gap-[72px] tablet:gap-[60px] mobile:gap-10"
       >
         <Controller
           name="nickname"
@@ -123,12 +136,14 @@ const SignUpPage = () => {
           )}
         />
         <Button
-          className="flex justify-center items-center w-[400px] h-14 bg-custom-purple"
+          className="flex justify-center items-center desktop:w-[400px] tablet:w-[260px] mobile:w-[260px] h-14 bg-custom-purple rounded-sm"
           disabled={
             (!!errors.nickname && status !== "correct") || status === "default"
           } // 오류가 있을 경우 버튼 비활성화
         >
-          <div className="text-2xl text-center">시ː작 하기</div>
+          <div className="desktop:text-2xl tablet:text-base mobile:text-base text-center">
+            시ː작 하기
+          </div>
         </Button>
       </form>
     </div>

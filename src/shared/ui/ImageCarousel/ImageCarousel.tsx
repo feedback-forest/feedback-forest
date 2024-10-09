@@ -49,8 +49,12 @@ const ImageCarousel = ({
           );
         })}
       </CarouselContent>
-      {isPreviousIcon && <CarouselPrevious />}
-      {isNextIcon && <CarouselNext />}
+      {isPreviousIcon && (
+        <CarouselPrevious variant="ghost" className="hover:bg-transparent" />
+      )}
+      {isNextIcon && (
+        <CarouselNext variant="ghost" className="hover:bg-transparent" />
+      )}
     </Carousel>
   );
 };
