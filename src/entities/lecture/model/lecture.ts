@@ -197,6 +197,7 @@ export interface LectureInfo {
   hosted_by: string;
   latitude: number;
   longitude: number;
+  division: string;
 }
 
 export interface LectureListResData {
@@ -241,6 +242,7 @@ export interface PickLectureInfo {
   start_date: string;
   end_date: string;
   day_of_week: string;
+  division: string;
 }
 
 export interface LectureListResData {

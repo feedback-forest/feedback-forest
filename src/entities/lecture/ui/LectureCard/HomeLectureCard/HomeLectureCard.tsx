@@ -24,6 +24,7 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
     target,
     status,
     address,
+    division,
     link,
     heart,
     start_date,
@@ -133,7 +134,7 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
               <div className="flex flex-col desktop:w-[340px] tablet:w-[248px] desktop:h-[93px] tablet:h-[67px]">
                 <div className="flex flex-col gap-1">
                   <div className="text-custom-textGrayColor desktop:text-lg tablet:text-sm mobile:text-sm desktop:font-bold tablet:font-medium mobile:font-medium whitespace-nowrap text-ellipsis overflow-hidden">
-                    {`division`}
+                    {division}
                   </div>
                   <div className="flex justify-between items-center desktop:w-[340px] tablet:w-[248px] mobile:w-[208px]">
                     <div className="text-custom-textBlackColor desktop:text-2xl tablet:text-base mobile:text-base font-semibold desktop:w-[340px] tablet:w-[248px] mobile:w-[208px] min-w-[208px] max-w-[340px] desktop:min-h-[62px] tablet:min-h-[42px] mobile:min-h-[42px]">
