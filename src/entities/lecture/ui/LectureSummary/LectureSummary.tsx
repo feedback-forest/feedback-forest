@@ -6,8 +6,6 @@ import {
 
 import { LectureSummaryHeader } from "./LectureSummaryHeader";
 import { LectureSummaryItem } from ".";
-import MiniMap from "@/features/map/ui/MiniMap/MiniMap";
-import { Skeleton } from "@/shared/ui";
 
 interface LectureInfoDetail {
   lectureInfo?: Lecture;
@@ -16,37 +14,30 @@ interface LectureInfoDetail {
 
 const LectureSummary = ({ lectureInfo, isLoading }: LectureInfoDetail) => {
   return (
-    <div className="flex flex-col w-full h-full desktop:w-[588px] tablet:w-[400px] max-w-[608px] max-h-[635px] gap-[13px]">
-      <LectureSummaryHeader lectureInfo={lectureInfo} isLoading={isLoading} />
-      <div className="flex flex-col desktop:w-[588px] desktop:h-[580px]">
-        <div className="flex flex-col gap-5">
-          {lectureSummaryList.map((lectureSummaryItem) => {
-            return (
-              <LectureSummaryItem
-                key={lectureSummaryItem.type}
-                src={lectureSummaryItem.src}
-                title={LectureTitleEnum[lectureSummaryItem.type]}
-                content={
-                  lectureInfo
-                    ? lectureSummaryItem.render(
-                        lectureInfo[lectureSummaryItem.type],
-                      )
-                    : ""
-                }
-              />
-            );
-          })}
+    <div className="flex flex-col w-full desktop:w-[569px] tablet:w-[343px] mobile:w-[312px]">
+      <div className="flex flex-col desktop:gap-[18px] tablet:gap-[13px] mobile:gap-6">
+        <LectureSummaryHeader lectureInfo={lectureInfo} isLoading={isLoading} />
+        <div className="flex flex-col">
+          <div className="flex flex-col desktop:gap-[18px] tablet:gap-4 mobile:gap-3">
+            {lectureSummaryList.map((lectureSummaryItem) => {
+              return (
+                <LectureSummaryItem
+                  key={lectureSummaryItem.type}
+                  src={lectureSummaryItem.src}
+                  title={LectureTitleEnum[lectureSummaryItem.type]}
+                  content={
+                    lectureInfo
+                      ? lectureSummaryItem.render(
+                          lectureInfo[lectureSummaryItem.type],
+                        )
+                      : ""
+                  }
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
-      {isLoading && <Skeleton className="w-[568px] h-[256px]" />}
-      {lectureInfo && (
-        <div>
-          <MiniMap
-            latitude={lectureInfo.latitude}
-            longitude={lectureInfo.longitude}
-          />
-        </div>
-      )}
     </div>
   );
 };
