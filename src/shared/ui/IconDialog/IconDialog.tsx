@@ -11,23 +11,21 @@ import {
 import Image from "next/image";
 
 interface IconDialogProps {
+  dialogTriggerItem: JSX.Element;
   dialogTitle: string;
   dialogDescription: string;
   renderItem: JSX.Element;
 }
 
 const IconDialog = ({
+  dialogTriggerItem,
   dialogTitle,
   dialogDescription,
   renderItem,
 }: IconDialogProps) => {
   return (
     <Dialog>
-      <DialogTrigger>
-        <div className="flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded p-1">
-          <Image src="/icons/share.svg" alt="share" width={27} height={24} />
-        </div>
-      </DialogTrigger>
+      <DialogTrigger>{dialogTriggerItem}</DialogTrigger>
       <DialogPortal>
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
