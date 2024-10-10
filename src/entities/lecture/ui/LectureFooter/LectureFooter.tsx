@@ -34,6 +34,10 @@ const LectureFooter = ({ lectureInfo, isLoading }: LectureFooterProps) => {
     router.push("/");
   };
 
+  const linkToLogin = () => {
+    router.push("/login");
+  };
+
   const handleLikeLecture = () => {
     if (lectureInfo) {
       // TODO: 좋아요 API TEST
@@ -74,7 +78,7 @@ const LectureFooter = ({ lectureInfo, isLoading }: LectureFooterProps) => {
     );
   };
 
-  const dialogContent = () => {
+  const notFoundApplyPageDialogContent = () => {
     return (
       <div className="flex flex-col items-center justify-center gap-[55px] pt-[30px] pb-5">
         <div className="flex flex-col items-center justify-center">
@@ -93,6 +97,28 @@ const LectureFooter = ({ lectureInfo, isLoading }: LectureFooterProps) => {
     );
   };
 
+  const needLoginDialogContent = () => {
+    return (
+      <div className="flex flex-col gap-[55px] pt-[30px] pb-5">
+        <div className="flex flex-col items-center justify-center">
+          <div className="font-bold text-[28px] content-center">
+            로그인이 필요한
+          </div>
+          <div className="font-bold text-[28px] content-center">서비스에요</div>
+        </div>
+        <div className="flex items-center justify-center ">
+          <Button
+            className="w-[300px] h-[52px] text-base font-semibold bg-custom-purple rounded"
+            type="submit"
+            onClick={linkToLogin}
+          >
+            회원가입 / 로그인 하기
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   const renderApplyButton = () => {
     if (lectureInfo && lectureInfo.link && token) {
       return (
@@ -104,16 +130,30 @@ const LectureFooter = ({ lectureInfo, isLoading }: LectureFooterProps) => {
         </Button>
       );
     }
-    return (
-      <UnifiedDialog
-        open={open}
-        setOpen={setOpen}
-        triggerItem={triggerItem()}
-        dialogTitle="마이페이지"
-        dialogDescription="마이페이지 설명"
-        dialogContent={dialogContent()}
-      />
-    );
+    if (!token) {
+      return (
+        <UnifiedDialog
+          open={open}
+          setOpen={setOpen}
+          triggerItem={triggerItem()}
+          dialogTitle="로그인 필요"
+          dialogDescription="로그인 필요"
+          dialogContent={needLoginDialogContent()}
+        />
+      );
+    }
+    if (!token && lectureInfo && lectureInfo.status === false) {
+      return (
+        <UnifiedDialog
+          open={open}
+          setOpen={setOpen}
+          triggerItem={triggerItem()}
+          dialogTitle="신청 페이지 불가"
+          dialogDescription="신청 페이지 불가 설명"
+          dialogContent={notFoundApplyPageDialogContent()}
+        />
+      );
+    }
   };
 
   return (

@@ -29,7 +29,7 @@ export interface Lecture {
   capacity: number;
   link: string;
   location: string;
-  status: string;
+  status: boolean;
   thumbnail: string;
   heart: boolean;
   address: string;
