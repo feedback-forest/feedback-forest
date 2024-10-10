@@ -3,13 +3,13 @@
 import { BackToPrevious, Button, InputLabel, UnifiedDialog } from "@/shared/ui";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { LoginUserInfo, PatchUserAddress } from "@/entities/user/model/user";
+import { debounce, isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import { InputLabelStatus } from "@/shared/ui/InputLabel/InputLabel";
 import { SquareLoader } from "react-spinners";
 import axios from "axios";
-import { debounce } from "lodash";
 import { deleteCookie } from "cookies-next";
 import { toast } from "sonner";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
@@ -350,7 +350,12 @@ const UserInfoPage = () => {
                 </div>
               </div>
               <div>
-                <Button className="desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] h-14 font-semibold text-2xl bg-custom-purple hover:bg-purple-950 rounded-md">
+                <Button
+                  disabled={
+                    !isEmpty(errors.nickname) || !isEmpty(errors.address)
+                  }
+                  className="desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] h-14 font-semibold text-2xl bg-custom-purple hover:bg-purple-950 rounded-md"
+                >
                   저장하기
                 </Button>
               </div>

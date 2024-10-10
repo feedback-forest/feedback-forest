@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const useGetAccessToken = (code: string) => {
   return useQuery({
-    queryKey: USER_KEYS.lists(),
+    queryKey: USER_KEYS.token(),
     queryFn: () => getAccessToken(code),
     select: (response) => response.data.data,
     meta: {
