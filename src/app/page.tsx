@@ -21,7 +21,6 @@ import Map from "@/features/map/ui/Map/Map";
 import MapSkeleton from "@/features/map/ui/MapSkeleton/MapSkeleton";
 import { useCarouselApi } from "@/shared/lib/useCarouselApi";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
-import useGetLoginUserInfo from "@/entities/user/api/useGetLoginUserInfo";
 import useHomeLectureList from "@/entities/lecture/api/useHomeLectureList";
 import useLoginedUserStore from "@/shared/store/user";
 import { useRouter } from "next/navigation";
@@ -35,7 +34,7 @@ const Home = () => {
     size: 9,
     dist: 500,
   });
-  const [loginedUser, setLoginedUser] = useState<LoginUserInfo>({
+  const [user, setUser] = useState<LoginUserInfo>({
     id: 0,
     email: "",
     nickname: "",
@@ -50,13 +49,8 @@ const Home = () => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const { current, count } = useCarouselApi(carouselApi);
 
-  const { setLoginedUser: setLoginedUserStore } = useLoginedUserStore();
-
-  const {
-    data: loginUserData,
-    isLoading: isLoginUserLoading,
-    isSuccess: isLoginUserSuccess,
-  } = useGetLoginUserInfo();
+  const { loginedUser: loginedUserState, setLoginedUser: setLoginedUserStore } =
+    useLoginedUserStore();
 
   const getHomeLectureList = useHomeLectureList();
   const isLoading = getHomeLectureList.isIdle || getHomeLectureList.isPending;
@@ -64,35 +58,32 @@ const Home = () => {
   const geolocation = useGeoLocation();
 
   const router = useRouter();
-  // TODO: 멘토님 확인 필요 console.log("1"); 많이 찍히는 문제
-
-  // FIXME: useEffect 정리 필요
-  useEffect(() => {
-    if (isLoginUserSuccess) {
-      setLoginedUser((prev) => {
-        const loginedUserInfo = loginUserData.data.data;
-        return {
-          ...prev,
-          id: loginedUserInfo.id,
-          email: loginedUserInfo.email,
-          nickname: loginedUserInfo.nickname,
-          gender: loginedUserInfo.gender,
-          age_range: loginedUserInfo.age_range,
-          birth: loginedUserInfo.birth,
-          phone_number: loginedUserInfo.phone_number,
-          location: loginedUserInfo.location,
-        };
-      });
-    }
-  }, [isLoginUserSuccess, loginUserData, setLoginedUserStore]);
 
   useEffect(() => {
     if (
       geolocation.curLocation &&
       geolocation.curLocation.latitude &&
-      geolocation.curLocation.longitude
+      geolocation.curLocation.longitude &&
+      loginedUserState
     ) {
-      setLoginedUser((prev) => {
+      setLoginedUserStore({
+        id: loginedUserState.id,
+        email: loginedUserState.email,
+        nickname: loginedUserState.nickname,
+        gender: loginedUserState.gender,
+        age_range: loginedUserState.age_range,
+        birth: loginedUserState.birth,
+        phone_number: loginedUserState.phone_number,
+        location: loginedUserState.location,
+        latitude: geolocation.curLocation
+          ? geolocation.curLocation.latitude
+          : 0,
+        longitude: geolocation.curLocation
+          ? geolocation.curLocation.longitude
+          : 0,
+      });
+
+      setUser((prev) => {
         return {
           ...prev,
           latitude: geolocation.curLocation
@@ -104,10 +95,11 @@ const Home = () => {
         };
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geolocation.curLocation]);
 
   useEffect(() => {
-    if (loginedUser.latitude && loginedUser.longitude) {
+    if (user.latitude && user.longitude) {
       getHomeLectureList.mutate(
         {
           params: {
@@ -116,10 +108,9 @@ const Home = () => {
             dist: lectureSize.dist,
           },
           payload: {
-            latitude: loginedUser.latitude,
-            longitude: loginedUser.longitude,
+            latitude: user.latitude,
+            longitude: user.longitude,
           },
-          // { latitude: 37.4996992, longitude: 127.1169024 },
         },
         {
           onSuccess: (data) => {
@@ -133,11 +124,7 @@ const Home = () => {
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lectureSize.page, lectureSize.size, loginedUser]);
-
-  useEffect(() => {
-    setLoginedUserStore(loginedUser);
-  }, [loginedUser, setLoginedUserStore]);
+  }, [lectureSize.page, lectureSize.size, user]);
 
   const linkToEntireLecture = () => {
     router.push("/entire");
@@ -246,8 +233,8 @@ const Home = () => {
             {isLoading && <MapSkeleton />}
             {lectureListData && (
               <Map
-                latitude={loginedUser.latitude}
-                longitude={loginedUser.longitude}
+                latitude={user.latitude}
+                longitude={user.longitude}
                 lectureListData={lectureListData}
               />
             )}

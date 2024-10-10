@@ -93,6 +93,7 @@ export const LIKE_LECTURE_KEYS = {
 
 export const USER_KEYS = {
   all: [KEY_DOMAINS.user],
+  token: () => [...USER_KEYS.all, "token"],
   lists: () => [...USER_KEYS.all, "list"],
   details: () => [...USER_KEYS.all, "detail"],
   detail: (filters: { userId: number }) => [...USER_KEYS.details(), filters],
