@@ -7,6 +7,8 @@ import { BackToPrevious } from "@/shared/ui";
 import { HeartsLectureListResDataInfo } from "@/features/like/model/like";
 import Image from "next/image";
 import { LectureSize } from "@/entities/lecture/model/lecture";
+import { SquareLoader } from "react-spinners";
+import { useInView } from "react-intersection-observer";
 import useLikeLectureList from "@/features/like/api/useLikeLectureList";
 
 const LikePage = () => {
@@ -16,6 +18,11 @@ const LikePage = () => {
     page: 1,
     size: 2,
     dist: 500,
+  });
+  const [hasNext, setHasNext] = useState(true);
+
+  const { ref, inView } = useInView({
+    threshold: 1.0, // 100% 보일 때 트리거
   });
 
   const { data, isLoading, isSuccess } = useLikeLectureList({
@@ -27,23 +34,43 @@ const LikePage = () => {
   useEffect(() => {
     if (isSuccess) {
       setLectureListData(data.data.data);
+      setHasNext(data.data.hasNext);
     }
   }, [data, isSuccess]);
 
+  useEffect(() => {
+    if (inView && hasNext && !isLoading) {
+      setLectureSize((prev) => {
+        return {
+          ...prev,
+          page: prev.page + 1,
+        };
+      }); // 다음 페이지 데이터 로드
+    }
+  }, [inView, hasNext, isLoading]);
+
   const renderLikeCardContent = () => {
-    if (isLoading) {
+    if (lectureListData && lectureListData.length > 0) {
       return (
-        <div className="flex flex-row space-x-6">
-          <SkeletonCard type="col" />
-          <SkeletonCard type="col" />
-          <SkeletonCard type="col" />
+        <div>
+          <LectureList lectureListData={lectureListData} type="pickLecture" />
+          <div ref={ref} className="h-[200px]" /> {/* 스크롤 감지 요소 */}
+          {isLoading && (
+            <div className="flex flex-row space-x-6">
+              <SkeletonCard type="col" />
+              <SkeletonCard type="col" />
+              <SkeletonCard type="col" />
+            </div>
+          )}
         </div>
       );
     }
 
-    if (lectureListData && lectureListData.length > 0) {
+    if (isLoading) {
       return (
-        <LectureList lectureListData={lectureListData} type="pickLecture" />
+        <div className="flex justify-center items-center h-screen">
+          <SquareLoader color="#4F118C" />
+        </div>
       );
     }
 
