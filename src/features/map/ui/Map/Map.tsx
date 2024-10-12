@@ -1,20 +1,44 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  GetLocationLectureListParams,
+  LectureInfo,
+  shortAddressList,
+} from "@/entities/lecture/model/lecture";
 
-import { LectureInfo } from "@/entities/lecture/model/lecture";
+import { ChipStatus } from "@/shared/ui/Chip/Chip";
 
 export type NaverMap = naver.maps.Map;
 
 interface MapProps {
   latitude: number;
   longitude: number;
+  setChipStatus: Dispatch<SetStateAction<Record<shortAddressList, ChipStatus>>>;
   lectureListData: LectureInfo[];
+  setLocationLectureParams: Dispatch<
+    SetStateAction<GetLocationLectureListParams>
+  >;
 }
 
-const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
+const Map = ({
+  latitude,
+  longitude,
+  setChipStatus,
+  setLocationLectureParams,
+  lectureListData,
+}: MapProps) => {
   const [selectedLectureId, setSelectedLectureId] = useState<number | null>();
-
+  const [center, setCenter] = useState<naver.maps.LatLng>(
+    new naver.maps.LatLng(latitude, longitude),
+  );
   const markers: Array<naver.maps.Marker> = useMemo(() => {
     return [];
   }, []);
@@ -28,7 +52,7 @@ const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
     const location = new naver.maps.LatLng(latitude, longitude);
 
     const mapOptions: naver.maps.MapOptions = {
-      center: location,
+      center: center,
       logoControl: true, // 네이버 로고 표시 X
       mapDataControl: false, // 지도 데이터 저작권 컨트롤 표시 X
       scaleControl: true, // 지도 축척 컨트롤의 표시 여부
@@ -97,12 +121,40 @@ const Map = ({ latitude, longitude, lectureListData }: MapProps) => {
         infoWindows.push(infoWindow);
 
         // 마커 클릭 시 InfoWindow 열기
-        naver.maps.Event.addListener(classMarker, "click", function () {
+        naver.maps.Event.addListener(classMarker, "click", function (e) {
           // 이미 열려있는 InfoWindow가 있다면 닫기
           infoWindows.forEach((iw) => iw.close());
 
           // 클릭한 마커에 해당하는 InfoWindow 열기
           infoWindow.open(map, classMarker);
+          setChipStatus(() => {
+            return {
+              "서울 송파구":
+                lectureData.short_address === "서울특별시 송파구"
+                  ? "active"
+                  : "default",
+              "서울 마포구":
+                lectureData.short_address === "서울특별시 마포구"
+                  ? "active"
+                  : "default",
+              "서울 노원구":
+                lectureData.short_address === "서울특별시 노원구"
+                  ? "active"
+                  : "default",
+              "서울 강서구":
+                lectureData.short_address === "서울특별시 강서구"
+                  ? "active"
+                  : "default",
+            };
+          });
+          setLocationLectureParams((prev) => {
+            return {
+              ...prev,
+              location: lectureData.short_address,
+            };
+          });
+          map.panTo(e.coord);
+          setCenter(e.coord);
         });
       }
     });

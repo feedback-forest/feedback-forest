@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, CarouselApi, Chip, Progress } from "@/shared/ui";
+import { CarouselApi, Chip, Progress } from "@/shared/ui";
 import {
   Description,
   IntroductionBanner,
@@ -43,7 +43,7 @@ const Home = () => {
     useState<GetLocationLectureListParams>({
       page: 0,
       size: 9,
-      location: "",
+      location: " ",
     });
   const [user, setUser] = useState<LoginUserInfo>({
     id: 0,
@@ -275,6 +275,8 @@ const Home = () => {
               <Map
                 latitude={user.latitude}
                 longitude={user.longitude}
+                setLocationLectureParams={setLocationLectureParams}
+                setChipStatus={setChipStatus}
                 lectureListData={lectureListData}
               />
             )}
