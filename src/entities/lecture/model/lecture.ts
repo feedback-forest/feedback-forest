@@ -282,3 +282,16 @@ export type GetLecture = Payload<
   GetLectureDto,
   GetLectureRes
 >;
+
+export type shortAddressList =
+  | "서울 송파구"
+  | "서울 마포구"
+  | "서울 노원구"
+  | "서울 강서구";
+
+export const lectureChipContentList: Array<shortAddressList> = [
+  "서울 송파구",
+  "서울 마포구",
+  "서울 노원구",
+  "서울 강서구",
+];

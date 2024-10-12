@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, CarouselApi, Progress } from "@/shared/ui";
+import { Button, CarouselApi, Chip, Progress } from "@/shared/ui";
 import {
   Description,
   IntroductionBanner,
@@ -12,9 +12,12 @@ import {
   LectureInfo,
   LectureSize,
   PickLectureInfo,
+  lectureChipContentList,
+  shortAddressList,
 } from "@/entities/lecture/model/lecture";
 import { useEffect, useState } from "react";
 
+import { ChipStatus } from "@/shared/ui/Chip/Chip";
 import Image from "next/image";
 import { LoginUserInfo } from "@/entities/user/model/user";
 import Map from "@/features/map/ui/Map/Map";
@@ -23,7 +26,6 @@ import { useCarouselApi } from "@/shared/lib/useCarouselApi";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
 import useHomeLectureList from "@/entities/lecture/api/useHomeLectureList";
 import useLoginedUserStore from "@/shared/store/user";
-import usePostLikeLecture from "@/features/like/api/usePostLikeLecture";
 import { useRouter } from "next/navigation";
 
 const Home = () => {
@@ -48,6 +50,15 @@ const Home = () => {
     location: "",
   });
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [chipStatus, setChipStatus] = useState<
+    Record<shortAddressList, ChipStatus>
+  >({
+    "서울 송파구": "default",
+    "서울 마포구": "default",
+    "서울 노원구": "default",
+    "서울 강서구": "default",
+  });
+
   const { current, count } = useCarouselApi(carouselApi);
 
   const { loginedUser: loginedUserState, setLoginedUser: setLoginedUserStore } =
@@ -100,6 +111,7 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geolocation.curLocation]);
 
+  // TODO: location 불러오는 걸로 교체 필요
   useEffect(() => {
     if (user.latitude && user.longitude) {
       getHomeLectureList.mutate(
@@ -139,6 +151,23 @@ const Home = () => {
     return (100 / count) * current;
   };
 
+  const filterLectureListByShortAddress = (
+    lectureChipContent: shortAddressList,
+  ) => {
+    setChipStatus(() => {
+      return {
+        "서울 송파구":
+          lectureChipContent === "서울 송파구" ? "active" : "default",
+        "서울 마포구":
+          lectureChipContent === "서울 마포구" ? "active" : "default",
+        "서울 노원구":
+          lectureChipContent === "서울 노원구" ? "active" : "default",
+        "서울 강서구":
+          lectureChipContent === "서울 강서구" ? "active" : "default",
+      };
+    });
+  };
+
   const renderHomeLectureList = () => {
     if (isLoading) {
       return (
@@ -152,7 +181,7 @@ const Home = () => {
 
     if (lectureListData && lectureListData.length > 0) {
       return (
-        <div className="flex flex-col desktop:w-full desktop:h-full tablet:w-full table:h-full mobile:w-full gap-9">
+        <div className="flex flex-col desktop:w-full desktop:h-full tablet:w-full table:h-full mobile:w-full">
           <LectureCarousel
             lectureInfo={lectureListData}
             setApi={setCarouselApi}
@@ -206,30 +235,8 @@ const Home = () => {
         <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
           <div className="flex flex-col desktop:gap-8 tablet:gap-6 mobile:gap-6">
             <div className="flex flex-row justify-between">
-              <div className="flex flex-row gap-1">
-                <div className="desktop:text-2xl tablet:text-xl mobile:text-xl font-bold">
-                  내 주변 문화생활 클래스☺️
-                </div>
-              </div>
-              <div className="flex justify-center items-center content-center text-base">
-                <Button
-                  variant={"outline"}
-                  onClick={linkToEntireLecture}
-                  className="px-3"
-                >
-                  <div className="flex justify-center items-center gap-1">
-                    <div className="desktop:flex tablet:hidden mobile:hidden text-sm">
-                      클래스
-                    </div>
-                    <div className="text-sm">더보기</div>
-                    <Image
-                      src="/icons/class_arrow_right.svg"
-                      alt="class arrow right"
-                      width={20}
-                      height={20}
-                    />
-                  </div>
-                </Button>
+              <div className="desktop:text-2xl tablet:text-xl mobile:text-xl font-bold">
+                내 주변 문화생활 클래스☺️
               </div>
             </div>
             {isLoading && <MapSkeleton />}
@@ -242,7 +249,7 @@ const Home = () => {
             )}
           </div>
           <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
-            <div className="flex flex-row w-full gap-1">
+            {/* <div className="flex flex-row w-full gap-1">
               <div className="font-semibold desktop:text-xl tablet:text-base mobile:text-base">
                 내 위치에서
               </div>
@@ -252,6 +259,33 @@ const Home = () => {
                 </div>
                 <div className="font-semibold desktop:text-xl tablet:text-base mobile:text-base">
                   에 이런 클래스가 있어요!
+                </div>
+              </div>
+            </div> */}
+            <div className="flex flex-row justify-between">
+              <div className="flex flex-row gap-2">
+                {lectureChipContentList.map((lectureChipContent, idx) => (
+                  <Chip
+                    key={idx}
+                    content={lectureChipContent}
+                    status={chipStatus[lectureChipContent]}
+                    handleClick={() =>
+                      filterLectureListByShortAddress(lectureChipContent)
+                    }
+                  />
+                ))}
+              </div>
+              <div className="flex justify-center items-center content-center text-base">
+                <div
+                  onClick={linkToEntireLecture}
+                  className="px-3 cursor-pointer"
+                >
+                  <div className="flex justify-center items-center gap-1 border-b border-custom-textBlackColor">
+                    <div className="desktop:flex tablet:flex mobile:hidden text-sm">
+                      클래스
+                    </div>
+                    <div className="text-sm">더보기</div>
+                  </div>
                 </div>
               </div>
             </div>
