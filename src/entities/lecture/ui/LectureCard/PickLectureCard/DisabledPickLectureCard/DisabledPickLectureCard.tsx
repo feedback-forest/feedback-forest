@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { Button } from "@/shared/ui";
 import { HeartsLectureListResDataInfo } from "@/features/like/model/like";
 import Image from "next/image";
-import Link from "next/link";
+import moment from "moment";
+
+moment.locale("ko");
 
 interface PickLectureCardProps {
   lectureData: LectureInfo | PickLectureInfo | HeartsLectureListResDataInfo;
@@ -17,6 +19,10 @@ const DisabledPickLectureCard = (props: PickLectureCardProps) => {
     lectureData;
 
   const [dimensions, setDimensions] = useState({ width: 384, height: 280 });
+
+  const dateString = start_date.replaceAll("-", ".");
+  const date = moment(dateString, "YYYY.MM.DD");
+  const shortDayOfWeek = date.format("ddd");
 
   useEffect(() => {
     const handleResize = () => {
@@ -96,15 +102,13 @@ const DisabledPickLectureCard = (props: PickLectureCardProps) => {
               </div>
             </div>
             <div className="flex flex-row justify-between desktop:w-[340px] tablet:w-[304px] mobile:w-[272px] desktop:h-[27px] tablet:h-[24px] mobile:h-[24px]">
-              {/* FIXME: 색상 추가 */}
               <div className="text-custom-disabled desktop:text-lg tablet:text-base mobile:text-base desktop:font-semibold tablet:font-medium mobile:font-medium">
                 {short_address}
               </div>
               <div className="text-custom-disabled desktop:text-lg tablet:text-base mobile:text-base desktop:font-bold tablet:font-medium mobile:font-medium ">
                 {start_date.replaceAll("-", ".").split(".")[1]}.
-                {start_date.replaceAll("-", ".").split(".")[2]}{" "}
-                {/* TODO: ({day_of_week}){" "} */}
-                {/* TODO: time to 오전 오후 시간 */}
+                {start_date.replaceAll("-", ".").split(".")[2]}
+                {`(${shortDayOfWeek})`}
                 {Number(time.split(":")[0]) / 12 ? "오후" : "오전"}{" "}
                 {Number(time.split(":")[0]) % 12}:
                 {time.split(":")[1].slice(0, 2)}
