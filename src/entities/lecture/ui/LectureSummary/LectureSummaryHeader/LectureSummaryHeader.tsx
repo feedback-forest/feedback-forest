@@ -18,9 +18,8 @@ const LectureSummaryHeader = ({
   };
 
   const shareLinkToURL = () => {
-    if (lectureInfo) {
-      handleCopyClipBoard(lectureInfo.link);
-    }
+    const currentUrl = window.location.href;
+    handleCopyClipBoard(currentUrl);
   };
 
   const renderDialogTriggerItem = () => {
