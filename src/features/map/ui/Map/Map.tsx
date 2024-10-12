@@ -36,6 +36,7 @@ const Map = ({
   lectureListData,
 }: MapProps) => {
   const [selectedLectureId, setSelectedLectureId] = useState<number | null>();
+  // TODO: Center 값 상태관리 필요(* Chip 클릭 시 중앙 값 해당 구 위도 경도로 바뀌게 처리 필요)
   const [center, setCenter] = useState<naver.maps.LatLng>(
     new naver.maps.LatLng(latitude, longitude),
   );
@@ -49,7 +50,7 @@ const Map = ({
 
   // 커스텀 훅을 만들어서 useMapInit() -> createPositionMarker 현재 위치 마커, 함수로 ClassMarker 클래스 마커 생성, infoWindow 도 훅으로 그 아래 마커 업데이트는 함수로 생성, 언마운트 하는 코드도 작성 필요성이 있음
   const initMap = useCallback(() => {
-    const location = new naver.maps.LatLng(latitude, longitude);
+    // const location = new naver.maps.LatLng(latitude, longitude);
 
     const mapOptions: naver.maps.MapOptions = {
       center: center,
