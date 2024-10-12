@@ -70,6 +70,7 @@ const LoginPage = () => {
           <UnifiedTooltip
             triggerItem={triggerItem()}
             tooltipContent={tooltipContent()}
+            contentClassName="bg-white"
           />
         </div>
       </div>
