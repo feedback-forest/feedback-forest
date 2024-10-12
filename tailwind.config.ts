@@ -29,6 +29,7 @@ const config: Config = {
           homeMapBackground: "#F0F0F0",
           entireLikeBackground: "#E9E8EC",
           tooltipBackground: "#525252",
+          homeTooltipBackground: "#262626",
           buttonGrayBackground: "#F5F5F5",
           divGrayBackground: "#E5E5E5",
           blackBackground: "#060606",
