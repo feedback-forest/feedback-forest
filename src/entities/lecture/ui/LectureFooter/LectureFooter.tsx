@@ -85,35 +85,21 @@ const LectureFooter = ({
 
   const triggerLoginItem = () => {
     return heart ? (
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
-      >
-        <IconButton
-          src="/icons/like_filled.svg"
-          alt="like_filled"
-          iconWidth={32}
-          iconHeight={32}
-          handleClick={handleLikeLecture}
-        />
-      </div>
+      <IconButton
+        src="/icons/like_filled.svg"
+        alt="like_filled"
+        iconWidth={32}
+        iconHeight={32}
+        handleClick={handleLikeLecture}
+      />
     ) : (
-      <div
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
-        <IconButton
-          src="/icons/like.svg"
-          alt="heart"
-          iconWidth={32}
-          iconHeight={32}
-          handleClick={handleLikeLecture}
-        />
-      </div>
+      <IconButton
+        src="/icons/like.svg"
+        alt="heart"
+        iconWidth={32}
+        iconHeight={32}
+        handleClick={handleLikeLecture}
+      />
     );
   };
 
@@ -168,6 +154,25 @@ const LectureFooter = ({
     );
   };
 
+  const renderLikeIcon = () => {
+    if (!token) {
+      return (
+        <UnifiedDialog
+          dialogTitle="로그인 오류"
+          dialogDescription="로그인 오류 Dialog"
+          triggerItem={triggerLoginItem()}
+          dialogContent={needLoginDialogContent()}
+          open={openLoginDialog}
+          setOpen={setOpenLoginDialog}
+        />
+      );
+    }
+
+    if (token) {
+      return triggerLoginItem();
+    }
+  };
+
   const renderApplyButton = () => {
     if (!token) {
       return (
@@ -208,14 +213,7 @@ const LectureFooter = ({
   return (
     <div className="flex flex-row items-center w-full desktop:h-[70px] tablet:h-[70px] mobile:h-[55px] desktop:px-[120px] bg-white fixed bottom-0 border-t border-custom-disabled z-10">
       <div className="flex desktop:w-[98px] tablet:min-w-[98px] mobile:min-w-[76px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] border-r border-custom-disabled justify-center items-center">
-        <UnifiedDialog
-          dialogTitle="로그인 오류"
-          dialogDescription="로그인 오류 Dialog"
-          triggerItem={triggerLoginItem()}
-          dialogContent={needLoginDialogContent()}
-          open={openLoginDialog}
-          setOpen={setOpenLoginDialog}
-        />
+        {renderLikeIcon()}
       </div>
       {lectureInfo && (
         <div className="flex desktop:w-[190px] tablet:min-w-[190px] mobile:min-w-[111px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] justify-center items-center text-xl font-bold">
