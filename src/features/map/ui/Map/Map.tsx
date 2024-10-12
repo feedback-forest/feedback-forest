@@ -154,7 +154,6 @@ const Map = ({
               location: lectureData.short_address,
             };
           });
-          map.panTo(e.coord);
           setCenter(e.coord);
         });
       }
