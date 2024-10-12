@@ -9,22 +9,24 @@ import {
   SkeletonCard,
 } from "@/entities/lecture/ui";
 import {
+  GetLocationLectureListParams,
   LectureInfo,
   LectureSize,
   PickLectureInfo,
   lectureChipContentList,
+  lectureChipContentMap,
   shortAddressList,
 } from "@/entities/lecture/model/lecture";
 import { useEffect, useState } from "react";
 
 import { ChipStatus } from "@/shared/ui/Chip/Chip";
-import Image from "next/image";
 import { LoginUserInfo } from "@/entities/user/model/user";
 import Map from "@/features/map/ui/Map/Map";
 import MapSkeleton from "@/features/map/ui/MapSkeleton/MapSkeleton";
 import { useCarouselApi } from "@/shared/lib/useCarouselApi";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
 import useHomeLectureList from "@/entities/lecture/api/useHomeLectureList";
+import useLocationLectureList from "@/entities/lecture/api/useLocationLectureList";
 import useLoginedUserStore from "@/shared/store/user";
 import { useRouter } from "next/navigation";
 
@@ -37,6 +39,12 @@ const Home = () => {
     size: 9,
     // dist: 500,
   });
+  const [locationLectureParams, setLocationLectureParams] =
+    useState<GetLocationLectureListParams>({
+      page: 0,
+      size: 9,
+      location: "",
+    });
   const [user, setUser] = useState<LoginUserInfo>({
     id: 0,
     email: "",
@@ -64,6 +72,13 @@ const Home = () => {
   const { loginedUser: loginedUserState, setLoginedUser: setLoginedUserStore } =
     useLoginedUserStore();
 
+  const {
+    data: locationLectureListData,
+    isLoading: isLocationLectureListLoading,
+    isSuccess: isLocationLectureListSuccess,
+  } = useLocationLectureList({
+    params: locationLectureParams,
+  });
   const getHomeLectureList = useHomeLectureList();
   const isLoading = getHomeLectureList.isIdle || getHomeLectureList.isPending;
 
@@ -111,7 +126,6 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geolocation.curLocation]);
 
-  // TODO: location 불러오는 걸로 교체 필요
   useEffect(() => {
     if (user.latitude && user.longitude) {
       getHomeLectureList.mutate(
@@ -140,6 +154,17 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lectureSize.page, lectureSize.size, user]);
 
+  // TODO: location 불러오면 lectureInfo location data로 교체 필요
+  useEffect(() => {
+    if (
+      isLocationLectureListSuccess &&
+      locationLectureListData.data.data.data.length > 0
+    ) {
+      const locationLectureData = locationLectureListData.data.data.data;
+      setLectureListData(locationLectureData);
+    }
+  }, [isLocationLectureListSuccess, locationLectureListData?.data.data.data]);
+
   const linkToEntireLecture = () => {
     router.push("/entire");
   };
@@ -166,10 +191,16 @@ const Home = () => {
           lectureChipContent === "서울 강서구" ? "active" : "default",
       };
     });
+    setLocationLectureParams((prev) => {
+      return {
+        ...prev,
+        location: lectureChipContentMap[lectureChipContent],
+      };
+    });
   };
 
   const renderHomeLectureList = () => {
-    if (isLoading) {
+    if (isLoading || isLocationLectureListLoading) {
       return (
         <div className="flex flex-row space-x-6">
           <SkeletonCard type="col" />
@@ -249,19 +280,6 @@ const Home = () => {
             )}
           </div>
           <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
-            {/* <div className="flex flex-row w-full gap-1">
-              <div className="font-semibold desktop:text-xl tablet:text-base mobile:text-base">
-                내 위치에서
-              </div>
-              <div className="flex">
-                <div className="text-custom-purple font-bold desktop:text-xl tablet:text-base mobile:text-base">
-                  1km 이내
-                </div>
-                <div className="font-semibold desktop:text-xl tablet:text-base mobile:text-base">
-                  에 이런 클래스가 있어요!
-                </div>
-              </div>
-            </div> */}
             <div className="flex flex-row justify-between">
               <div className="flex flex-row gap-2">
                 {lectureChipContentList.map((lectureChipContent, idx) => (

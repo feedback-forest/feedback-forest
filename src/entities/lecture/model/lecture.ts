@@ -190,17 +190,17 @@ export interface LectureInfo {
   time: string;
   target: string;
   status: boolean;
+  latitude: number;
+  longitude: number;
   long_address: string;
   short_address: string;
   link: string;
+  division: string;
   heart: boolean;
   start_date: string;
   end_date: string;
   day_of_week: string;
   hosted_by: string;
-  latitude: number;
-  longitude: number;
-  division: string;
 }
 
 export interface LectureListResData {
@@ -283,6 +283,30 @@ export type GetLecture = Payload<
   GetLectureRes
 >;
 
+export interface GetLocationLectureListParams {
+  page: number;
+  size: number;
+  location: string;
+}
+
+export interface GetLocationLectureResData {
+  data: LectureInfo[];
+  hasNext: boolean;
+}
+
+export interface GetLocationLectureListRes {
+  data: GetLocationLectureResData;
+  message: string;
+  status: string;
+}
+
+export type GetLocationLectureList = Payload<
+  undefined,
+  GetLocationLectureListParams,
+  undefined,
+  GetLocationLectureListRes
+>;
+
 export type shortAddressList =
   | "서울 송파구"
   | "서울 마포구"
@@ -295,3 +319,10 @@ export const lectureChipContentList: Array<shortAddressList> = [
   "서울 노원구",
   "서울 강서구",
 ];
+
+export const lectureChipContentMap = {
+  "서울 송파구": "서울특별시 송파구",
+  "서울 마포구": "서울특별시 마포구",
+  "서울 노원구": "서울특별시 노원구",
+  "서울 강서구": "서울특별시 강서구",
+};
