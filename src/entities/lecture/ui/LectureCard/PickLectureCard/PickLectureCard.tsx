@@ -132,8 +132,6 @@ const PickLectureCard = (props: PickLectureCardProps) => {
             alt="heart"
             width={32}
             height={32}
-            onMouseEnter={() => setIsHoveredFilled(false)}
-            onMouseLeave={() => setIsHoveredFilled(true)}
           />
         ) : (
           <Image
@@ -141,8 +139,6 @@ const PickLectureCard = (props: PickLectureCardProps) => {
             alt="heart"
             width={32}
             height={32}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
           />
         )}
       </Button>

@@ -94,7 +94,7 @@ const LectureImageInfo = ({
         <Button
           variant="ghost"
           size="icon"
-          className="flex items-center justify-center desktop:w-[32px] tablet:w-[24px] mobile:w-[24px] desktop:h-[32px] tablet:h-[24px] mobile:h-[24px] bg-transparent"
+          className="flex items-center justify-center desktop:w-[32px] tablet:w-[24px] mobile:w-[24px] desktop:h-[32px] tablet:h-[24px] mobile:h-[24px] bg-transparent hover:bg-transparent"
           onClick={() => handleLikeLecture()}
         >
           {heart ? (
@@ -105,8 +105,6 @@ const LectureImageInfo = ({
               alt="heart"
               width={32}
               height={32}
-              onMouseEnter={() => setIsHoveredFilled(false)}
-              onMouseLeave={() => setIsHoveredFilled(true)}
             />
           ) : (
             <Image
@@ -114,8 +112,6 @@ const LectureImageInfo = ({
               alt="heart filled"
               width={32}
               height={32}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
             />
           )}
         </Button>

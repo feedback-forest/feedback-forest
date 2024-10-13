@@ -12,7 +12,7 @@ export type ChipStatus = "default" | "active";
 
 const chipStatusStyle: Record<ChipStatus, string> = {
   default:
-    "bg-white text-custom-textBlackColor hover:bg-custom-hoverPurple hover:text-white",
+    "bg-white text-custom-textBlackColor hover:bg-white hover:text-custom-purple hover:font-bold ",
   active: "bg-custom-purple text-white",
 };
 

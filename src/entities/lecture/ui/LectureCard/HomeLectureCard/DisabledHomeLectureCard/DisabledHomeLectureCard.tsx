@@ -80,7 +80,7 @@ const DisabledHomeLectureCard = (props: DisabledHomeLectureCardProps) => {
                 )}
               </Button>
             </div>
-            <div className="absolute inset-0 bg-black opacity-70 rounded-lg">
+            <div className="absolute inset-0 bg-black opacity-60 rounded-lg">
               <div className="flex justify-center items-center w-full h-full text-white text-[28px] opacity-100 font-bold">
                 마감
               </div>
@@ -89,21 +89,21 @@ const DisabledHomeLectureCard = (props: DisabledHomeLectureCardProps) => {
           <div className="flex flex-col desktop:px-[22px] tablet:px-4 mobile:px-4 desktop:py-5 tablet:pt-3 tablet:pb-[14px] mobile:pt-3 mobile:pb-[14px] desktop:gap-7 tablet:gap-[14px] mobile:gap-[14px]">
             <div className="flex flex-col desktop:w-[340px] tablet:w-[248px] desktop:h-[93px] tablet:h-[67px]">
               <div className="flex flex-col gap-1">
-                <div className="text-custom-disabled desktop:text-lg tablet:text-sm mobile:text-sm desktop:font-bold tablet:font-medium mobile:font-medium whitespace-nowrap text-ellipsis overflow-hidden">
+                <div className="text-custom-textDescriptionGrayColor desktop:text-lg tablet:text-sm mobile:text-sm desktop:font-bold tablet:font-medium mobile:font-medium whitespace-nowrap text-ellipsis overflow-hidden">
                   {division}
                 </div>
                 <div className="flex justify-between items-center desktop:w-[340px] tablet:w-[248px] mobile:w-[208px]">
-                  <div className="text-custom-disabled desktop:text-2xl tablet:text-base mobile:text-base font-semibold desktop:w-[340px] tablet:w-[248px] mobile:w-[208px] min-w-[208px] max-w-[340px] desktop:min-h-[62px] tablet:min-h-[42px] mobile:min-h-[42px]">
+                  <div className="text-custom-textDescriptionGrayColor desktop:text-2xl tablet:text-base mobile:text-base font-semibold desktop:w-[340px] tablet:w-[248px] mobile:w-[208px] min-w-[208px] max-w-[340px] desktop:min-h-[62px] tablet:min-h-[42px] mobile:min-h-[42px]">
                     [{name}]
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex desktop:flex-row tablet:flex-col mobile:flex-col desktop:justify-between desktop:w-[340px] tablet:w-[248px] mobile:w-[208px] desktop:h-[27px] tablet:h-[48px] mobile:h-[48px]">
-              <div className="text-custom-disabled desktop:text-lg tablet:text-base mobile:text-base desktop:font-semibold tablet:font-medium mobile:font-medium">
+              <div className="text-custom-textDescriptionGrayColor desktop:text-lg tablet:text-base mobile:text-base desktop:font-semibold tablet:font-medium mobile:font-medium">
                 {short_address}
               </div>
-              <div className="text-custom-disabled desktop:text-lg tablet:text-base mobile:text-base desktop:font-bold tablet:font-medium mobile:font-medium ">
+              <div className="text-custom-textDescriptionGrayColor desktop:text-lg tablet:text-base mobile:text-base desktop:font-bold tablet:font-medium mobile:font-medium ">
                 {start_date.replaceAll("-", ".").split(".")[1]}.
                 {start_date.replaceAll("-", ".").split(".")[2]}
                 {`(${shortDayOfWeek})`}

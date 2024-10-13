@@ -58,7 +58,7 @@ const LectureCarousel = ({
   return (
     <Carousel
       setApi={setApi}
-      className="flex items-center justify-center w-full"
+      className="flex items-center justify-start w-full"
     >
       <CarouselContent className="desktop:gap-6 tablet:gap-4 mobile:gap-3 pb-[20px]">
         {lectureInfo.map((lectureData, idx) => {

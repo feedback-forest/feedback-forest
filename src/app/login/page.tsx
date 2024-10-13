@@ -68,6 +68,7 @@ const LoginPage = () => {
         </div>
         <div className="flex flex-col items-center justify-center gap-4">
           <UnifiedTooltip
+            open={true}
             triggerItem={triggerItem()}
             tooltipContent={tooltipContent()}
             contentClassName="bg-white"
