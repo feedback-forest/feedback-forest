@@ -1,6 +1,5 @@
 import { Button } from "../Button";
 import Image from "next/image";
-import { Loader2 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 interface IconButtonProps {
@@ -38,9 +37,7 @@ const IconButton = ({
       )}
       onClick={handleClick}
     >
-      {loading ? (
-        <Loader2 className="h-4 w-4 animate-spin" />
-      ) : (
+      {!loading && (
         <Image src={src} alt={alt} width={iconWidth} height={iconHeight} />
       )}
     </Button>
