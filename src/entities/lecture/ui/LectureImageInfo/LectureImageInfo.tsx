@@ -50,7 +50,7 @@ const LectureImageInfo = ({
           },
           {
             onSuccess: () => {
-              toast("좋아요 삭제 성공");
+              toast("찜한 클래스를 삭제했어요");
             },
             onError: () => {
               setHeart(true);
@@ -66,7 +66,7 @@ const LectureImageInfo = ({
           },
           {
             onSuccess: () => {
-              toast("좋아요 성공");
+              toast("클래스를 찜 했어요");
             },
             onError: () => {
               setHeart(false);
@@ -80,6 +80,18 @@ const LectureImageInfo = ({
   const linkToLogin = () => {
     setOpenLoginDialog(false);
     router.push("/login");
+  };
+
+  const calculateDDay = () => {
+    if (lectureInfo.d_day === 0) {
+      return `오늘 마감`;
+    }
+    if (lectureInfo.d_day > 0) {
+      return `${lectureInfo.d_day}일 지남`;
+    }
+    if (lectureInfo.d_day < 0) {
+      return `${Math.abs(lectureInfo.d_day)}일 남음`;
+    }
   };
 
   const triggerItem = () => {
@@ -152,7 +164,7 @@ const LectureImageInfo = ({
       )}
       {lectureInfo && (
         <div className="absolute top-5 left-[88px] w-[79px] h-8 content-center text-center text-white text-base font-semibold rounded bg-custom-textSemiBoldBlackColor">
-          {lectureInfo.d_day}일 남음
+          {calculateDDay()}
         </div>
       )}
       <UnifiedDialog

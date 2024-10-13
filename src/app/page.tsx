@@ -18,6 +18,7 @@ import {
   lectureChipContentMap,
   shortAddressList,
 } from "@/entities/lecture/model/lecture";
+import { Location, markerLocationMap } from "@/features/map/model/map";
 import { useEffect, useState } from "react";
 
 import { ChipStatus } from "@/shared/ui/Chip/Chip";
@@ -69,6 +70,7 @@ const Home = () => {
     "서울 노원구": "default",
     "서울 강서구": "default",
   });
+  const [markerLocation, setMarkerLocation] = useState<Location>();
 
   const { current, count } = useCarouselApi(carouselApi);
 
@@ -159,7 +161,6 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lectureSize.page, lectureSize.size, user]);
 
-  // TODO: location 불러오면 lectureInfo location data로 교체 필요
   useEffect(() => {
     if (
       isLocationLectureListSuccess &&
@@ -196,6 +197,12 @@ const Home = () => {
           lectureChipContent === "서울 강서구" ? "active" : "default",
       };
     });
+    setMarkerLocation(() => {
+      return {
+        latitude: markerLocationMap[lectureChipContent]["latitude"],
+        longitude: markerLocationMap[lectureChipContent]["longitude"],
+      };
+    });
     setLocationLectureParams((prev) => {
       return {
         ...prev,
@@ -207,7 +214,7 @@ const Home = () => {
   const renderHomeLectureList = () => {
     if (isLoading || isLocationLectureListLoading) {
       return (
-        <div className="flex flex-row space-x-6">
+        <div className="flex flex-row space-x-6 desktop:px-[120px] tablet:px-8 mobile:px-6">
           <SkeletonCard type="col" />
           <SkeletonCard type="col" />
           <SkeletonCard type="col" />
@@ -218,13 +225,15 @@ const Home = () => {
     if (lectureListData && lectureListData.length > 0) {
       return (
         <div className="flex flex-col desktop:w-full desktop:h-full tablet:w-full table:h-full mobile:w-full">
-          <LectureCarousel
-            lectureInfo={lectureListData}
-            setApi={setCarouselApi}
-            isNextIcon
-            isPreviousIcon
-          />
-          <div className="flex flex-row items-center justify-center gap-[18px]">
+          <div className="desktop:pl-[120px] tablet:px-8 mobile:px-6">
+            <LectureCarousel
+              lectureInfo={lectureListData}
+              setApi={setCarouselApi}
+              isNextIcon
+              isPreviousIcon
+            />
+          </div>
+          <div className="flex flex-row items-center justify-center desktop:px-[120px] tablet:px-8 mobile:px-6 gap-[18px]">
             <Progress
               value={calculateProgressBar()}
               className="h-[3px] rounded-none"
@@ -267,9 +276,9 @@ const Home = () => {
   return (
     <div className="flex w-full h-full flex-col 16">
       <Description />
-      <div className="flex flex-col desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:pt-[84px] tablet:pt-12 mobile:pt-12 desktop:pb-[120px] tablet:pb-[99px] mobile:pb-[82px] bg-custom-homeMapBackground desktop:gap-[120px] tablet:gap-[80px] mobile:gap-[80px]">
+      <div className="flex flex-col desktop:pt-[84px] tablet:pt-12 mobile:pt-12 desktop:pb-[120px] tablet:pb-[99px] mobile:pb-[82px] bg-custom-homeMapBackground desktop:gap-[120px] tablet:gap-[80px] mobile:gap-[80px]">
         <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
-          <div className="flex flex-col desktop:gap-8 tablet:gap-6 mobile:gap-6">
+          <div className="flex flex-col desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:gap-8 tablet:gap-6 mobile:gap-6">
             <div className="flex flex-row justify-between">
               <div className="desktop:text-2xl tablet:text-xl mobile:text-xl font-bold">
                 내 주변 문화생활 클래스☺️
@@ -280,6 +289,8 @@ const Home = () => {
               <Map
                 latitude={user.latitude}
                 longitude={user.longitude}
+                markerLatitude={markerLocation?.latitude}
+                markerLongitude={markerLocation?.longitude}
                 setLocationLectureParams={setLocationLectureParams}
                 setChipStatus={setChipStatus}
                 lectureListData={lectureListData}
@@ -288,7 +299,7 @@ const Home = () => {
             )}
           </div>
           <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
-            <div className="flex desktop:flex-row tablet:flex-row mobile:flex-col justify-between mobile:gap-[14px]">
+            <div className="flex desktop:flex-row tablet:flex-row mobile:flex-col justify-between desktop:px-[120px] tablet:px-8 mobile:px-6 mobile:gap-[14px]">
               <div className="flex flex-row gap-2 desktop:max-w-[460px] tablet:max-w-[460px] mobile:max-w-[312px] overflow-x-scroll scrollbar-hide">
                 {lectureChipContentList.map((lectureChipContent, idx) => (
                   <Chip
@@ -318,8 +329,10 @@ const Home = () => {
             <div>{renderHomeLectureList()}</div>
           </div>
         </div>
-        <IntroductionBanner />
-        <div className="flex flex-col pb-4 gap-5">
+        <div className="desktop:px-[120px] tablet:px-8 mobile:px-6 ">
+          <IntroductionBanner />
+        </div>
+        <div className="flex flex-col pb-4 desktop:px-[120px] tablet:px-8 mobile:px-6 gap-5">
           <div className="flex flex-col">
             <div className="flex flex-row gap-1">
               <div className="font-bold desktop:text-2xl tablet:text-xl mobile:text-xl">

@@ -22,6 +22,8 @@ export type NaverMap = naver.maps.Map;
 interface MapProps {
   latitude: number;
   longitude: number;
+  markerLatitude?: number;
+  markerLongitude?: number;
   setChipStatus: Dispatch<SetStateAction<Record<shortAddressList, ChipStatus>>>;
   lectureListData: LectureInfo[];
   markerLectureListData: MarkerLectureInfo[];
@@ -33,6 +35,8 @@ interface MapProps {
 const Map = ({
   latitude,
   longitude,
+  markerLatitude,
+  markerLongitude,
   setChipStatus,
   setLocationLectureParams,
   lectureListData,
@@ -200,6 +204,12 @@ const Map = ({
       initMap();
     }
   }, [initMap]);
+
+  useEffect(() => {
+    if (markerLatitude && markerLongitude) {
+      setCenter(new naver.maps.LatLng(markerLatitude, markerLongitude));
+    }
+  }, [markerLatitude, markerLongitude]);
 
   return (
     <div className="rounded-lg overflow-hidden">

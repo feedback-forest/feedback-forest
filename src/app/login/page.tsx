@@ -16,7 +16,7 @@ const LoginPage = () => {
   const triggerItem = () => {
     return (
       <Button
-        className="bg-custom-kakao hover:bg-amber-300 text-black desktop:w-[351px] tablet:w-[351px] mobile:w-[260px] h-[56px]"
+        className="bg-custom-kakao hover:bg-custom-hoverKakao text-black desktop:w-[351px] tablet:w-[351px] mobile:w-[260px] h-[56px]"
         size="lg"
         onClick={linkToKakaoLogin}
       >
