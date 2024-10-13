@@ -215,9 +215,9 @@ const Home = () => {
     if (isLoading || isLocationLectureListLoading) {
       return (
         <div className="flex flex-row space-x-6 desktop:px-[120px] tablet:px-8 mobile:px-6">
-          <SkeletonCard type="col" />
-          <SkeletonCard type="col" />
-          <SkeletonCard type="col" />
+          <SkeletonCard type="homeLecture" />
+          <SkeletonCard type="homeLecture" />
+          <SkeletonCard type="homeLecture" />
         </div>
       );
     }
@@ -256,8 +256,9 @@ const Home = () => {
     if (isLoading) {
       return (
         <div className="flex desktop:flex-row tablet:flex-col gap-6">
-          <SkeletonCard type="col" />
-          <SkeletonCard type="col" />
+          <SkeletonCard type="pickLecture" />
+          <SkeletonCard type="pickLecture" />
+          <SkeletonCard type="pickLecture" />
         </div>
       );
     }
@@ -281,7 +282,7 @@ const Home = () => {
           <div className="flex flex-col desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:gap-8 tablet:gap-6 mobile:gap-6">
             <div className="flex flex-row justify-between">
               <div className="desktop:text-2xl tablet:text-xl mobile:text-xl font-bold">
-                내 주변 문화생활 클래스☺️
+                내 주변 문화생활 클래스 ☺️
               </div>
             </div>
             {isLoading && <MapSkeleton />}
