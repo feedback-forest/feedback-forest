@@ -11,6 +11,7 @@ import {
 import {
   GetLocationLectureListParams,
   LectureInfo,
+  MarkerLectureInfo,
   shortAddressList,
 } from "@/entities/lecture/model/lecture";
 
@@ -23,6 +24,7 @@ interface MapProps {
   longitude: number;
   setChipStatus: Dispatch<SetStateAction<Record<shortAddressList, ChipStatus>>>;
   lectureListData: LectureInfo[];
+  markerLectureListData: MarkerLectureInfo[];
   setLocationLectureParams: Dispatch<
     SetStateAction<GetLocationLectureListParams>
   >;
@@ -34,6 +36,7 @@ const Map = ({
   setChipStatus,
   setLocationLectureParams,
   lectureListData,
+  markerLectureListData,
 }: MapProps) => {
   const [selectedLectureId, setSelectedLectureId] = useState<number | null>();
   // TODO: Center 값 상태관리 필요(* Chip 클릭 시 중앙 값 해당 구 위도 경도로 바뀌게 처리 필요)
@@ -79,7 +82,7 @@ const Map = ({
 
     // 클래스 Marker
 
-    lectureListData.forEach((lectureData) => {
+    markerLectureListData.forEach((lectureData) => {
       if (lectureData.latitude && lectureData.longitude) {
         const classMarker = new naver.maps.Marker({
           position: new naver.maps.LatLng(

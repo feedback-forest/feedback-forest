@@ -109,7 +109,7 @@ export const lectureSummaryList: Array<LectureSummaryListProps> = [
         return `${lectureContent[0].startDate}`;
       }
 
-      return `${lectureContent[0].startDate}~${lectureContent[0].endDate} 총 ${lectureContent[0].total}회`;
+      return `${lectureContent[0].startDate}~${lectureContent[0].endDate} ${lectureContent[0].total !== -1 ? `총 ${lectureContent[0].total}회` : ""}`;
     },
   },
   {
@@ -248,9 +248,18 @@ export interface PickLectureInfo {
   division: string;
 }
 
+export interface MarkerLectureInfo {
+  longitude: number;
+  latitude: number;
+  short_address: string;
+  long_address: string;
+  hosted_by: string;
+}
+
 export interface LectureListResData {
   data: LectureInfo[];
   pickClasses: PickLectureInfo[];
+  markerClasses: MarkerLectureInfo[];
   hasNext: boolean;
 }
 export interface GetHomeLectureListRes {

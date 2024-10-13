@@ -12,6 +12,7 @@ import {
   GetLocationLectureListParams,
   LectureInfo,
   LectureSize,
+  MarkerLectureInfo,
   PickLectureInfo,
   lectureChipContentList,
   lectureChipContentMap,
@@ -34,6 +35,8 @@ const Home = () => {
   const [lectureListData, setLectureListData] = useState<LectureInfo[]>();
   const [pickLectureListData, sePickLectureListData] =
     useState<PickLectureInfo[]>();
+  const [markerLectureListData, setMarkerLectureListData] =
+    useState<MarkerLectureInfo[]>();
   const [lectureSize, setLectureSize] = useState<LectureSize>({
     page: 0,
     size: 9,
@@ -144,8 +147,10 @@ const Home = () => {
           onSuccess: (data) => {
             const lectureListData = data.data.data.data;
             const pickLectureListData = data.data.data.pickClasses;
+            const markerLectureListData = data.data.data.markerClasses;
             setLectureListData(lectureListData);
             sePickLectureListData(pickLectureListData);
+            setMarkerLectureListData(markerLectureListData);
           },
           onError: () => {},
         },
@@ -271,13 +276,14 @@ const Home = () => {
               </div>
             </div>
             {isLoading && <MapSkeleton />}
-            {lectureListData && (
+            {lectureListData && markerLectureListData && (
               <Map
                 latitude={user.latitude}
                 longitude={user.longitude}
                 setLocationLectureParams={setLocationLectureParams}
                 setChipStatus={setChipStatus}
                 lectureListData={lectureListData}
+                markerLectureListData={markerLectureListData}
               />
             )}
           </div>
