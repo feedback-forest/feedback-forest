@@ -32,7 +32,7 @@ const IconButton = ({
       size="icon"
       disabled={loading}
       className={twMerge(
-        "flex flex-col items-center justify-center content-center w-[32px] h-[32px] hover:bg-gray-200",
+        "flex flex-col items-center justify-center content-center w-[32px] h-[32px] hover:bg-gray-200 hover:bg-transparent",
         `w-[${buttonWidth}px], h-[${buttonHeight}px]`,
         className,
       )}
