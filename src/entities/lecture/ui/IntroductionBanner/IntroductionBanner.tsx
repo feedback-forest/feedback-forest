@@ -13,7 +13,7 @@ const IntroductionBanner = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // 초기값 설정
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);

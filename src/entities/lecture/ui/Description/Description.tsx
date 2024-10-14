@@ -1,13 +1,15 @@
 "use client";
 
 import { CarouselApi, ImageCarousel } from "../../../../shared/ui";
+import { useEffect, useState } from "react";
 
 import { CarouselImage } from "@/shared/ui/ImageCarousel/ImageCarousel";
 import { useCarouselApi } from "@/shared/lib/useCarouselApi";
-import { useState } from "react";
 
 const Description = () => {
   const [api, setApi] = useState<CarouselApi>();
+  const [windowWidth, setWindowWidth] = useState(0);
+
   const { current, count } = useCarouselApi(api);
 
   const descriptionImages: CarouselImage[] = [
@@ -31,6 +33,47 @@ const Description = () => {
     },
   ];
 
+  const mobileDescriptionImages: CarouselImage[] = [
+    {
+      src: "/images/main_banner_mobile_1.png",
+      alt: "senior",
+      width: 360,
+      height: 400,
+    },
+    {
+      src: "/images/main_banner_mobile_1.png",
+      alt: "sijak_happy",
+      width: 360,
+      height: 400,
+    },
+    {
+      src: "/images/main_banner_mobile_1.png",
+      alt: "sijak_position",
+      width: 360,
+      height: 400,
+    },
+  ];
+
+  const imagesByWindowWidth = () => {
+    if (windowWidth < 768) {
+      return mobileDescriptionImages;
+    }
+    return descriptionImages;
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="flex w-full flex-col justify-center items-center ">
       <div className="flex flex-col justify-center items-center gap-4">
@@ -38,7 +81,7 @@ const Description = () => {
           <div className="flex relative flex-col desktop:w-full desktop:h-full tablet:w-full table:h-full mobile:w-full ">
             <ImageCarousel
               setApi={setApi}
-              images={descriptionImages}
+              images={imagesByWindowWidth()}
               isPreviousIcon
               isNextIcon
             />
