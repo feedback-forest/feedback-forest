@@ -13,8 +13,6 @@ import {
 import { useEffect, useState } from "react";
 
 import { BackToPrevious } from "@/shared/ui";
-import Image from "next/image";
-import { SquareLoader } from "react-spinners";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
 import { useInView } from "react-intersection-observer";
 import useLectureList from "@/entities/lecture/api/useLectureList";
@@ -98,7 +96,8 @@ const EntirePage = () => {
       return (
         <div>
           <LectureList lectureListData={lectureListData} type="pickLecture" />
-          <div ref={ref} className="h-[200px]" /> {/* 스크롤 감지 요소 */}
+          <div ref={ref} className="desktop:h-6 tablet:h-4 mobile:h-9" />{" "}
+          {/* 스크롤 감지 요소 */}
           {isLoading && (
             <div className="flex flex-row space-x-4">
               <SkeletonCard type="pickLecture" />
@@ -112,16 +111,16 @@ const EntirePage = () => {
 
     if (isLoading) {
       return (
-        <div className="flex justify-center items-center h-screen">
-          <SquareLoader color="#4F118C" />
+        <div className="grid desktop:grid-cols-3 tablet:grid-cols-2 mobile:grid-cols-1 desktop:gap-6 tablet:gap-4 mobile:gap-9">
+          <SkeletonCard type="pickLecture" />
+          <SkeletonCard type="pickLecture" />
+          <SkeletonCard type="pickLecture" />
         </div>
       );
     }
 
     return <NotFoundLecture />;
   };
-
-  // TODO: 무한 스크롤
 
   return (
     <div className="flex flex-col w-full h-full justify-start items-center desktop:pt-20 tablet:pt-10 mobile:pt-10 bg-custom-homeMapBackground relative">

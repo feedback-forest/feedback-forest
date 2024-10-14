@@ -35,6 +35,7 @@ export const LECTURE_KEYS = {
     end_date?: string;
     day_of_week?: string;
     hosted_by?: string;
+    location?: string;
     page?: number;
     size?: number;
   }) => [...LECTURE_KEYS.all, "list", filters],
@@ -112,18 +113,20 @@ export const LIKE_LECTURE_KEYS = {
   all: [KEY_DOMAINS.likeClass],
   lists: () => [...LIKE_LECTURE_KEYS.all, "list"],
   list: (filters?: {
-    name: string;
-    description: string;
-    price: number;
-    day_of_week: string;
-    time: string;
-    capacity: number;
-    link: string;
-    location: string;
-    latitude: number;
-    longitude: number;
-    target: string;
-    status: string;
+    name?: string;
+    description?: string;
+    price?: number;
+    day_of_week?: string;
+    time?: string;
+    capacity?: number;
+    link?: string;
+    location?: string;
+    latitude?: number;
+    longitude?: number;
+    target?: string;
+    status?: string;
+    page?: number;
+    size?: number;
   }) => [...LIKE_LECTURE_KEYS.all, "list", filters],
   details: () => [...LIKE_LECTURE_KEYS.all, "detail"],
   detail: (filters: { classId: number }) => [

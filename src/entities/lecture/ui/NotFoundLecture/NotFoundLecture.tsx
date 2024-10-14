@@ -1,6 +1,12 @@
 import Image from "next/image";
 
-const NotFoundLecture = () => {
+interface NotFoundLectureProps {
+  description?: string;
+}
+
+const NotFoundLecture = ({
+  description = "이용에 불편을 드려 죄송합니다.",
+}: NotFoundLectureProps) => {
   return (
     <div className="flex flex-col items-center justify-center desktop:w-full tablet:w-full mobile:w-[180px] h-full gap-[6px] pt-[173px]">
       <div className="">
@@ -21,7 +27,7 @@ const NotFoundLecture = () => {
           </div>
         </div>
         <div className="desktop:text-lg tablet:text-sm mobile:text-sm text-custom-textGrayColor font-medium">
-          이용에 불편을 드려 죄송합니다.
+          {description}
         </div>
       </div>
     </div>

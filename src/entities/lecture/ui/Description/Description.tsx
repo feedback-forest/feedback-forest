@@ -8,25 +8,25 @@ import { useCarouselApi } from "@/shared/lib/useCarouselApi";
 
 const Description = () => {
   const [api, setApi] = useState<CarouselApi>();
-  const [windowWidth, setWindowWidth] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(1440);
 
   const { current, count } = useCarouselApi(api);
 
   const descriptionImages: CarouselImage[] = [
     {
-      src: "/images/main_banner_1.png",
+      src: "https://s3.ap-northeast-2.amazonaws.com/sijak.app/mainbanner/main_banner_1.png",
       alt: "senior",
       width: 1440,
       height: 640,
     },
     {
-      src: "/images/main_banner_2.png",
+      src: "https://s3.ap-northeast-2.amazonaws.com/sijak.app/mainbanner/main_banner_2.png",
       alt: "sijak_happy",
       width: 1440,
       height: 640,
     },
     {
-      src: "/images/main_banner_3.png",
+      src: "https://s3.ap-northeast-2.amazonaws.com/sijak.app/mainbanner/main_banner_3.png",
       alt: "sijak_position",
       width: 1440,
       height: 640,
@@ -37,19 +37,19 @@ const Description = () => {
     {
       src: "/images/main_banner_mobile_1.png",
       alt: "senior",
-      width: 360,
+      width: 768,
       height: 400,
     },
     {
-      src: "/images/main_banner_mobile_1.png",
+      src: "/images/main_banner_mobile_2.png",
       alt: "sijak_happy",
-      width: 360,
+      width: 768,
       height: 400,
     },
     {
-      src: "/images/main_banner_mobile_1.png",
+      src: "/images/main_banner_mobile_3.png",
       alt: "sijak_position",
-      width: 360,
+      width: 768,
       height: 400,
     },
   ];
@@ -78,7 +78,7 @@ const Description = () => {
     <div className="flex w-full flex-col justify-center items-center ">
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="flex flex-col gap-3">
-          <div className="flex relative flex-col desktop:w-full desktop:h-full tablet:w-full table:h-full mobile:w-full ">
+          <div className="flex relative flex-col desktop:w-full desktop:h-full tablet:w-full tablet:h-full mobile:w-full ">
             <ImageCarousel
               setApi={setApi}
               images={imagesByWindowWidth()}

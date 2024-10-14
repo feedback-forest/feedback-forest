@@ -24,11 +24,11 @@ const IntroductionBanner = () => {
   let width;
   let height;
 
-  if (windowWidth < 768) {
+  if (windowWidth < 400) {
     src = "/images/sub_banner_mobile.png";
     width = 312;
     height = 156;
-  } else if (windowWidth < 1440) {
+  } else if (windowWidth < 768) {
     src = "/images/sub_banner_tablet.png";
     width = 704;
     height = 156;

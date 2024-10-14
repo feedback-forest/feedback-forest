@@ -19,10 +19,13 @@ const useDeleteLikeLecture = (lectureId: number) => {
         }),
       });
       queryClient.invalidateQueries({
-        queryKey: LECTURE_KEYS.lists(),
+        queryKey: LECTURE_KEYS.list({ location: " ", page: 0, size: 9 }),
       });
       queryClient.invalidateQueries({
-        queryKey: LIKE_LECTURE_KEYS.list(),
+        queryKey: LIKE_LECTURE_KEYS.list({ page: 0, size: 9 }),
+      });
+      queryClient.refetchQueries({
+        queryKey: LIKE_LECTURE_KEYS.list({ page: 0, size: 9 }),
       });
     },
   });

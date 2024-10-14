@@ -7,7 +7,6 @@ import {
 } from "../../model/lecture";
 
 import { LectureDetailItem } from "./LectureDetailItem";
-import { SquareLoader } from "react-spinners";
 
 interface LectureDetailProps {
   lectureInfo?: Lecture;
@@ -15,13 +14,6 @@ interface LectureDetailProps {
 }
 
 const LectureDetail = ({ lectureInfo, isLoading }: LectureDetailProps) => {
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center w-full h-screen">
-        <SquareLoader />
-      </div>
-    );
-  }
   return (
     <div className="flex flex-col w-full desktop:px-[120px] tablet:px-8 mobile:px-6 pb-[349px] desktop:gap-[140px] tablet:gap-[52px] mobile:gap-5">
       <div className="flex flex-col justify-center desktop:w-full tablet:w-[704px] mobile:w-[312px] gap-[30px]">
@@ -43,7 +35,7 @@ const LectureDetail = ({ lectureInfo, isLoading }: LectureDetailProps) => {
                         ? lectureDetailItem.render(
                             lectureInfo[lectureDetailItem.type],
                           )
-                        : ""
+                        : " "
                     }
                   />
                   <Divider />

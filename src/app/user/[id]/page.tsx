@@ -248,7 +248,8 @@ const UserInfoPage = () => {
                 </div>
                 {/* TODO: 연령대, 주소 조건문 처리 */}
                 <div className="desktop:h-[33px] tablet:h-[30px] mobile:h-[21px] desktop:text-[22px] tablet:text-[20px] mobile:text-sm text-custom-textGrayColor">
-                  {userAgeMap[loginedUser.age_range]}대, {loginedUser.location}
+                  {userAgeMap[loginedUser.age_range]}대
+                  {/* , {loginedUser.location} */}
                 </div>
               </div>
             </div>
@@ -289,7 +290,7 @@ const UserInfoPage = () => {
                       />
                     )}
                   />
-                  <div className="flex flex-row gap-4">
+                  {/* <div className="flex flex-row gap-4">
                     <Controller
                       name="address"
                       control={control}
@@ -328,7 +329,7 @@ const UserInfoPage = () => {
                         </div>
                       </Button>
                     </div>
-                  </div>
+                  </div> */}
                   <InputLabel
                     labelContent="이메일"
                     placeholder={loginedUser.email}

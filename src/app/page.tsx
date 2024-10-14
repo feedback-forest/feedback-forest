@@ -1,6 +1,6 @@
 "use client";
 
-import { CarouselApi, Chip, Progress } from "@/shared/ui";
+import { CarouselApi, Chip, Progress, Skeleton } from "@/shared/ui";
 import {
   Description,
   IntroductionBanner,
@@ -215,17 +215,20 @@ const Home = () => {
   const renderHomeLectureList = () => {
     if (isLoading || isLocationLectureListLoading) {
       return (
-        <div className="flex flex-row space-x-6 desktop:px-[120px] tablet:px-8 mobile:px-6">
-          <SkeletonCard type="homeLecture" />
-          <SkeletonCard type="homeLecture" />
-          <SkeletonCard type="homeLecture" />
+        <div className="flex flex-col">
+          <div className="flex flex-row space-x-6 desktop:px-[120px] tablet:px-8 mobile:px-6">
+            <SkeletonCard type="homeLecture" />
+            <SkeletonCard type="homeLecture" />
+            <SkeletonCard type="homeLecture" />
+          </div>
+          <div className="h-[58px]"></div>
         </div>
       );
     }
 
     if (lectureListData && lectureListData.length > 0) {
       return (
-        <div className="flex flex-col desktop:w-full desktop:h-full tablet:w-full table:h-full mobile:w-full">
+        <div className="flex flex-col desktop:w-full desktop:h-full tablet:w-full tablet:h-full mobile:w-full">
           <div className="desktop:pl-[120px] tablet:px-8 mobile:px-6">
             <LectureCarousel
               lectureInfo={lectureListData}
@@ -328,7 +331,11 @@ const Home = () => {
           </div>
         </div>
         <div className="desktop:px-[120px] tablet:px-8 mobile:px-6 ">
-          <IntroductionBanner />
+          {isLoading ? (
+            <Skeleton className="w-full desktop:h-[217px] tablet:h-[132px] mobile:h-[156px]" />
+          ) : (
+            <IntroductionBanner />
+          )}
         </div>
         <div className="flex flex-col pb-4 desktop:px-[120px] tablet:px-8 mobile:px-6 gap-5">
           <div className="flex flex-col">
