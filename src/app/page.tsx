@@ -6,6 +6,7 @@ import {
   IntroductionBanner,
   LectureCarousel,
   LectureList,
+  NotFoundLecture,
   SkeletonCard,
 } from "@/entities/lecture/ui";
 import {
@@ -247,9 +248,7 @@ const Home = () => {
       );
     }
 
-    return (
-      <div className="text-2xl font-semibold">클래스가 존재하지 않습니다</div>
-    );
+    return <NotFoundLecture />;
   };
 
   const renderPickLectureList = () => {
@@ -269,9 +268,7 @@ const Home = () => {
       );
     }
 
-    return (
-      <div className="text-2xl font-semibold">클래스가 존재하지 않습니다</div>
-    );
+    return <NotFoundLecture />;
   };
 
   return (
