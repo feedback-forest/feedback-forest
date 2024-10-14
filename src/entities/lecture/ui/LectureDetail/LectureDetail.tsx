@@ -6,6 +6,7 @@ import {
   lectureDetailList,
 } from "../../model/lecture";
 
+import Image from "next/image";
 import { LectureDetailItem } from "./LectureDetailItem";
 
 interface LectureDetailProps {
@@ -43,6 +44,19 @@ const LectureDetail = ({ lectureInfo, isLoading }: LectureDetailProps) => {
               );
             },
           )}
+          {lectureInfo &&
+            lectureInfo.images &&
+            lectureInfo.images.map((image) => (
+              <div key={image.id} className="w-auto h-auto">
+                <Image
+                  src={image.url}
+                  alt={`${image.id}`}
+                  width={1200}
+                  height={1000}
+                  className="object-cover"
+                />
+              </div>
+            ))}
         </div>
       </div>
       <div className="flex flex-col desktop:w-[1200px] tablet:w-[704px] mobile:w-[312px] gap-[30px]">

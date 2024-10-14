@@ -34,6 +34,8 @@ const nextConfig = {
       "www.50plus.or.kr",
       "s3.ap-northeast-2.amazonaws.com",
       "www.songpawoman.org",
+      "mapo50.org",
+      "50plus.or.kr",
     ],
   },
 };
