@@ -1,21 +1,25 @@
 import Image from "next/image";
 
 interface NotFoundLectureProps {
+  isHideIcon?: boolean;
   description?: string;
 }
 
 const NotFoundLecture = ({
+  isHideIcon = false,
   description = "이용에 불편을 드려 죄송합니다.",
 }: NotFoundLectureProps) => {
   return (
     <div className="flex flex-col items-center justify-center desktop:w-full tablet:w-full mobile:w-[180px] h-full gap-[6px] pt-[173px]">
       <div className="">
-        <Image
-          src="/icons/x_circle.svg"
-          alt="x_circle"
-          width={40}
-          height={40}
-        />
+        {!isHideIcon && (
+          <Image
+            src="/icons/x_circle.svg"
+            alt="x_circle"
+            width={40}
+            height={40}
+          />
+        )}
       </div>
       <div className="flex flex-col items-center justify-center gap-[18px]">
         <div className="flex items-center justify-center desktop:flex-row tablet:flex-row mobile:flex-col desktop:gap-2 tablet:gap-1.5 mobile:gap-0">

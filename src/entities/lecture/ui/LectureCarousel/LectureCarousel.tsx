@@ -101,13 +101,13 @@ const LectureCarousel = ({
       {isPreviousIcon && (
         <CarouselPrevious
           variant="ghost"
-          className="hover:bg-transparent desktop:ml-[30px] tablet:ml-8 w-16 h-16"
+          className="hover:bg-transparent desktop:ml-[30px] tablet:ml-8 w-16 h-16 bg-black"
         />
       )}
       {isNextIcon && (
         <CarouselNext
           variant="ghost"
-          className="hover:bg-transparent desktop:mr-[30px] tablet:mr-8 w-16 h-16"
+          className="hover:bg-transparent desktop:mr-[30px] tablet:mr-8 w-16 h-16 bg-black"
         />
       )}
     </Carousel>

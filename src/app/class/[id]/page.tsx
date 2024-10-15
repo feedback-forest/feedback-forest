@@ -182,7 +182,7 @@ const LectureInfoPage = () => {
     return (
       <div className="flex w-full h-screen desktop:max-w-[1440px] tablet:max-w-[768px] mobile:max-w-[360px]  mx-auto my-0">
         <div className="flex items-center justify-center w-full h-full">
-          <SquareLoader />
+          <SquareLoader color="#4F118C" />
         </div>
         <div className="flex flex-row items-center w-full desktop:h-[70px] tablet:h-[70px] mobile:h-[55px] desktop:px-[120px] bg-white fixed bottom-0 border-t border-l border-custom-disabled z-10">
           <div className="flex desktop:w-[98px] tablet:min-w-[98px] mobile:min-w-[76px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] border-r border-custom-disabled justify-center items-center">

@@ -3,6 +3,7 @@ import { IconDialog, ImageDescription, Skeleton } from "@/shared/ui";
 import Image from "next/image";
 import { Lecture } from "@/entities/lecture/model/lecture";
 import { handleCopyClipBoard } from "@/shared/lib/utils";
+import { useToast } from "@/shared/hooks/useToast";
 
 interface LectureInfoDetailHeaderProps {
   lectureInfo?: Lecture;
@@ -13,6 +14,8 @@ const LectureSummaryHeader = ({
   lectureInfo,
   isLoading,
 }: LectureInfoDetailHeaderProps) => {
+  const { toast } = useToast();
+
   const shareLinkToKakao = () => {
     // TODO: 카카오 링크 공유하기 API
   };
@@ -20,6 +23,9 @@ const LectureSummaryHeader = ({
   const shareLinkToURL = () => {
     const currentUrl = window.location.href;
     handleCopyClipBoard(currentUrl);
+    toast({
+      title: "링크를 복사했어요",
+    });
   };
 
   const renderDialogTriggerItem = () => {

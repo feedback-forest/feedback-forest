@@ -337,17 +337,12 @@ const Home = () => {
             <IntroductionBanner />
           )}
         </div>
-        <div className="flex flex-col pb-4 desktop:px-[120px] tablet:px-8 mobile:px-6 gap-5">
-          <div className="flex flex-col">
-            <div className="flex flex-row gap-1">
-              <div className="font-bold desktop:text-2xl tablet:text-xl mobile:text-xl">
-                시:작 PICK
-              </div>
-              <div className="desktop:text-2xl tablet:text-xl mobile:text-xl">
-                클래스 📌
-              </div>
+        <div className="flex flex-col pb-4 desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:gap-8 tablet:gap-5 mobile:gap-5">
+          <div className="flex flex-col gap-2">
+            <div className="font-bold desktop:text-2xl tablet:text-xl mobile:text-xl">
+              시:작 PICK 클래스 📌
             </div>
-            <div className="font-medium desktop:text-xl tablet:text-base mobile:text-base">
+            <div className="text-custom-tooltipBackground font-medium desktop:text-xl tablet:text-base mobile:text-base">
               조회 수 많은 추천 클래스를 소개할게요!
             </div>
           </div>

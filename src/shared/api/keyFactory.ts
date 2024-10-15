@@ -78,7 +78,7 @@ export const HOME_LECTURE_KEYS = {
 };
 
 export const LOCATION_LECTURE_KEYS = {
-  all: [KEY_DOMAINS.homeLecture],
+  all: [KEY_DOMAINS.locationLecture],
   lists: () => [...LOCATION_LECTURE_KEYS.all, "list"],
   list: (filters?: {
     id?: number;

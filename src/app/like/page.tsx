@@ -94,7 +94,10 @@ const LikePage = () => {
     }
 
     return (
-      <NotFoundLecture description="아직 찜한 클래스가 없습니다. 마음에 드는 강좌를 찾아 찜해보세요!" />
+      <NotFoundLecture
+        description="아직 찜한 클래스가 없습니다. 마음에 드는 강좌를 찾아 찜해보세요!"
+        isHideIcon
+      />
     );
   };
 

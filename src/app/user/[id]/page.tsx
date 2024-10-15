@@ -21,6 +21,7 @@ import useGetLoginUserInfo from "@/entities/user/api/useGetLoginUserInfo";
 import usePatchUserAddress from "@/entities/user/api/usePatchUserAddress";
 import usePatchUserInfo from "@/entities/user/api/usePatchUserInfo";
 import usePostLogout from "@/features/authentication/api/usePostLogout";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import useValidateNickname from "@/entities/user/api/useValidateNickname";
 
@@ -54,7 +55,7 @@ const UserInfoPage = () => {
   const postLogout = usePostLogout();
 
   const validateNickname = useValidateNickname();
-  const patchUserAddress = usePatchUserAddress();
+  // const patchUserAddress = usePatchUserAddress();
   const patchUserInfo = usePatchUserInfo();
 
   const {
@@ -73,6 +74,8 @@ const UserInfoPage = () => {
 
   const [status, setStatus] = useState<InputLabelStatus>("default");
   const [message, setMessage] = useState<string>("");
+
+  const queryClient = useQueryClient();
 
   const validationCheckNickname = debounce((nickname: string) => {
     validateNickname.mutate(
@@ -111,21 +114,21 @@ const UserInfoPage = () => {
     validationCheckNickname(nickname);
   };
 
-  const updateCurrentPosition = () => {
-    if (user) {
-      patchUserAddress.mutate(
-        {
-          latitude: user.latitude,
-          longitude: user.longitude,
-        },
-        {
-          onSuccess: (data) => {
-            setValue("address", data.data.data.address);
-          },
-        },
-      );
-    }
-  };
+  // const updateCurrentPosition = () => {
+  //   if (user) {
+  //     patchUserAddress.mutate(
+  //       {
+  //         latitude: user.latitude,
+  //         longitude: user.longitude,
+  //       },
+  //       {
+  //         onSuccess: (data) => {
+  //           setValue("address", data.data.data.address);
+  //         },
+  //       },
+  //     );
+  //   }
+  // };
 
   const updateUserInfo: SubmitHandler<UserInfoForm> = (data) => {
     patchUserInfo.mutate(
@@ -148,6 +151,7 @@ const UserInfoPage = () => {
         deleteCookie("accessToken");
         deleteCookie("refreshToken");
         toast("로그아웃 성공");
+        queryClient.clear();
         router.push("/");
       },
     });
@@ -248,7 +252,8 @@ const UserInfoPage = () => {
                 </div>
                 {/* TODO: 연령대, 주소 조건문 처리 */}
                 <div className="desktop:h-[33px] tablet:h-[30px] mobile:h-[21px] desktop:text-[22px] tablet:text-[20px] mobile:text-sm text-custom-textGrayColor">
-                  {userAgeMap[loginedUser.age_range]}대
+                  {loginedUser.age_range &&
+                    `${userAgeMap[loginedUser.age_range]}대`}
                   {/* , {loginedUser.location} */}
                 </div>
               </div>
@@ -290,7 +295,7 @@ const UserInfoPage = () => {
                       />
                     )}
                   />
-                  {/* <div className="flex flex-row gap-4">
+                  {/* <div className="flex flex-row h-[77px] gap-4">
                     <Controller
                       name="address"
                       control={control}
