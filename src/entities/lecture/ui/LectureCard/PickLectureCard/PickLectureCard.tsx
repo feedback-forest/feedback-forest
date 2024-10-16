@@ -151,7 +151,7 @@ const PickLectureCard = (props: PickLectureCardProps) => {
 
   const dialogContent = () => {
     return (
-      <div className="flex flex-col gap-[55px] pt-[30px] pb-5">
+      <div className="flex flex-col gap-[55px] desktop:pt-[35px] tablet:pt-5 mobile:pt-5">
         <div className="flex flex-col items-center justify-center">
           <div className="font-bold text-[28px] content-center">
             로그인이 필요한

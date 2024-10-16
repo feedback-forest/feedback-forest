@@ -199,7 +199,7 @@ const UserInfoPage = () => {
 
   const dialogContent = () => {
     return (
-      <div className="flex flex-col items-center justify-center gap-[69px]">
+      <div className="flex flex-col items-center justify-center desktop:pt-[49px] tablet:pt-[34px] mobile:pt-[34px] desktop:gap-[69px] tablet:gap-[54px] mobile:gap-[54px]">
         <div className="text-xl font-semibold">로그아웃 하시겠어요?</div>
         <div className="flex flex-row gap-2.5">
           <div>

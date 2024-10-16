@@ -115,7 +115,7 @@ const LectureFooter = ({
 
   const notFoundApplyPageDialogContent = () => {
     return (
-      <div className="flex flex-col items-center justify-center gap-[55px] pt-[30px] pb-5">
+      <div className="flex flex-col items-center justify-center gap-[55px] desktop:pt-[35px] tablet:pt-5 mobile:pt-5">
         <div className="flex flex-col items-center justify-center">
           <div className="font-bold text-[28px]">신청 페이지를</div>
           <div className="font-bold text-[28px]">불러오지 못했어요</div>
@@ -134,7 +134,7 @@ const LectureFooter = ({
 
   const needLoginDialogContent = () => {
     return (
-      <div className="flex flex-col gap-[55px] pt-[30px] pb-5">
+      <div className="flex flex-col gap-[55px] desktop:pt-[35px] tablet:pt-5 mobile:pt-5">
         <div className="flex flex-col items-center justify-center">
           <div className="font-bold text-[28px] content-center">
             로그인이 필요한
