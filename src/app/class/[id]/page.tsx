@@ -159,7 +159,7 @@ const LectureInfoPage = () => {
   const renderMobileSummary = () => {
     return (
       <div className="desktop:hidden tablet:hidden mobile:flex">
-        <div className="flex flex-col w-full mobile:px-6 gap-8">
+        <div className="flex flex-col w-full mobile:px-6 mobile:pt-[25px]  gap-8">
           {isLoading && (
             <Skeleton className="desktop:w-[588px] tablet:w-[330px] desktop:h-[588px] tablet:h-[330px]" />
           )}
