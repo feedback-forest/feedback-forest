@@ -35,7 +35,7 @@ import { useRouter } from "next/navigation";
 
 const Home = () => {
   const [lectureListData, setLectureListData] = useState<LectureInfo[]>();
-  const [pickLectureListData, sePickLectureListData] =
+  const [pickLectureListData, setPickLectureListData] =
     useState<PickLectureInfo[]>();
   const [markerLectureListData, setMarkerLectureListData] =
     useState<MarkerLectureInfo[]>();
@@ -85,8 +85,16 @@ const Home = () => {
   } = useLocationLectureList({
     params: locationLectureParams,
   });
-  const getHomeLectureList = useHomeLectureList();
-  const isLoading = getHomeLectureList.isIdle || getHomeLectureList.isPending;
+
+  const {
+    data: homeLectureList,
+    isLoading,
+    isSuccess,
+    refetch,
+  } = useHomeLectureList({
+    page: lectureSize.page,
+    size: lectureSize.size,
+  });
 
   const geolocation = useGeoLocation();
 
@@ -128,39 +136,25 @@ const Home = () => {
         };
       });
     }
-
+    refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geolocation.curLocation]);
 
   useEffect(() => {
-    if (user.latitude && user.longitude) {
-      getHomeLectureList.mutate(
-        {
-          params: {
-            page: lectureSize.page,
-            size: lectureSize.size,
-            // dist: lectureSize.dist,
-          },
-          payload: {
-            latitude: user.latitude,
-            longitude: user.longitude,
-          },
-        },
-        {
-          onSuccess: (data) => {
-            const lectureListData = data.data.data.data;
-            const pickLectureListData = data.data.data.pickClasses;
-            const markerLectureListData = data.data.data.markerClasses;
-            setLectureListData(lectureListData);
-            sePickLectureListData(pickLectureListData);
-            setMarkerLectureListData(markerLectureListData);
-          },
-          onError: () => {},
-        },
-      );
+    if (isSuccess) {
+      const pickLectureListData = homeLectureList.data.pickClasses;
+      const markerLectureListData = homeLectureList.data.markerClasses;
+      setPickLectureListData(pickLectureListData);
+      setMarkerLectureListData(markerLectureListData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lectureSize.page, lectureSize.size, user]);
+  }, [
+    user,
+    homeLectureList,
+    homeLectureList?.data.data,
+    homeLectureList?.data.markerClasses,
+    homeLectureList?.data.pickClasses,
+    isSuccess,
+  ]);
 
   useEffect(() => {
     if (
@@ -226,12 +220,15 @@ const Home = () => {
       );
     }
 
-    if (lectureListData && lectureListData.length > 0) {
+    if (
+      locationLectureListData?.data.data.data &&
+      locationLectureListData?.data.data.data.length > 0
+    ) {
       return (
         <div className="flex flex-col desktop:w-full desktop:h-full tablet:w-full tablet:h-full mobile:w-full">
           <div className="desktop:pl-[120px] tablet:px-8 mobile:px-6">
             <LectureCarousel
-              lectureInfo={lectureListData}
+              lectureInfo={locationLectureListData.data.data.data ?? []}
               setApi={setCarouselApi}
               isNextIcon
               isPreviousIcon
@@ -267,7 +264,10 @@ const Home = () => {
 
     if (pickLectureListData && pickLectureListData.length > 0) {
       return (
-        <LectureList lectureListData={pickLectureListData} type="pickLecture" />
+        <LectureList
+          lectureListData={homeLectureList?.data.pickClasses ?? []}
+          type="pickLecture"
+        />
       );
     }
 

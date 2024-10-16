@@ -51,6 +51,10 @@ const PickLectureCard = (props: PickLectureCardProps) => {
   const token = getCookie("accessToken");
 
   useEffect(() => {
+    setHeart(initialHeart);
+  }, [initialHeart]);
+
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setDimensions({ width: 312, height: 190 });

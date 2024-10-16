@@ -14,32 +14,32 @@ const LOCATION_BASE_PATH = "/api/location";
 
 export const getLectureList = ({
   params,
-  payload,
 }: {
-  params: GetLectureList["Request"]["body"]["params"];
-  payload: GetLectureList["Request"]["body"]["payload"];
+  params: GetLectureList["Request"]["query"];
 }) => {
   const accessToken = getCookie("accessToken");
 
-  return apiRequest.post<GetLectureList["Response"]>(`${BASE_PATH}`, payload, {
-    headers: {
-      Authorization: accessToken ? `Bearer ${accessToken}` : "",
+  return apiRequest.post<GetLectureList["Response"]>(
+    `${BASE_PATH}`,
+    {},
+    {
+      headers: {
+        Authorization: accessToken ? `Bearer ${accessToken}` : "",
+      },
+      params,
     },
-    params,
-  });
+  );
 };
 
 export const getHomeLectureList = ({
   params,
-  payload,
 }: {
-  params: GetHomeLectureList["Request"]["body"]["params"];
-  payload: GetHomeLectureList["Request"]["body"]["payload"];
+  params: GetHomeLectureList["Request"]["query"];
 }) => {
   const accessToken = getCookie("accessToken");
   return apiRequest.post<GetHomeLectureList["Response"]>(
     `${HOME_BASE_PATH}`,
-    payload,
+    {},
     {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : "",

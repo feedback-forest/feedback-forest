@@ -180,6 +180,10 @@ export const lectureDetailList: Array<LectureDetailListProps> = [
   },
 ];
 
+export interface GetLectureListParams {
+  page: number;
+  size: number;
+}
 export interface GetLectureListDto {
   params: LectureSize;
   payload: LecturePayload;
@@ -217,8 +221,8 @@ export interface GetLectureListRes {
 
 export type GetLectureList = Payload<
   undefined,
+  GetLectureListParams,
   undefined,
-  GetLectureListDto,
   GetLectureListRes
 >;
 
@@ -272,8 +276,8 @@ export interface GetHomeLectureListRes {
 
 export type GetHomeLectureList = Payload<
   undefined,
+  GetLectureListParams,
   undefined,
-  GetLectureListDto,
   GetHomeLectureListRes
 >;
 

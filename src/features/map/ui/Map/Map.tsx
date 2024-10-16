@@ -47,6 +47,11 @@ const Map = ({
   const [center, setCenter] = useState<naver.maps.LatLng>(
     new naver.maps.LatLng(latitude, longitude),
   );
+
+  useEffect(() => {
+    setCenter(new naver.maps.LatLng(latitude, longitude));
+  }, [latitude, longitude]);
+
   const markers: Array<naver.maps.Marker> = useMemo(() => {
     return [];
   }, []);
@@ -197,7 +202,7 @@ const Map = ({
         }
       }
     };
-  }, [lectureListData, infoWindows, latitude, longitude, markers]);
+  }, [lectureListData, infoWindows, latitude, longitude, markers, center]);
 
   useEffect(() => {
     if (typeof naver !== "undefined") {

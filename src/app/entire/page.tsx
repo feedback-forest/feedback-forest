@@ -40,13 +40,11 @@ const EntirePage = () => {
     if (user && user.latitude && user.longitude) {
       getLectureList.mutate(
         {
-          params: {
-            page: lectureSize.page,
-            size: lectureSize.size,
-            // dist: lectureSize.dist,
-          },
-          payload: { latitude: user.latitude, longitude: user.longitude },
+          page: lectureSize.page,
+          size: lectureSize.size,
+          // dist: lectureSize.dist,
         },
+
         {
           onSuccess: (data) => {
             const lectureListData = data.data.data.data;

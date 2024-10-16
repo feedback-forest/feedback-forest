@@ -67,6 +67,7 @@ export const HOME_LECTURE_KEYS = {
     end_date?: string;
     day_of_week?: string;
     hosted_by?: string;
+    location?: string;
     page?: number;
     size?: number;
   }) => [...HOME_LECTURE_KEYS.all, "list", filters],
