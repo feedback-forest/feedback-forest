@@ -190,7 +190,7 @@ const UserInfoPage = () => {
   const triggerItem = () => {
     return (
       <div className="flex items-center justify-center">
-        <div className="flex justify-center items-center text-center  desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] max-w-[400px] h-14 bg-white hover:bg-custom-buttonGrayBackground text-xl font-semibold border border-custom-disabled rounded-md">
+        <div className="flex justify-center items-center text-center  desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] max-w-[400px] h-14 bg-white hover:bg-custom-buttonGrayBackground desktop:text-2xl tablet:text-xl mobile:text-base font-semibold border border-custom-disabled rounded-md">
           로그아웃
         </div>
       </div>
@@ -205,7 +205,7 @@ const UserInfoPage = () => {
           <div>
             <Button
               variant="outline"
-              className="w-[125px] h-[52px] text-base font-semibold"
+              className="w-[125px] h-[52px] text-base font-semibold shadow-none"
               onClick={() => setOpenLogoutDialog(false)}
             >
               취소
@@ -213,7 +213,7 @@ const UserInfoPage = () => {
           </div>
           <div>
             <Button
-              className="w-[125px] h-[52px] bg-custom-purple hover:bg-custom-hoverPurple text-base font-semibold"
+              className="w-[125px] h-[52px] bg-custom-purple hover:bg-custom-hoverPurple text-base font-semibold shadow-none"
               onClick={handleLogout}
             >
               로그아웃
@@ -295,7 +295,7 @@ const UserInfoPage = () => {
                       />
                     )}
                   />
-                  {/* <div className="flex flex-row h-[77px] gap-4">
+                  {/* <div className="flex flex-row desktop:h-[77px] tablet:h-[77px] mobile:h-[62px] gap-4">
                     <Controller
                       name="address"
                       control={control}
@@ -314,11 +314,11 @@ const UserInfoPage = () => {
                         />
                       )}
                     />
-                    <div className="flex items-end">
+                    <div className="flex items-end desktop:h-[77px] tablet:h-[67px] mobile:h-[62px]">
                       <Button
                         variant="ghost"
                         type="button"
-                        className="desktop:w-[112px] tablet:w-[112px] mobile:w-[92px] desktop:h-14 tablet:h-14 mobile:h-[41px] bg-custom-buttonGrayBackground hover:bg-custom-divGrayBackground text-base font-semibold px-3 py-4 rounded-md"
+                        className="desktop:w-[112px] tablet:w-[112px] mobile:w-[92px] desktop:h-14 tablet:h-14 mobile:h-[41px] bg-custom-buttonGrayBackground desktop:hover:bg-custom-divGrayBackground tablet:active:bg-custom-divGrayBackground mobile:active:bg-custom-divGrayBackground text-base font-semibold px-3 py-4 rounded-md"
                         onClick={updateCurrentPosition}
                       >
                         <div className="flex flex-row gap-1 mobile:text-sm">
@@ -364,7 +364,7 @@ const UserInfoPage = () => {
                   disabled={
                     !isEmpty(errors.nickname) || !isEmpty(errors.address)
                   }
-                  className="desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] h-14 font-semibold text-2xl bg-custom-purple hover:bg-custom-hoverPurple rounded-md"
+                  className="desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] h-14 font-semibold desktop:text-2xl tablet:text-xl mobile:text-base bg-custom-purple hover:bg-custom-hoverPurple rounded-md"
                 >
                   저장하기
                 </Button>

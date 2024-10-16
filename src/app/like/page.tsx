@@ -70,7 +70,7 @@ const LikePage = () => {
           <LectureList lectureListData={lectureListData} type="pickLecture" />
           <div ref={ref} className="h-[200px]" /> {/* 스크롤 감지 요소 */}
           {isLoading && (
-            <div className="flex flex-row space-x-6">
+            <div className="flex desktop:grid-cols-3 tablet:grid-cols-2 mobile:grid-cols-1 desktop:gap-6 tablet:gap-4 mobile:gap-9">
               <SkeletonCard type="pickLecture" />
               <SkeletonCard type="pickLecture" />
               <SkeletonCard type="pickLecture" />
@@ -84,7 +84,7 @@ const LikePage = () => {
       return (
         <div className="flex flex-col gap-2">
           <div className="h-9" />
-          <div className="flex flex-row space-x-6">
+          <div className="grid desktop:grid-cols-3 tablet:grid-cols-2 mobile:grid-cols-1 desktop:gap-6 tablet:gap-4 mobile:gap-9">
             <SkeletonCard type="pickLecture" />
             <SkeletonCard type="pickLecture" />
             <SkeletonCard type="pickLecture" />
@@ -106,7 +106,7 @@ const LikePage = () => {
       <div className="desktop:hidden tablet:flex mobile:hidden absolute top-10 left-4">
         <BackToPrevious />
       </div>
-      <div className="flex flex-row w-full h-12 items-start justify-center">
+      <div className="desktop:flex tablet:flex mobile:hidden flex-row w-full h-12 items-start justify-center">
         <div className="flex flew-row gap-3">
           <div className="text-custom-textBlackColor desktop:text-[32px] tablet:text-[28px] mobile:text-base font-bold">
             내가 찜한 클래스
@@ -116,7 +116,7 @@ const LikePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col pt-14 pb-[209px] gap-2">
+      <div className="flex flex-col desktop:pt-[50px] tablet:pt-10 pb-[209px] gap-4">
         {!isLoading && lectureListData && lectureListData.length > 0 && (
           <div className="flex justify-end desktop:px-[120px] tablet:px-8 mobile:px-6">
             <Button

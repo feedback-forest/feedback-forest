@@ -62,6 +62,10 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
   const shortDayOfWeek = date.format("ddd"); // 짧은 요일 이름 (예: "Wed")
 
   useEffect(() => {
+    setHeart(initialHeart);
+  }, [initialHeart]);
+
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setDimensions({ width: 240, height: 168 });

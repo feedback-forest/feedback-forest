@@ -36,6 +36,7 @@ const nextConfig = {
       "www.songpawoman.org",
       "mapo50.org",
       "50plus.or.kr",
+      "mapo50.com",
     ],
   },
 };

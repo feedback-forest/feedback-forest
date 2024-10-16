@@ -135,7 +135,7 @@ const EntirePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col pt-14 pb-[209px]">
+      <div className="flex flex-col desktop:pt-[50px] tablet:pt-10 pb-[209px]">
         <div className="flex desktop:px-[120px] tablet:px-8 mobile:px-6">
           {renderEntireCardContent()}
         </div>
