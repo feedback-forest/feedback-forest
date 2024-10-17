@@ -24,7 +24,7 @@ const LectureSummaryHeader = ({
     const currentUrl = window.location.href;
     handleCopyClipBoard(currentUrl);
     toast({
-      title: "링크를 복사했어요",
+      title: "링크를 복사했어요.",
     });
   };
 

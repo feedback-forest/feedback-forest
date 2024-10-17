@@ -106,9 +106,7 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
           lectureId: id,
         },
         {
-          onSuccess: () => {
-            toast("찜한 클래스를 삭제했어요");
-          },
+          onSuccess: () => {},
           onError: () => {
             setHeart(true);
           },
@@ -122,9 +120,7 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
           lectureId: id,
         },
         {
-          onSuccess: () => {
-            toast("클래스를 찜 했어요");
-          },
+          onSuccess: () => {},
           onError: () => {
             setHeart(false);
           },

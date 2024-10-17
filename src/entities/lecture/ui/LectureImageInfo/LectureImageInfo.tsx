@@ -49,9 +49,7 @@ const LectureImageInfo = ({
             lectureId: lectureInfo.id,
           },
           {
-            onSuccess: () => {
-              toast("찜한 클래스를 삭제했어요");
-            },
+            onSuccess: () => {},
             onError: () => {
               setHeart(true);
             },
@@ -65,9 +63,7 @@ const LectureImageInfo = ({
             lectureId: lectureInfo.id,
           },
           {
-            onSuccess: () => {
-              toast("클래스를 찜 했어요");
-            },
+            onSuccess: () => {},
             onError: () => {
               setHeart(false);
             },

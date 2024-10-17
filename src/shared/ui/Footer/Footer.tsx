@@ -16,7 +16,7 @@ export const externalLinkList: Array<ExternalLinkProps> = [
   },
   {
     link: "https://www.notion.so/17e92e6c1188429cb17ad92d84f65103?pvs=4",
-    content: "위치기반시스템이용약관",
+    content: "위치정보 이용약관",
   },
   {
     link: "https://www.notion.so/f34337d192d54efd818663cbeb2ad77c?pvs=4",

@@ -20,10 +20,10 @@ import {
 import { useEffect, useState } from "react";
 
 import Paginator from "@/shared/ui/Pagination/Paginator";
-import { toast } from "sonner";
 import useDeleteDeactivatesLikeLecture from "@/features/like/api/useDeleteDeactivatesLikeLecture";
 import { useInView } from "react-intersection-observer";
 import useLikeLectureList from "@/features/like/api/useLikeLectureList";
+import { useToast } from "@/shared/hooks/useToast";
 
 const LikePage = () => {
   const [lectureListData, setLectureListData] = useState<
@@ -40,6 +40,8 @@ const LikePage = () => {
 
   const [openDeleteLectureDialog, setOpenDeleteLectureDialog] =
     useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const { control, watch } = useForm({
     defaultValues: {
@@ -65,12 +67,12 @@ const LikePage = () => {
     if (data?.data.data.some((lecture) => lecture.status === false)) {
       deleteDeactivatesLecture.mutate(undefined, {
         onSuccess: () => {
-          toast("마감된 찜 클래스를 삭제했어요");
+          toast({ title: "마감된 찜 클래스가 삭제됐어요." });
           setOpenDeleteLectureDialog(false);
         },
       });
     } else {
-      toast("마감된 찜 클래스가 없어요");
+      toast({ title: "마감된 찜 클래스가 없어요." });
       setOpenDeleteLectureDialog(false);
     }
   };
