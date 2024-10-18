@@ -1,75 +1,149 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { CarouselApi, Chip, Progress, Skeleton } from "@/shared/ui";
+import {
+  Description,
+  IntroductionBanner,
+  LectureCarousel,
+  LectureList,
+  NotFoundLecture,
+  SkeletonCard,
+} from "@/entities/lecture/ui";
+import {
+  GetLocationLectureListParams,
+  LectureInfo,
+  LectureSize,
+  MarkerLectureInfo,
+  PickLectureInfo,
+  lectureChipContentList,
+  lectureChipContentMap,
+  shortAddressList,
+} from "@/entities/lecture/model/lecture";
+import { Location, markerLocationMap } from "@/features/map/model/map";
+import { useEffect, useState } from "react";
 
-import { Class } from "@/entities/class/model/class";
-import { ClassList } from "@/entities/class/ui";
-import { Description } from "@/shared/ui";
+import { ChipStatus } from "@/shared/ui/Chip/Chip";
+import { LoginUserInfo } from "@/entities/user/model/user";
 import Map from "@/features/map/ui/Map/Map";
 import MapSkeleton from "@/features/map/ui/MapSkeleton/MapSkeleton";
-import SkeletonCard from "@/entities/class/ui/Class/SkeletonCard/SkeletonCard";
-import { User } from "@/entities/user/model/user";
-import useClassList from "@/entities/class/api/useClassList";
+import { deleteCookie } from "cookies-next";
+import { useCarouselApi } from "@/shared/lib/useCarouselApi";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
+import useGetLoginUserInfo from "@/entities/user/api/useGetLoginUserInfo";
+import useHomeLectureList from "@/entities/lecture/api/useHomeLectureList";
+import useLocationLectureList from "@/entities/lecture/api/useLocationLectureList";
+import useLoginedUserStore from "@/shared/store/user";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
-  const [classListData, setClassListData] = useState<Class[]>();
-
-  // TODO: 로그인 유저 정보 전역으로 변경
-  const [loginedUser, setLoginedUser] = useState<User>({
-    id: 1,
-    account_email: "jkb2221@gmail.com",
-    profile_image:
-      "https://avatars.githubusercontent.com/u/33307948?s=400&u=a642bbeb47b47e203f37b47db12d2d92d8f98580&v=4",
-    name: "kyubumjang",
-    gender: "male",
-    age_range: "20~29",
-    applied_class: [
-      {
-        id: 1,
-        name: "디지털카메라초급(눈으로 사진찍기)",
-        description:
-          "컴팩트 카메라부터 DSLR 카메라까지 디지털 카메라에 대해서 이해하고 카메라의 모든 기능을 200% 활용하는데 목적을 둔다 ** 사진입문자를 위한 수업입니다. ** 3개월 동안 사진 완전초보를 벗어날 수 있도록 도와드립니다. **야외수업시 보험가입 필수 (1일 보험료 별도) 보험가입증서 제출 또는 동의서 작성",
-        price: 90000,
-        day_of_week: "수",
-        time: "2024-09-16 18:00:00",
-        capacity: 15,
-        link: "https://www.songpawoman.org/2024/epit_contents.asp?epit_num=10501042&om=202410&ucode=&period=3",
-        location: "서울 송파",
-        latitude: 37.5059054977082,
-        longitude: 127.109788230628,
-        target: "사진 입문자",
-        status: "모집 중",
-        thumbnail:
-          "https://images.unsplash.com/photo-1601134991665-a020399422e3?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        like: true,
-        location_detail: "송파여성문화회관 미디어1실(101호)",
-        hosted_by: "송파여성문화회관",
-        address: "서울특별시 송파구 백제고분로42길 5",
-      },
-    ],
-    latitude: 37.5059054977082,
-    longitude: 127.109788230628,
-    city: "서울특별시",
+  const [lectureListData, setLectureListData] = useState<LectureInfo[]>();
+  const [pickLectureListData, setPickLectureListData] =
+    useState<PickLectureInfo[]>();
+  const [markerLectureListData, setMarkerLectureListData] =
+    useState<MarkerLectureInfo[]>();
+  const [lectureSize, setLectureSize] = useState<LectureSize>({
+    page: 0,
+    size: 9,
+    // dist: 500,
   });
-  const { data, isLoading, isSuccess } = useClassList();
+  const [locationLectureParams, setLocationLectureParams] =
+    useState<GetLocationLectureListParams>({
+      page: 0,
+      size: 9,
+      location: " ",
+    });
+  const [user, setUser] = useState<LoginUserInfo>({
+    id: 0,
+    email: "",
+    nickname: "",
+    gender: "",
+    age_range: "",
+    birth: "",
+    phone_number: "",
+    latitude: 0,
+    longitude: 0,
+    location: "",
+  });
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [chipStatus, setChipStatus] = useState<
+    Record<shortAddressList, ChipStatus>
+  >({
+    전체: "active",
+    "서울 송파구": "default",
+    "서울 마포구": "default",
+    "서울 노원구": "default",
+    "서울 강서구": "default",
+  });
+  const [markerLocation, setMarkerLocation] = useState<Location>();
+
+  const { current, count } = useCarouselApi(carouselApi);
+
+  const { loginedUser: loginedUserState, setLoginedUser: setLoginedUserStore } =
+    useLoginedUserStore();
+
+  const queryClient = useQueryClient();
+  const { data: loginUserData, isSuccess: isLoginUserSuccess } =
+    useGetLoginUserInfo();
+
+  const {
+    data: locationLectureListData,
+    isLoading: isLocationLectureListLoading,
+    isSuccess: isLocationLectureListSuccess,
+  } = useLocationLectureList({
+    params: locationLectureParams,
+  });
+
+  const {
+    data: homeLectureList,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    refetch,
+  } = useHomeLectureList({
+    page: lectureSize.page,
+    size: lectureSize.size,
+  });
 
   const geolocation = useGeoLocation();
 
-  const handleClassDataList = useCallback(() => {
-    if (data) {
-      const classData = data;
-      setClassListData(classData);
+  const router = useRouter();
+
+  const { setLoginedUser } = useLoginedUserStore();
+
+  // FIXME: 유저 정보 업데이트를 여기서 하는게 맞는지..
+  useEffect(() => {
+    if (isLoginUserSuccess) {
+      setLoginedUser(loginUserData.data.data);
     }
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     if (
       geolocation.curLocation &&
       geolocation.curLocation.latitude &&
-      geolocation.curLocation.longitude
+      geolocation.curLocation.longitude &&
+      loginedUserState
     ) {
-      setLoginedUser((prev) => {
+      setLoginedUserStore({
+        id: loginedUserState.id,
+        email: loginedUserState.email,
+        nickname: loginedUserState.nickname,
+        gender: loginedUserState.gender,
+        age_range: loginedUserState.age_range,
+        birth: loginedUserState.birth,
+        phone_number: loginedUserState.phone_number,
+        location: loginedUserState.location,
+        latitude: geolocation.curLocation
+          ? geolocation.curLocation.latitude
+          : 0,
+        longitude: geolocation.curLocation
+          ? geolocation.curLocation.longitude
+          : 0,
+      });
+
+      setUser((prev) => {
         return {
           ...prev,
           latitude: geolocation.curLocation
@@ -81,68 +155,245 @@ const Home = () => {
         };
       });
     }
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geolocation.curLocation]);
 
   useEffect(() => {
     if (isSuccess) {
-      handleClassDataList();
+      const pickLectureListData = homeLectureList.data.pickClasses;
+      const markerLectureListData = homeLectureList.data.markerClasses;
+      setPickLectureListData(pickLectureListData);
+      setMarkerLectureListData(markerLectureListData);
     }
-  }, [handleClassDataList, isSuccess]);
+    if (isError) {
+      // TODO: 임시 방편 쿠키 만료 됐을 때 유효한지 체크 후 재발급 해주는 API 필요
+      if (error.message === "Request failed with status code 401") {
+        deleteCookie("accessToken");
+        deleteCookie("refreshToken");
+        queryClient.clear();
+      }
+    }
+  }, [
+    user,
+    homeLectureList,
+    homeLectureList?.data.data,
+    homeLectureList?.data.markerClasses,
+    homeLectureList?.data.pickClasses,
+    isSuccess,
+    isError,
+  ]);
+
+  useEffect(() => {
+    if (
+      isLocationLectureListSuccess &&
+      locationLectureListData.data.data.data.length > 0
+    ) {
+      const locationLectureData = locationLectureListData.data.data.data;
+      setLectureListData(locationLectureData);
+    }
+  }, [isLocationLectureListSuccess, locationLectureListData?.data.data.data]);
+
+  const linkToEntireLecture = () => {
+    router.push("/entire");
+  };
+
+  const calculateProgressBar = () => {
+    if (current === count) {
+      return 100;
+    }
+    return (100 / count) * current;
+  };
+
+  const filterLectureListByShortAddress = (
+    lectureChipContent: shortAddressList,
+  ) => {
+    setChipStatus(() => {
+      return {
+        전체: lectureChipContent === "전체" ? "active" : "default",
+        "서울 송파구":
+          lectureChipContent === "서울 송파구" ? "active" : "default",
+        "서울 마포구":
+          lectureChipContent === "서울 마포구" ? "active" : "default",
+        "서울 노원구":
+          lectureChipContent === "서울 노원구" ? "active" : "default",
+        "서울 강서구":
+          lectureChipContent === "서울 강서구" ? "active" : "default",
+      };
+    });
+    setMarkerLocation(() => {
+      return {
+        latitude: markerLocationMap(user.latitude, user.longitude)[
+          lectureChipContent
+        ]["latitude"],
+        longitude: markerLocationMap(user.latitude, user.longitude)[
+          lectureChipContent
+        ]["longitude"],
+      };
+    });
+    setLocationLectureParams((prev) => {
+      return {
+        ...prev,
+        location: lectureChipContentMap[lectureChipContent],
+      };
+    });
+  };
+
+  const renderHomeLectureList = () => {
+    if (isLoading || isLocationLectureListLoading) {
+      return (
+        <div className="flex flex-col">
+          <div className="flex flex-row space-x-6 desktop:px-[120px] tablet:px-8 mobile:px-6">
+            <SkeletonCard type="homeLecture" />
+            <SkeletonCard type="homeLecture" />
+            <SkeletonCard type="homeLecture" />
+          </div>
+          <div className="h-[58px]"></div>
+        </div>
+      );
+    }
+
+    if (
+      locationLectureListData?.data.data.data &&
+      locationLectureListData?.data.data.data.length > 0
+    ) {
+      return (
+        <div className="flex flex-col desktop:w-full desktop:h-full tablet:w-full tablet:h-full mobile:w-full">
+          <div className="desktop:pl-[120px] tablet:px-8 mobile:px-6">
+            <LectureCarousel
+              lectureInfo={locationLectureListData.data.data.data ?? []}
+              setApi={setCarouselApi}
+              isNextIcon
+              isPreviousIcon
+            />
+          </div>
+          <div className="flex flex-row items-center justify-center desktop:px-[120px] tablet:px-8 mobile:px-6 gap-6">
+            <Progress
+              value={calculateProgressBar()}
+              className="h-[3px] rounded-none"
+            />
+            <div className="flex flex-row items-center justify-end min-w-[32px] h-[38px] gap-1">
+              <div className="text-custom-textBlackColor text-sm font-bold">{`${current}`}</div>
+              <div className="text-custom-textDescriptionGrayColor text-sm font-bold">{`/ ${count}`}</div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return <NotFoundLecture />;
+  };
+
+  const renderPickLectureList = () => {
+    if (isLoading) {
+      return (
+        <div className="flex desktop:flex-row tablet:flex-col gap-6">
+          <SkeletonCard type="pickLecture" />
+          <SkeletonCard type="pickLecture" />
+          <SkeletonCard type="pickLecture" />
+        </div>
+      );
+    }
+
+    if (pickLectureListData && pickLectureListData.length > 0) {
+      return (
+        <LectureList
+          lectureListData={homeLectureList?.data.pickClasses ?? []}
+          type="pickLecture"
+        />
+      );
+    }
+
+    return (
+      <div className="flex w-full items-center justify-center">
+        <NotFoundLecture />
+      </div>
+    );
+  };
 
   return (
     <div className="flex w-full h-full flex-col 16">
       <Description />
-      <div className="flex flex-col px-[120px] py-[60px] bg-[#F0F0F0] gap-5">
-        <div className="flex flex-row gap-1">
-          <div className="text-3xl font-bold">📍 내 주변 클래스</div>
-          <div className="text-3xl">둘러보기</div>
-        </div>
-        {isLoading && <MapSkeleton />}
-        {classListData && (
-          <Map
-            latitude={loginedUser.latitude}
-            longitude={loginedUser.longitude}
-            classListData={classListData}
-          />
-        )}
-        {/* 로그인 한 사용자의 경우  */}
-        <div className="flex flex-col gap-5 pt-10">
-          <div className="font-semibold text-2xl">
-            가장 가까운 순으로 클래스 정보를 보여드릴게요!
-          </div>
-          <div>
-            {isLoading ? (
-              <div className="flex flex-row space-x-6">
-                <SkeletonCard type="col" />
-                <SkeletonCard type="col" />
-                <SkeletonCard type="col" />
+      <div className="flex flex-col desktop:pt-[84px] tablet:pt-12 mobile:pt-12 desktop:pb-[120px] tablet:pb-[99px] mobile:pb-[82px] bg-custom-homeMapBackground desktop:gap-[120px] tablet:gap-[80px] mobile:gap-[80px]">
+        <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
+          <div className="flex flex-col desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:gap-8 tablet:gap-6 mobile:gap-6">
+            <div className="flex flex-row items-center gap-1.5">
+              <div className="desktop:text-2xl tablet:text-xl mobile:text-xl font-bold">
+                내 주변 문화생활 클래스
               </div>
-            ) : classListData ? (
-              <ClassList classListData={classListData} type="col" />
-            ) : (
-              <div className="text-2xl font-semibold">
-                클래스가 존재하지 않습니다
+              <div className="font-sans desktop:text-2xl tablet:text-xl mobile:text-xl font-bold">
+                ☺️
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col pb-4 px-[120px] py-[60px] gap-5">
-        <div className="flex flex-row gap-1">
-          <div className="font-bold text-2xl">시:작 PICK</div>
-          <div className="text-2xl">클래스 📌</div>
-        </div>
-        <div>
-          {isLoading ? (
-            <div className="flex desktop:flex-row tablet:flex-col gap-6">
-              <SkeletonCard type="row" />
-              <SkeletonCard type="row" />
             </div>
-          ) : classListData ? (
-            <ClassList classListData={classListData} type="row" />
+            {isLoading && <MapSkeleton />}
+            {lectureListData &&
+              markerLectureListData &&
+              user.latitude !== 0 &&
+              user.longitude !== 0 && (
+                <Map
+                  latitude={user.latitude}
+                  longitude={user.longitude}
+                  markerLatitude={markerLocation?.latitude}
+                  markerLongitude={markerLocation?.longitude}
+                  setLocationLectureParams={setLocationLectureParams}
+                  setChipStatus={setChipStatus}
+                  lectureListData={lectureListData}
+                  markerLectureListData={markerLectureListData}
+                />
+              )}
+          </div>
+          <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
+            <div className="flex desktop:flex-row tablet:flex-row mobile:flex-col justify-between desktop:px-[120px] tablet:px-8 mobile:px-6 mobile:gap-[14px]">
+              <div className="flex flex-row gap-2 desktop:max-w-[532px] tablet:max-w-[532px] mobile:max-w-[312px] overflow-x-scroll scrollbar-hide">
+                {lectureChipContentList.map((lectureChipContent, idx) => (
+                  <Chip
+                    key={idx}
+                    content={lectureChipContent}
+                    status={chipStatus[lectureChipContent]}
+                    handleClick={() =>
+                      filterLectureListByShortAddress(lectureChipContent)
+                    }
+                  />
+                ))}
+              </div>
+              <div className="flex desktop:justify-center tablet:justify-center mobile:justify-end desktop:items-center tablet:items-center content-center text-base">
+                <div
+                  onClick={linkToEntireLecture}
+                  className="px-3 cursor-pointer"
+                >
+                  <div className="flex justify-center items-center gap-1 border-b border-custom-textBlackColor">
+                    <div className="desktop:flex tablet:flex mobile:hidden text-sm">
+                      클래스
+                    </div>
+                    <div className="text-sm">더보기</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center items-center">
+              {renderHomeLectureList()}
+            </div>
+          </div>
+        </div>
+        <div className="desktop:px-[120px] tablet:px-8 mobile:px-6 ">
+          {isLoading ? (
+            <Skeleton className="w-full desktop:h-[217px] tablet:h-[132px] mobile:h-[156px]" />
           ) : (
-            <div>클래스가 존재하지 않습니다</div>
+            <IntroductionBanner />
           )}
+        </div>
+        <div className="flex flex-col pb-4 desktop:items-start tablet:items-center mobile:items-center desktop:justify-start tablet:justify-start mobile:justify-center desktop:px-[120px] tablet:px-8 mobile:px-6 desktop:gap-8 tablet:gap-5 mobile:gap-5">
+          <div className="flex flex-col tablet:w-[704px] mobile:w-[312px] gap-2">
+            <div className="font-bold desktop:text-2xl tablet:text-xl mobile:text-xl">
+              시ː작 PICK 클래스 📌
+            </div>
+            <div className="text-custom-tooltipBackground font-medium desktop:text-xl tablet:text-base mobile:text-base">
+              조회 수 많은 추천 클래스를 소개할게요!
+            </div>
+          </div>
+          <div className="flex desktop:w-full tablet:w-[704px] mobile:w-[312px] justify-center items-center">
+            {renderPickLectureList()}
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,10 @@
 "use client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -19,6 +23,15 @@ const Providers = ({ children }: Props) => {
           retry: false,
         },
       },
+      queryCache: new QueryCache({
+        onError: (error, query) => {
+          if (query.meta && query.meta.errorMessage) {
+            console.error(`${query.meta.errorMessage}`);
+          } else {
+            console.error(`Something went wrong: ${error.message}`);
+          }
+        },
+      }),
     }),
   );
 

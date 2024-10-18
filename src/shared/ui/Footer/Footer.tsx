@@ -1,9 +1,17 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect, useState } from "react";
+
+import { ExternalLink } from "../ExternalLink";
+import { ExternalLinkList } from "./ExternalLinkList";
+import { ExternalLinkProps } from "../ExternalLink/ExternalLink";
+import { FooterSijakLogo } from "./FooterSijakLogo";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  const [windowInnerWidth, setWindowInnerWidth] = useState<string>();
+
   const pathname = usePathname();
   const url = pathname.split("/")[1];
 
@@ -14,36 +22,72 @@ const Footer = () => {
     return false;
   };
 
+  const handleResize = () => {
+    const width = window.innerWidth;
+    if (width >= 1440) {
+      // desktop
+      setWindowInnerWidth("desktop");
+    } else if (width >= 768) {
+      // tablet
+      setWindowInnerWidth("tablet");
+    } else {
+      // mobile
+      setWindowInnerWidth("mobile");
+    }
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const renderFooter = () => {
+    if (windowInnerWidth === "desktop") {
+      return renderDesktopFooter();
+    }
+    if (windowInnerWidth === "tablet") {
+      return renderTabletFooter();
+    }
+    if (windowInnerWidth === "mobile") {
+      return renderMobileFooter();
+    }
+  };
+
+  const renderDesktopFooter = () => {
+    return (
+      <div className="flex flex-row w-full justify-between">
+        <FooterSijakLogo />
+        <ExternalLinkList />
+      </div>
+    );
+  };
+
+  const renderTabletFooter = () => {
+    return (
+      <div className="flex flex-col items-start gap-10">
+        <ExternalLinkList />
+        <FooterSijakLogo />
+      </div>
+    );
+  };
+
+  const renderMobileFooter = () => {
+    return (
+      <div className="flex flex-col items-start gap-8">
+        <ExternalLinkList />
+        <FooterSijakLogo />
+      </div>
+    );
+  };
+
   return (
     isRenderFooter() && (
-      <div className="w-full h-[162px] bg-[#E5E5E5] px-20 py-5 text-gray-600 border-t">
-        <div>
-          <div className="flex mb-10 gap-2 desktop:flex-row tablet:flex-row mobile:flex-col">
-            {/* TODO: URL ENV 처리 필요한지 확인: 공유 페이지라 괜찮을 것 같지만 확인 필요 */}
-            <Link
-              href="https://ebony-specialist-cf1.notion.site/59f05d08d90346ad989223480f372c84?pvs=4"
-              target="_blank"
-            >
-              개인정보처리방침 |
-            </Link>
-            <Link
-              href="https://ebony-specialist-cf1.notion.site/a46bfe06464b4101927da295479d4576?pvs=4"
-              target="_blank"
-            >
-              이용약관 |
-            </Link>
-            {/* TODO: 카카오톡 오픈채팅 연결 */}
-            <Link href="" target="_blank">
-              위치기반시스템이용약관 |
-            </Link>
-            <Link
-              href="https://ebony-specialist-cf1.notion.site/15d15238629640f8a3ed6e1fc289eb86?pvs=4"
-              target="_blank"
-            >
-              서비스가이드
-            </Link>
-          </div>
-        </div>
+      <div className="flex justify-between w-full h-[208px] bg-custom-footerBackground desktop:px-[120px] tablet:px-8 mobile:px-6 pt-8 border-t max-w-[1440px] mx-auto my-0 mobile:gap-4">
+        {renderFooter()}
       </div>
     )
   );

@@ -12,10 +12,32 @@ const nextConfig = {
         config.resolve.alias.push({ name: "msw/node", alias: false });
       else config.resolve.alias["msw/node"] = false;
     }
+
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: "@svgr/webpack",
+          options: {
+            // 원하는 옵션 추가
+          },
+        },
+      ],
+    });
+
     return config;
   },
   images: {
-    domains: ["images.unsplash.com", "plus.unsplash.com", "www.50plus.or.kr"],
+    domains: [
+      "images.unsplash.com",
+      "plus.unsplash.com",
+      "www.50plus.or.kr",
+      "s3.ap-northeast-2.amazonaws.com",
+      "www.songpawoman.org",
+      "mapo50.org",
+      "50plus.or.kr",
+      "mapo50.com",
+    ],
   },
 };
 

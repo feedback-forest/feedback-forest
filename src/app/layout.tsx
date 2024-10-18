@@ -1,8 +1,8 @@
 import "./globals.css";
 
-import { Footer, Header, Toaster } from "@/shared/ui";
+import { Footer, Header, ToastToaster, Toaster } from "@/shared/ui";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
-import Initializer from "@/mocks/Initializer";
 import type { Metadata } from "next";
 import Providers from "@/features/provider/Provider";
 import Script from "next/script";
@@ -10,8 +10,9 @@ import localFont from "next/font/local";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
   variable: "--font-pretendard",
-  weight: "100 900",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${pretendard.variable}`}>
       <head>
         <Script
           type="text/javascript"
@@ -33,26 +34,33 @@ export default function RootLayout({
           src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID}&submodules=geocoder`}
         />
       </head>
-      <body
-        className={`${pretendard.variable} ${pretendard.variable} flex flex-col w-full h-full`}
-      >
+      <body className={`${pretendard.className} flex flex-col w-full h-full`}>
         <Providers>
           <main className="flex w-full h-full flex-1">
             <div className="flex flex-col w-full h-full justify-start items-start relative">
-              <div className="flex flex-col w-full h-full justify-start items-start relative">
+              <div className="flex flex-col w-full h-full justify-start items-start relative max-w-[1440px] mx-auto my-0">
                 <Header />
-                <div className="flex flex-col w-full h-full justify-start items-start pt-16">
+                <div className="flex flex-col w-full h-full justify-start items-start desktop:pt-[70px] tablet:pt-[70px] mobile:pt-12">
                   {children}
                 </div>
-                <Initializer />
               </div>
             </div>
           </main>
-          {/* FIXME: footer 하단 고정 필요 */}
           <Footer />
           <Toaster />
+          <ToastToaster />
         </Providers>
       </body>
+      {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_GTM_ID && (
+        <GoogleTagManager
+          gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_GTM_ID}
+        />
+      )}
+      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_GA_ID && (
+        <GoogleAnalytics
+          gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_GA_ID}
+        />
+      )}
     </html>
   );
 }
