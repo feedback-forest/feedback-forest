@@ -245,7 +245,7 @@ const UserInfoPage = () => {
             마이페이지
           </div>
         </div>
-        <div className="flex flex-col justify-center items-center desktop:gap-6 tablet:gap-2 mobile:gap-2">
+        <div className="flex flex-col justify-center items-center desktop:gap-6 tablet:gap-3 mobile:gap-3">
           <div className="flex flex-col desktop:gap-14 tablet:gap-5 mobile:gap-6">
             <div className="flex flex-col justify-center items-center gap-4">
               <div className="flex flex-col justify-center items-center gap-1">
@@ -365,7 +365,7 @@ const UserInfoPage = () => {
                   disabled={
                     !isEmpty(errors.nickname) || !isEmpty(errors.address)
                   }
-                  className="desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] h-14 font-semibold desktop:text-2xl tablet:text-xl mobile:text-base bg-custom-purple hover:bg-custom-hoverPurple rounded-md"
+                  className="desktop:w-[400px] tablet:w-[400px] mobile:w-[260px] desktop:h-14 tablet:h-14 mobile:h-[52px] font-semibold desktop:text-2xl tablet:text-xl mobile:text-base bg-custom-purple hover:bg-custom-hoverPurple rounded-md"
                 >
                   저장하기
                 </Button>
