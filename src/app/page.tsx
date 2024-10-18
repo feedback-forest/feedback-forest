@@ -268,16 +268,20 @@ const Home = () => {
       );
     }
 
-    if (pickLectureListData && pickLectureListData.length > 0) {
-      return (
-        <LectureList
-          lectureListData={homeLectureList?.data.pickClasses ?? []}
-          type="pickLecture"
-        />
-      );
-    }
+    // if (pickLectureListData && pickLectureListData.length > 0) {
+    //   return (
+    //     <LectureList
+    //       lectureListData={homeLectureList?.data.pickClasses ?? []}
+    //       type="pickLecture"
+    //     />
+    //   );
+    // }
 
-    return <NotFoundLecture />;
+    return (
+      <div className="flex w-full items-center justify-center">
+        <NotFoundLecture />
+      </div>
+    );
   };
 
   return (
@@ -339,7 +343,9 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div>{renderHomeLectureList()}</div>
+            <div className="flex justify-center items-center">
+              {renderHomeLectureList()}
+            </div>
           </div>
         </div>
         <div className="desktop:px-[120px] tablet:px-8 mobile:px-6 ">
@@ -358,7 +364,7 @@ const Home = () => {
               조회 수 많은 추천 클래스를 소개할게요!
             </div>
           </div>
-          <div>{renderPickLectureList()}</div>
+          <div className="w-full">{renderPickLectureList()}</div>
         </div>
       </div>
     </div>
