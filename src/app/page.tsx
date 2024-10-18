@@ -268,14 +268,14 @@ const Home = () => {
       );
     }
 
-    // if (pickLectureListData && pickLectureListData.length > 0) {
-    //   return (
-    //     <LectureList
-    //       lectureListData={homeLectureList?.data.pickClasses ?? []}
-    //       type="pickLecture"
-    //     />
-    //   );
-    // }
+    if (pickLectureListData && pickLectureListData.length > 0) {
+      return (
+        <LectureList
+          lectureListData={homeLectureList?.data.pickClasses ?? []}
+          type="pickLecture"
+        />
+      );
+    }
 
     return (
       <div className="flex w-full items-center justify-center">
@@ -364,7 +364,9 @@ const Home = () => {
               조회 수 많은 추천 클래스를 소개할게요!
             </div>
           </div>
-          <div className="w-full">{renderPickLectureList()}</div>
+          <div className="flex justify-center items-center">
+            {renderPickLectureList()}
+          </div>
         </div>
       </div>
     </div>

@@ -49,11 +49,11 @@ const LikePage = () => {
     },
   });
 
-  const { ref, inView } = useInView({
-    threshold: 1.0, // 100% 보일 때 트리거
-  });
+  // const { ref, inView } = useInView({
+  //   threshold: 1.0, // 100% 보일 때 트리거
+  // });
 
-  const { data, isLoading, isSuccess, refetch } = useLikeLectureList({
+  const { data, isLoading, isSuccess } = useLikeLectureList({
     page: likeLectureParams.page,
     size: likeLectureParams.size,
     mode: likeLectureParams.mode,
@@ -95,6 +95,7 @@ const LikePage = () => {
   //     setHasNext(data.data.hasNext);
   //   }
   // }, [data, isSuccess]);
+
   useEffect(() => {
     if (isSuccess) {
       setLectureListData(data.data.data);
@@ -110,16 +111,16 @@ const LikePage = () => {
     }));
   }, [onlyCanApply]);
 
-  useEffect(() => {
-    if (inView && hasNext && !isLoading) {
-      setLikeLectureParams((prev) => {
-        return {
-          ...prev,
-          page: prev.page + 1,
-        };
-      });
-    }
-  }, [inView, hasNext, isLoading]);
+  // useEffect(() => {
+  //   if (inView && hasNext && !isLoading) {
+  //     setLikeLectureParams((prev) => {
+  //       return {
+  //         ...prev,
+  //         page: prev.page + 1,
+  //       };
+  //     });
+  //   }
+  // }, [inView, hasNext, isLoading]);
 
   const triggerItem = () => {
     return (
@@ -199,7 +200,8 @@ const LikePage = () => {
 
     return (
       <NotFoundLecture
-        description="아직 찜한 클래스가 없습니다. 마음에 드는 강좌를 찾아 찜해보세요!"
+        description="아직 찜한 클래스가 없습니다."
+        subDescription="마음에 드는 강좌를 찾아 찜해보세요!"
         isHideIcon
       />
     );
@@ -220,56 +222,54 @@ const LikePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col desktop:pt-0 tablet:pt-10 pb-[209px] gap-20">
-        <div className="flex flex-col gap-4">
-          {!isLoading && lectureListData && lectureListData.length > 0 && (
-            <div className="flex justify-between desktop:px-[120px] tablet:px-8 mobile:px-6">
-              <div className="flex flex-row items-center gap-2">
-                <Controller
-                  name="onlyCanApply"
-                  control={control}
-                  rules={{ required: false }}
-                  render={({ field: { onChange, onBlur, value, ref } }) => (
-                    // FIXME: 로직 확인 필요 - 멘토님 도움 필요
-                    <Checkbox
-                      id="onlyCanApply"
-                      className="w-6 h-6"
-                      checked={value}
-                      onCheckedChange={(checked) => {
-                        onChange(checked);
-                        setLikeLectureParams((prev) => ({
-                          ...prev,
-                          mode: !!checked,
-                          page: 0,
-                        }));
-                      }}
-                      onBlur={onBlur}
-                      ref={ref}
-                    />
-                  )}
-                />
-                <Label
-                  htmlFor="onlyCanApply"
-                  className="text-base text-custom-textBlackColor"
-                >
-                  <div className="desktop:flex tablet:flex mobile:hidden">
-                    신청 가능한 클래스만 보기
-                  </div>
-                  <div className="desktop:hidden tablet:hidden mobile:flex">
-                    신청 가능만 보기
-                  </div>
-                </Label>
-              </div>
-              <UnifiedDialog
-                open={openDeleteLectureDialog}
-                setOpen={setOpenDeleteLectureDialog}
-                triggerItem={triggerItem()}
-                dialogTitle="로그아웃 다이얼로그"
-                dialogDescription="로그아웃 확인 다이얼로그"
-                dialogContent={dialogContent()}
+      <div className="flex flex-col w-full desktop:pt-0 tablet:pt-10 pb-[209px] gap-20">
+        <div className="flex  flex-col gap-4">
+          <div className="flex  justify-between desktop:px-[120px] tablet:px-8 mobile:px-6">
+            <div className="flex flex-row items-center gap-2">
+              <Controller
+                name="onlyCanApply"
+                control={control}
+                rules={{ required: false }}
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  // FIXME: 로직 확인 필요 - 멘토님 도움 필요
+                  <Checkbox
+                    id="onlyCanApply"
+                    className="w-6 h-6"
+                    checked={value}
+                    onCheckedChange={(checked) => {
+                      onChange(checked);
+                      setLikeLectureParams((prev) => ({
+                        ...prev,
+                        mode: !!checked,
+                        page: 0,
+                      }));
+                    }}
+                    onBlur={onBlur}
+                    ref={ref}
+                  />
+                )}
               />
+              <Label
+                htmlFor="onlyCanApply"
+                className="text-base text-custom-textBlackColor"
+              >
+                <div className="desktop:flex tablet:flex mobile:hidden">
+                  신청 가능한 클래스만 보기
+                </div>
+                <div className="desktop:hidden tablet:hidden mobile:flex">
+                  신청 가능만 보기
+                </div>
+              </Label>
             </div>
-          )}
+            <UnifiedDialog
+              open={openDeleteLectureDialog}
+              setOpen={setOpenDeleteLectureDialog}
+              triggerItem={triggerItem()}
+              dialogTitle="로그아웃 다이얼로그"
+              dialogDescription="로그아웃 확인 다이얼로그"
+              dialogContent={dialogContent()}
+            />
+          </div>
           <div className="flex items-center justify-center desktop:px-[120px] tablet:px-8 mobile:px-6">
             {renderLikeCardContent()}
           </div>
