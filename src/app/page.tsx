@@ -364,7 +364,7 @@ const Home = () => {
               조회 수 많은 추천 클래스를 소개할게요!
             </div>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex desktop:w-full tablet:w-[704px] mobile:w-[312px] justify-center items-center">
             {renderPickLectureList()}
           </div>
         </div>
