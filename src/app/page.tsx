@@ -155,7 +155,6 @@ const Home = () => {
         };
       });
     }
-    refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geolocation.curLocation]);
 
