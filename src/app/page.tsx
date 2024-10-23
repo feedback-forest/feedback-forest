@@ -83,8 +83,11 @@ const Home = () => {
     useLoginedUserStore();
 
   const queryClient = useQueryClient();
+
+  const { loginedUser, setLoginedUser } = useLoginedUserStore();
+
   const { data: loginUserData, isSuccess: isLoginUserSuccess } =
-    useGetLoginUserInfo();
+    useGetLoginUserInfo(loginedUser ? loginedUser.nickname : "");
 
   const {
     data: locationLectureListData,
@@ -109,8 +112,6 @@ const Home = () => {
   const geolocation = useGeoLocation();
 
   const router = useRouter();
-
-  const { setLoginedUser } = useLoginedUserStore();
 
   // FIXME: 유저 정보 업데이트를 여기서 하는게 맞는지..
   useEffect(() => {

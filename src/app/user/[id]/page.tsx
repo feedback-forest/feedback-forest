@@ -5,6 +5,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { LoginUserInfo, PatchUserAddress } from "@/entities/user/model/user";
 import { debounce, isEmpty } from "lodash";
 import { useEffect, useState } from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { InputLabelStatus } from "@/shared/ui/InputLabel/InputLabel";
 import { SquareLoader } from "react-spinners";
@@ -16,7 +17,6 @@ import useLoginedUserStore from "@/shared/store/user";
 import usePatchUserInfo from "@/entities/user/api/usePatchUserInfo";
 import usePostLogout from "@/features/authentication/api/usePostLogout";
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/shared/hooks/useToast";
 import useValidateNickname from "@/entities/user/api/useValidateNickname";
 
@@ -44,9 +44,11 @@ const UserInfoPage = () => {
   const [openLogoutDialog, setOpenLogoutDialog] = useState<boolean>(false);
 
   const router = useRouter();
+  const params = useParams<{ id: string }>();
   const geolocation = useGeoLocation();
 
-  const { data, isLoading, isSuccess } = useGetLoginUserInfo();
+  const { data, isLoading, isSuccess } = useGetLoginUserInfo(params.id);
+
   const postLogout = usePostLogout();
 
   const validateNickname = useValidateNickname();
