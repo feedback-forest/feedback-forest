@@ -342,8 +342,8 @@ const Home = () => {
               )}
           </div>
           <div className="flex flex-col desktop:gap-[46px] tablet:gap-6 mobile:gap-[28px]">
-            <div className="flex desktop:flex-row tablet:flex-row mobile:flex-col justify-between desktop:px-[120px] tablet:px-8 mobile:px-6 mobile:gap-[14px]">
-              <div className="flex flex-row gap-2 desktop:max-w-[532px] tablet:max-w-[532px] mobile:max-w-[312px] overflow-x-scroll scrollbar-hide">
+            <div className="flex desktop:flex-row tablet:flex-row mobile:flex-col justify-between desktop:px-[120px] tablet:px-8 mobile:pl-6 mobile:gap-[14px]">
+              <div className="flex flex-row gap-2 desktop:max-w-[532px] tablet:max-w-[532px] mobile:w-full overflow-x-scroll scrollbar-hide">
                 {lectureChipContentList.map((lectureChipContent, idx) => (
                   <Chip
                     key={idx}
@@ -358,7 +358,7 @@ const Home = () => {
               <div className="flex desktop:justify-center tablet:justify-center mobile:justify-end desktop:items-center tablet:items-center content-center text-base">
                 <div
                   onClick={linkToEntireLecture}
-                  className="px-3 cursor-pointer"
+                  className="px-3 cursor-pointer mobile:pr-6"
                 >
                   <div className="flex justify-center items-center gap-1 border-b border-custom-textBlackColor">
                     <div className="desktop:flex tablet:flex mobile:hidden text-sm">

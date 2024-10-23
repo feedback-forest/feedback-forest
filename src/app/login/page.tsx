@@ -51,9 +51,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-70px)] justify-center items-center pb-4 mobile:relative">
+    <div className="flex flex-col w-full desktop:h-[calc(100vh-70px)] tablet:h-[calc(100vh-70px)] mobile:h-[calc(100vh-48px)] justify-center items-center pb-4 mobile:relative">
       <div className="desktop:hidden tablet:hidden mobile:absolute top-3 left-4">
-        <LinkArrowLeft href="/" width={24} height={24} />
+        <LinkArrowLeft href="/" width={48} height={48} />
       </div>
       <div className="flex flex-col desktop:h-[255px] tablet:h-[255px] mobile:h-[231px] gap-24">
         <div className="flex flex-col">

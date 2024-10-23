@@ -12,6 +12,7 @@ import axios from "axios";
 import { deleteCookie } from "cookies-next";
 import { useGeoLocation } from "@/shared/lib/useGeolocation";
 import useGetLoginUserInfo from "@/entities/user/api/useGetLoginUserInfo";
+import useLoginedUserStore from "@/shared/store/user";
 import usePatchUserInfo from "@/entities/user/api/usePatchUserInfo";
 import usePostLogout from "@/features/authentication/api/usePostLogout";
 import { useQueryClient } from "@tanstack/react-query";
@@ -71,6 +72,7 @@ const UserInfoPage = () => {
 
   const queryClient = useQueryClient();
 
+  const { setLoginedUser: setLoginedUserStore } = useLoginedUserStore();
   const { toast } = useToast();
 
   const validationCheckNickname = debounce((nickname: string) => {
@@ -146,6 +148,18 @@ const UserInfoPage = () => {
       onSuccess: () => {
         deleteCookie("accessToken");
         deleteCookie("refreshToken");
+        setLoginedUserStore({
+          id: 0,
+          email: "",
+          nickname: "",
+          gender: "",
+          age_range: "",
+          birth: "",
+          phone_number: "",
+          latitude: 0,
+          longitude: 0,
+          location: "",
+        });
         toast({ title: "다음에 또 봐요~!" });
         queryClient.clear();
         router.push("/");
