@@ -91,7 +91,7 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
     router.push("/login");
   };
 
-  const handleLikeClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleLikeClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     e.preventDefault();
     if (!token) {
@@ -131,14 +131,13 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
 
   const triggerItem = () => {
     return (
-      <Button
-        variant="ghost"
-        size="icon"
+      <div
         className="flex items-center justify-center desktop:w-[36px] tablet:w-[36px] mobile:w-[36px] desktop:h-[32px] tablet:h-[24px] mobile:h-[24px] hover:bg-transparent"
         onClick={(e) => handleLikeClick(e)}
       >
         {heart ? (
           <Image
+            className="home-lecture-card-like-filled-btn"
             src={isHoveredFilled ? "/icons/like_filled.svg" : "/icons/like.svg"}
             alt="heart"
             width={36}
@@ -146,13 +145,14 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
           />
         ) : (
           <Image
+            className="home-lecture-card-like-btn"
             src={isHovered ? "/icons/like_filled.svg" : "/icons/like.svg"}
             alt="heart"
             width={36}
             height={36}
           />
         )}
-      </Button>
+      </div>
     );
   };
 
@@ -166,13 +166,12 @@ const HomeLectureCard = (props: HomeLectureCardProps) => {
           <div className="font-bold text-xl content-center">서비스에요</div>
         </div>
         <div className="flex items-center justify-center">
-          <Button
-            className="h-[52px] text-base font-semibold bg-custom-purple hover:bg-custom-hoverPurple rounded"
-            type="submit"
+          <div
+            className="flex items-center justify-center w-full h-[52px] text-base font-semibold bg-custom-purple hover:bg-custom-hoverPurple rounded text-white cursor-pointer"
             onClick={linkToLogin}
           >
             회원가입 / 로그인 하기
-          </Button>
+          </div>
         </div>
       </div>
     );

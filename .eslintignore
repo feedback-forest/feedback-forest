@@ -8,4 +8,5 @@ next.config.ts
 tailwind.config.ts
 yarn.lock
 next.config.mjs
+next-sitemap.config.js
 server.js
