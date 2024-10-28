@@ -5,7 +5,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { LoginUserInfo, PatchUserAddress } from "@/entities/user/model/user";
 import { debounce, isEmpty } from "lodash";
 import { useEffect, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { InputLabelStatus } from "@/shared/ui/InputLabel/InputLabel";
 import { SquareLoader } from "react-spinners";
@@ -256,14 +256,12 @@ const UserInfoPage = () => {
         <div className="desktop:hidden tablet:flex mobile:hidden absolute top-8 left-4">
           <BackToPrevious />
         </div>
-        <div className="desktop:flex tablet:flex mobile:hidden flex-row justify-center items-center h-14 desktop:px-[120px] tablet:px-[184px] mobile:px-[50px]">
-          <div className="desktop:text-[32px] tablet:text-[28px]">
-            마이페이지
-          </div>
-        </div>
+        <section className="desktop:flex tablet:flex mobile:hidden flex-row justify-center items-center h-14 desktop:px-[120px] tablet:px-[184px] mobile:px-[50px]">
+          <h1 className="desktop:text-[32px] tablet:text-[28px]">마이페이지</h1>
+        </section>
         <div className="flex flex-col justify-center items-center desktop:gap-3 tablet:gap-3 mobile:gap-3">
           <div className="flex flex-col desktop:gap-14 tablet:gap-5 mobile:gap-6">
-            <div className="flex flex-col justify-center items-center gap-4">
+            <section className="flex flex-col justify-center items-center gap-4">
               <div className="flex flex-col justify-center items-center gap-1">
                 <div className="font-bold desktop:h-12 tablet:h-[42px] mobile:h-6 desktop:text-[32px] tablet:text-[28px] mobile:text-base leading-[42px]">
                   {loginedUser.nickname}님
@@ -276,7 +274,7 @@ const UserInfoPage = () => {
                   {/* , {loginedUser.location} */}
                 </div>
               </div>
-            </div>
+            </section>
             <form
               className="flex flex-col h-full desktop:gap-16 tablet:gap-16 mobile:gap-[42px]"
               onSubmit={handleSubmit(updateUserInfo)}

@@ -18,7 +18,7 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
   title: "시작",
-  description: "시니어를 위한 문화생활 플랫폼",
+  description: "주변의 기회를 찾다, 시니어를 위한 맞춤형 프로그램",
 };
 
 export default function RootLayout({
@@ -29,6 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${pretendard.variable}`}>
       <head>
+        <meta
+          name="naver-site-verification"
+          content={
+            process.env.NEXT_PUBLIC_NAVER_SEARCH_ADVISOR_SITE_VERIFICATION_ID
+          }
+        />
         <Script
           type="text/javascript"
           strategy="beforeInteractive"

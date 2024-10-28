@@ -55,7 +55,7 @@ const LoginPage = () => {
       <div className="desktop:hidden tablet:hidden mobile:absolute top-3 left-4">
         <LinkArrowLeft href="/" width={48} height={48} />
       </div>
-      <div className="flex flex-col desktop:h-[255px] tablet:h-[255px] mobile:h-[231px] gap-24">
+      <section className="flex flex-col desktop:h-[255px] tablet:h-[255px] mobile:h-[231px] gap-24">
         <div className="flex flex-col">
           <div className="flex w-full flex-col justify-center items-center">
             <div className="text-custom-textBlackColor desktop:text-[40px] tablet:text-[40px] mobile:text-[28px] desktop:leading-[52px] tablet:leading-[52px] mobile:leading-[36px] font-bold">
@@ -74,7 +74,7 @@ const LoginPage = () => {
             contentClassName="bg-white"
           />
         </div>
-      </div>
+      </section>
     </div>
   );
 };

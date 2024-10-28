@@ -3,7 +3,6 @@
 import {
   AgeRadioGroup,
   AgeRadioGroupItem,
-  BackToPrevious,
   Button,
   InputLabel,
   Select,
@@ -141,7 +140,7 @@ const SignUpPage = () => {
 
   return (
     <div className="flex flex-col w-full desktop:h-[calc(100vh-70px)] tablet:h-[calc(100vh-70px)] justify-center items-center p-4 gap-12">
-      <div className="flex desktop:w-[400px] tablet:w-[312px] mobile:w-[312px] flex-col desktop:justify-center tablet:justify-center mobile:justify-start desktop:items-center tablet:items-center mobile:items-start gap-2">
+      <section className="flex desktop:w-[400px] tablet:w-[312px] mobile:w-[312px] flex-col desktop:justify-center tablet:justify-center mobile:justify-start desktop:items-center tablet:items-center mobile:items-start gap-2">
         <div className="text-custom-purple font-bold desktop:text-[40px] tablet:text-[28px] mobile:text-[28px] desktop:leading-[64px] tablet:leading-[44px] mobile:leading-[44px]">
           시ː작 할 수 있어요!
         </div>
@@ -153,7 +152,7 @@ const SignUpPage = () => {
             맞춤형 클래스를 제공해 드려요🙂
           </div>
         </div>
-      </div>
+      </section>
       <form
         onSubmit={handleSubmit(updateNickname)}
         className="flex flex-col desktop:w-[400px] tablet:w-[312px] mobile:w-[312px]  desktop:gap-[60px] tablet:gap-[64px] mobile:gap-[147px]"
