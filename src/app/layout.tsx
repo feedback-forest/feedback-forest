@@ -4,6 +4,7 @@ import { Footer, Header, ToastToaster, Toaster } from "@/shared/ui";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 import { Analytics } from "@vercel/analytics/react";
+import Head from "next/head";
 import type { Metadata } from "next";
 import Providers from "@/features/provider/Provider";
 import Script from "next/script";
@@ -17,8 +18,10 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "시작",
+  title: "시작 : 50+ 시ː니어를 위한 문화생활 사이트",
   description: "주변의 기회를 찾다, 시니어를 위한 맞춤형 프로그램",
+  keywords:
+    "송파, 마포, 노원, 강서, 내 주변 문화생활 클래스, 시작 Pick 클래스, 찜, 좋아요, 문화센터, 신청 가능한 클래스, 원데이 클래스, 정기 클래스, 전체 클래스, 문화센터 프로그램, 지자체, 시니어, 인기 문화 강좌, 4050, 5060",
   openGraph: {
     title: "시작",
     description: "주변의 기회를 찾다, 시니어를 위한 맞춤형 프로그램",
@@ -89,7 +92,7 @@ export default function RootLayout({
           gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_GA_ID}
         />
       )}
-      <Analytics />
+      {process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" && <Analytics />}
     </html>
   );
 }

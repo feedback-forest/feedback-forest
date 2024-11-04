@@ -38,15 +38,17 @@ const LoginCallback = () => {
       const accessToken = tokenData.tokenDTO.access_token;
       const refreshToken = tokenData.tokenDTO.refresh_token;
 
-      // 쿠키 설정
+      // 쿠키 설정 15분 ~ 30분 - 토큰 탈취 시간이 짧기 때문에 기보적으로 15분에서 1시간
       setCookie("accessToken", accessToken, {
         path: "/",
+        // FIXME: 시간 수정
         maxAge: 60 * 60 * 24,
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
       });
 
+      // refresh Token 24시간
       setCookie("refreshToken", refreshToken, {
         path: "/",
         maxAge: 60 * 60 * 24,
