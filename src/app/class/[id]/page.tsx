@@ -184,23 +184,6 @@ const LectureInfoPage = () => {
         <div className="flex items-center justify-center w-full h-full">
           <SquareLoader color="#4F118C" />
         </div>
-        <div className="flex flex-row items-center w-full desktop:h-[70px] tablet:h-[70px] mobile:h-[55px] desktop:px-[120px] bg-white fixed bottom-0 border-t border-l border-custom-disabled z-10">
-          <div className="flex desktop:w-[98px] tablet:min-w-[98px] mobile:min-w-[76px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] border-r border-custom-disabled justify-center items-center">
-            <Skeleton>
-              <IconButton
-                src="/icons/like.svg"
-                alt="heart"
-                iconWidth={32}
-                iconHeight={32}
-                loading={isLoading}
-              />
-            </Skeleton>
-          </div>
-          <div className="flex desktop:w-[190px] tablet:min-w-[190px] mobile:min-w-[111px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] justify-center items-center text-xl font-bold">
-            <Skeleton className="w-[100px] h-[33px]" />
-          </div>
-          <Skeleton className="desktop:w-[912px] tablet:w-[481px] mobile:w-[173px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px]" />
-        </div>
       </div>
     );
   }
