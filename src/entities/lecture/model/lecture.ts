@@ -53,6 +53,8 @@ export interface Lecture {
   instructor_name: LectureInstructor[];
   latitude: number;
   longitude: number;
+  tel: string;
+  heart_count: string;
   // educationPlan: string;
 }
 
@@ -60,6 +62,7 @@ type LectureTitleType =
   | "capacity"
   | "hosted_by"
   | "division"
+  | "tel"
   | "period"
   | "time"
   | "price"
@@ -69,6 +72,7 @@ export const LectureTitleEnum = {
   capacity: "인원",
   hosted_by: "주최",
   division: "구분",
+  tel: "전화",
   period: "기간",
   time: "시간",
   price: "가격",
@@ -100,6 +104,11 @@ export const lectureSummaryList: Array<LectureSummaryListProps> = [
     render: (content) => `${content}`,
   },
   {
+    src: "/icons/phone_number.svg",
+    type: "tel",
+    render: (content) => `${content}`,
+  },
+  {
     src: "/icons/period.svg",
     type: "period",
     render: (content) => {
@@ -120,7 +129,7 @@ export const lectureSummaryList: Array<LectureSummaryListProps> = [
   {
     src: "/icons/price.svg",
     type: "price",
-    render: (content) => `${content}`,
+    render: (content) => `${content === "0원" ? "무료" : content}`,
   },
   {
     src: "/icons/location.svg",

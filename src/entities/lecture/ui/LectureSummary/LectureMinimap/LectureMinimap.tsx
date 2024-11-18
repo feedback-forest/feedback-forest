@@ -13,12 +13,12 @@ const LectureMinimap = (props: LectureMinimapProps) => {
 
   if (isLoading) {
     return (
-      <Skeleton className="desktop:w-[572px] tablet:w-[704px] mobile:w-[312px] desktop:h-[186px] tablet:h-[228px] rounded overflow-hidden" />
+      <Skeleton className="desktop:w-[572px] tablet:w-[704px] mobile:w-[312px] desktop:h-[130px] tablet:h-[228px] rounded overflow-hidden" />
     );
   }
   return (
     lectureInfo && (
-      <div className="desktop:w-[572px] tablet:w-[704px] mobile:w-[312px] desktop:h-[186px] tablet:h-[228px] mobile:h-[144px] rounded overflow-hidden">
+      <div className="desktop:w-[572px] tablet:w-[704px] mobile:w-[312px] desktop:h-[130px] tablet:h-[228px] mobile:h-[144px] rounded overflow-hidden">
         <MiniMap
           latitude={lectureInfo.latitude}
           longitude={lectureInfo.longitude}

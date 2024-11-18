@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Skeleton } from "@/shared/ui";
+import { handleCopyClipBoard } from "@/shared/lib/utils";
+import { useToast } from "@/shared/hooks/useToast";
 
 export interface LectureSummaryItemProps {
   src: string;
@@ -12,6 +14,16 @@ const LectureSummaryItem = ({
   title,
   content,
 }: LectureSummaryItemProps) => {
+  const { toast } = useToast();
+
+  const copyTel = () => {
+    if (title === "전화" && content) {
+      handleCopyClipBoard(content);
+      toast({
+        title: "전화번호를 복사했어요.",
+      });
+    }
+  };
   return (
     <div className="flex flex-row desktop:h-[30px] tablet:h-[24px] gap-3">
       <div className="flex flex-row justify-center items-center gap-2">
@@ -26,6 +38,14 @@ const LectureSummaryItem = ({
         </div>
       ) : (
         <Skeleton className="w-[280px] h-[42px]" />
+      )}
+      {title === "전화" && (
+        <div
+          className="flex items-center justify-center cursor-pointer desktop:text-xl tablet:text-base text-custom-blue"
+          onClick={copyTel}
+        >
+          복사
+        </div>
       )}
     </div>
   );

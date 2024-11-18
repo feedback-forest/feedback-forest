@@ -7,6 +7,7 @@ import {
   LectureFooter,
   LectureImageInfo,
   LectureSummary,
+  NotFoundLecture,
 } from "@/entities/lecture/ui";
 import { useEffect, useState } from "react";
 
@@ -184,6 +185,14 @@ const LectureInfoPage = () => {
         <div className="flex items-center justify-center w-full h-full">
           <SquareLoader color="#4F118C" />
         </div>
+      </div>
+    );
+  }
+
+  if (!lectureInfo) {
+    return (
+      <div className="flex w-full items-center justify-center">
+        <NotFoundLecture />
       </div>
     );
   }

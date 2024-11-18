@@ -3,6 +3,7 @@
 import { Button, IconButton, Skeleton, UnifiedDialog } from "@/shared/ui";
 import { Dispatch, SetStateAction, useState } from "react";
 
+import Image from "next/image";
 import { Lecture } from "../../model/lecture";
 import { getCookie } from "cookies-next";
 import { sendGAEvent } from "@next/third-parties/google";
@@ -28,6 +29,7 @@ const LectureFooter = ({
   const [openApplyLoginDialog, setOpenApplyLoginDialog] =
     useState<boolean>(false);
   const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false);
+  const [isPressedCallIcon, setIsPressedCallIcon] = useState<boolean>(false);
 
   const token = getCookie("accessToken");
   const router = useRouter();
@@ -82,28 +84,40 @@ const LectureFooter = ({
 
   const triggerLoginItem = () => {
     return heart ? (
-      <IconButton
-        src="/icons/like_filled.svg"
-        alt="like_filled"
-        iconWidth={32}
-        iconHeight={32}
-        handleClick={handleLikeLecture}
-      />
+      <div className="flex flex-col desktop:w-9 desktop:h-[51px] ">
+        <IconButton
+          src="/icons/like_filled.svg"
+          alt="like_filled"
+          iconWidth={32}
+          iconHeight={32}
+          handleClick={handleLikeLecture}
+          className="flex items-center justify-center w-full"
+        />
+        <div className="text-sm text-custom-orange">
+          {lectureInfo.heart_count}
+        </div>
+      </div>
     ) : (
-      <IconButton
-        src="/icons/like.svg"
-        alt="heart"
-        iconWidth={32}
-        iconHeight={32}
-        handleClick={handleLikeLecture}
-      />
+      <div className="flex flex-col desktop:w-9 desktop:h-[51px]">
+        <IconButton
+          src="/icons/like.svg"
+          alt="heart"
+          iconWidth={32}
+          iconHeight={32}
+          handleClick={handleLikeLecture}
+          className="flex items-center justify-center w-full"
+        />
+        <div className="text-sm text-custom-textDescriptionGrayColor">
+          {lectureInfo.heart_count}
+        </div>
+      </div>
     );
   };
 
   const triggerItem = () => {
     return (
       <div className="flex items-center justify-center">
-        <div className="flex justify-center items-center text-center desktop:w-[912px] tablet:w-[481px] mobile:w-[173px] max-w-[912px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] bg-custom-purple hover:bg-custom-hoverPurple text-white text-xl font-bold">
+        <div className="flex justify-center items-center text-center desktop:w-[912px] tablet:w-[481px] mobile:w-[151px] max-w-[912px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] bg-custom-purple hover:bg-custom-hoverPurple text-white text-xl font-bold">
           신청하러 가기
         </div>
       </div>
@@ -148,6 +162,26 @@ const LectureFooter = ({
           </Button>
         </div>
       </div>
+    );
+  };
+
+  const renderCallIcon = () => {
+    return (
+      <a
+        href={`tel:${lectureInfo.tel}`}
+        className="flex flex-col items-center justify-center w-full h-full"
+        onMouseDown={() => setIsPressedCallIcon(true)}
+        onMouseUp={() => setIsPressedCallIcon(false)}
+        onMouseLeave={() => setIsPressedCallIcon(false)}
+      >
+        <Image
+          src={isPressedCallIcon ? "/icons/call_filled.svg" : "/icons/call.svg"}
+          alt="call"
+          width={32}
+          height={32}
+        />
+        <div className="text-sm text-custom-textDescriptionGrayColor">전화</div>
+      </a>
     );
   };
 
@@ -209,11 +243,14 @@ const LectureFooter = ({
 
   return (
     <div className="flex flex-row items-center w-full desktop:max-w-[1440px] tablet:max-w-[768px] mobile:max-w-[360px] desktop:h-[70px] tablet:h-[70px] mobile:h-[55px] desktop:px-[120px] bg-white fixed bottom-0 border-t desktop:border-l-0 tablet:border-l mobile:border-l border-custom-disabled z-[101]">
-      <div className="flex desktop:w-[98px] tablet:min-w-[98px] mobile:min-w-[76px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] border-r border-custom-disabled justify-center items-center">
+      <div className="desktop:hidden tablet:hidden mobile:flex items-center justify-center min-w-14 border-r border-custom-disabled">
+        {renderCallIcon()}
+      </div>
+      <div className="flex desktop:w-[98px] tablet:min-w-[98px] mobile:min-w-[56px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] border-r border-custom-disabled justify-center items-center">
         {renderLikeIcon()}
       </div>
       {lectureInfo && (
-        <div className="flex desktop:w-[190px] tablet:min-w-[190px] mobile:min-w-[111px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] justify-center items-center text-xl font-bold">
+        <div className="flex desktop:w-[190px] tablet:min-w-[190px] mobile:min-w-[97px] desktop:h-[69px] tablet:h-[69px] mobile:h-[54px] justify-center items-center text-xl font-bold">
           {lectureInfo.price}
         </div>
       )}

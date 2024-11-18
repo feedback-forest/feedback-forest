@@ -64,7 +64,7 @@ const LectureSummaryHeader = ({
   };
 
   return (
-    <div className="flex flex-col w-full desktop:h-[76px] tablet:h-[57px] mobile:h-[54px] gap-4">
+    <div className="flex flex-col w-full desktop:h-[68px] tablet:h-[57px] mobile:h-[54px] gap-4">
       <div className="flex flex-row items-start justify-between">
         {isLoading && <Skeleton className="w-[430px] h-[42px]" />}
         {lectureInfo && (
